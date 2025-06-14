@@ -3,15 +3,13 @@ package rokefeli.model;
 public class ProductoFinal {
     private String sku;
     private String descripcion;    
-    private String[] loteAsociado;
-    private String idLote;
+    private String loteAsociado;
     private int stock;
 
-    public ProductoFinal(String sku, String descripcion, String[] loteAsociado, String idLote, int stock) {
+    public ProductoFinal(String sku, String descripcion, String loteAsociado, String idLote, int stock) {
         this.sku = sku;
         this.descripcion = descripcion;
         this.loteAsociado = loteAsociado;
-        this.idLote = idLote;
         this.stock = stock;
     }
 
@@ -31,22 +29,14 @@ public class ProductoFinal {
         this.descripcion = descripcion;
     }
 
-    public String[] getLoteAsociado() {
+    public String getLoteAsociado() {
         return loteAsociado;
     }
 
-    public void setLoteAsociado(String loteAsociado[]) {
+    public void setLoteAsociado(String loteAsociado) {
         this.loteAsociado = loteAsociado;
     }
     
-    public String getIdLote() {
-        return idLote;
-    }
-    
-    public void setIdLote(String idLote) {
-        this.idLote = idLote;
-    }
-
     public int getStock() {
         return stock;
     }
