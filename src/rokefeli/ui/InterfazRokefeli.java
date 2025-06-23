@@ -1,8 +1,16 @@
 package rokefeli.ui;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import rokefeli.logic.GestorInventario;
 import rokefeli.model.LoteMielCosecha;
+import rokefeli.model.ProductoFinal;
 
 public class InterfazRokefeli extends javax.swing.JFrame {
 
@@ -61,6 +69,11 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         jTabbedPane1.addTab("Productos Finales", jPanel3);
 
         btnBusqueda.setText("Búsqueda");
+        btnBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBusquedaActionPerformed(evt);
+            }
+        });
 
         btnMostrarTotales.setText("Mostrar Totales");
         btnMostrarTotales.addActionListener(new java.awt.event.ActionListener() {
@@ -77,6 +90,11 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         });
 
         btnTransformar.setText("Transformar");
+        btnTransformar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransformarActionPerformed(evt);
+            }
+        });
 
         txtaResultadosMateriaPrima.setColumns(20);
         txtaResultadosMateriaPrima.setRows(5);
@@ -163,6 +181,116 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         txtaResultadosMateriaPrima.setText(mostrarLotes);
     }//GEN-LAST:event_btnMostrarTotalesActionPerformed
 
+    private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
+ String criterio = JOptionPane.showInputDialog(this, "Ingrese ID del Lote o Floración para buscar:");
+        if (criterio == null || criterio.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Búsqueda cancelada o entrada vacía.");
+            return;
+        }
+
+        StringBuilder resultados = new StringBuilder("""
+            RESULTADOS DE BÚSQUEDA:
+            ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
+            """);
+        boolean encontrado = false;
+
+        for (LoteMielCosecha lote : gestor.inventarioLotes) {
+            if (lote.getIdLote().equalsIgnoreCase(criterio) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase())) {
+                resultados.append(lote.getIdLote()).append(" - ")
+                         .append(lote.getFloracion()).append(" - ")
+                         .append(lote.getOrigen()).append(" - ")
+                         .append(lote.getFechaCompra()).append(" - ")
+                         .append(lote.getCantKg()).append(" - ")
+                         .append(lote.getEstado()).append("\n");
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            resultados.append("No se encontraron lotes que coincidan con el criterio.");
+        }
+
+        txtaResultadosMateriaPrima.setText(resultados.toString());
+    }//GEN-LAST:event_btnBusquedaActionPerformed
+
+    private void btnTransformarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarActionPerformed
+    String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
+        if (idLote == null || idLote.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
+            return;
+        }
+
+        LoteMielCosecha loteSeleccionado = null;
+        for (LoteMielCosecha lote : gestor.inventarioLotes) {
+            if (lote.getIdLote().equalsIgnoreCase(idLote)) {
+                loteSeleccionado = lote;
+                break;
+            }
+        }
+
+        if (loteSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Lote no encontrado.");
+            return;
+        }
+
+        // Crear un JComboBox con los estados
+        String[] estados = {"En Reposo", "Pasteurizada", "Lista para Envasar"};
+        JComboBox<String> comboEstados = new JComboBox<>(estados);
+        comboEstados.setSelectedItem(loteSeleccionado.getEstado()); // Estado actual seleccionado por defecto
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Seleccione el nuevo estado:"));
+        panel.add(comboEstados);
+
+        int resultado = JOptionPane.showConfirmDialog(this, panel, "Cambiar Estado", JOptionPane.OK_CANCEL_OPTION);
+        if (resultado != JOptionPane.OK_OPTION) {
+            JOptionPane.showMessageDialog(this, "Cambio de estado cancelado.");
+            return;
+        }
+
+        String nuevoEstado = (String) comboEstados.getSelectedItem();
+        if (nuevoEstado.equals(loteSeleccionado.getEstado())) {
+            JOptionPane.showMessageDialog(this, "El lote ya está en el estado: " + nuevoEstado);
+            return;
+        }
+
+        // Actualizar el estado del lote
+        loteSeleccionado.setEstado(nuevoEstado);
+        JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
+
+        // Si el estado es "Lista para Envasar", crear ProductoFinal
+        if (nuevoEstado.equals("Lista para Envasar")) {
+            ProductoFinal producto = new ProductoFinal(
+                "PF" + loteSeleccionado.getIdLote(), // SKU
+                "Miel de " + loteSeleccionado.getFloracion(), // Descripción
+                loteSeleccionado.getIdLote(), // Lote Asociado
+                loteSeleccionado.getIdLote(), // ID Lote
+                (int) loteSeleccionado.getCantKg() // Stock (1 kg = 1 unidad)
+            );
+            /*
+            gestor.productosFinales.add(producto);
+            gestor.inventarioLotes.remove(loteSeleccionado);
+
+            // Actualizar la pestaña Productos Finales
+            StringBuilder mostrarProductos = new StringBuilder("""
+                PRODUCTOS FINALES:
+                SKU - DESCRIPCIÓN - LOTE ASOCIADO - ID LOTE - STOCK\n
+                """);
+            for (ProductoFinal prod : gestor.productosFinales) {
+                mostrarProductos.append(prod.getSku()).append(" - ")
+                               .append(prod.getDescripcion()).append(" - ")
+                               .append(prod.getLoteAsociado()).append(" - ")
+                               .append(prod.getIdLote()).append(" - ")
+                               .append(prod.getStock()).append("\n");
+            }
+            txtaResultadosProductosFinales.setText(mostrarProductos.toString());
+
+            JOptionPane.showMessageDialog(this, "Lote transformado en producto final.");
+            */
+        }
+          
+    }//GEN-LAST:event_btnTransformarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -192,6 +320,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new InterfazRokefeli().setVisible(true);
             }

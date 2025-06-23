@@ -144,6 +144,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="B&#xfa;squeda"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBusquedaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMostrarTotales">
               <Properties>
@@ -165,6 +168,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Transformar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTransformarActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
