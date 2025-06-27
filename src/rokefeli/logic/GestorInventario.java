@@ -1,6 +1,11 @@
 package rokefeli.logic;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import rokefeli.model.*;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -9,8 +14,39 @@ public class GestorInventario {
     private LinkedList<Insumo> inventarioInsumos = new LinkedList();
     public LinkedList<LoteMielCosecha> inventarioLotes = new LinkedList();
     private LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
-      private int contadorLotesAsociados = 1; // Para generar loteAsociado único
-
+    private int contadorLotesAsociados = 1; // Para generar loteAsociado único
+    private LocalDate fechaActualRegistro;
+    
+    // Constructor inicializando con la fecha actual
+    public GestorInventario(){
+        this.fechaActualRegistro = LocalDate.now();
+    }
+    
+    private String getNombreRegistroMateriaPrima(){
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
+        String mesAnio = fechaActualRegistro.format(formato);
+        return "Movimientos_materiaPrima_" + mesAnio + ".txt";
+    }
+    
+    // Escribir registro de materia prima en txt
+    public void registrarMovimientoMateriaPrima(String tipoMovimiento, String idItem, double cantidad, String unidad, String descripcionExtra){
+        String nombreArchivo = getNombreRegistroMateriaPrima();
+        LocalDateTime fechaHora = LocalDateTime.now();
+        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        String entradaRegistro = String.format("%s, %s, %s, %.2f %s, %s%n", 
+                fechaHora.format(fechaHoraFormato), tipoMovimiento, idItem, cantidad, unidad, descripcionExtra);
+        
+        try(
+            FileWriter fw = new FileWriter(nombreArchivo, true); 
+            PrintWriter pw = new PrintWriter(fw)){
+                pw.print(entradaRegistro);
+                System.out.println("DEBUG: Movimiento registrado en: " + nombreArchivo);
+        }catch(IOException e){
+            System.err.println("ERROR al escribir en el archivo de registro: " + e.getMessage());
+        }
+    }
+    
     // Método para mostrar todos los lotes
     public String mostrarLotes() {
         StringBuilder resultado = new StringBuilder("""
@@ -130,6 +166,15 @@ public class GestorInventario {
         } return "Lote no encontrado.";
         
     }
- 
     
+    //Método para comprobar que el lote no se repita
+    public boolean repetirLote(String idlote){
+        for(LoteMielCosecha lote : inventarioLotes){
+            if(idlote.equals(lote.getIdLote())){
+                return true;
+            }
+        }
+        return false;
+    }
+ 
 }

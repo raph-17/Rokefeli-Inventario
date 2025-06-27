@@ -31,54 +31,110 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtaResultadosMateriaPrima2 = new javax.swing.JTextArea();
+        btnIngresarInsumo = new javax.swing.JButton();
+        btnMostrarInsumosTotal = new javax.swing.JButton();
+        btnBuscarInsumo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtaResultadosMateriaPrima1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        btnBusqueda = new javax.swing.JButton();
-        btnMostrarTotales = new javax.swing.JButton();
+        btnBuscarMateriaPrima = new javax.swing.JButton();
+        btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
         btnIngresarMateriaPrima = new javax.swing.JButton();
-        btnTransformar = new javax.swing.JButton();
+        btnTransformarMateriaPrima = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaResultadosMateriaPrima = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txtaResultadosMateriaPrima2.setColumns(20);
+        txtaResultadosMateriaPrima2.setRows(5);
+        jScrollPane3.setViewportView(txtaResultadosMateriaPrima2);
+
+        btnIngresarInsumo.setText("Ingresar Insumo");
+        btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarInsumoActionPerformed(evt);
+            }
+        });
+
+        btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
+
+        btnBuscarInsumo.setText("Búsqueda");
+        btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarInsumoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(btnIngresarInsumo)
+                .addGap(18, 18, 18)
+                .addComponent(btnMostrarInsumosTotal)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarInsumo)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 483, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(113, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIngresarInsumo)
+                    .addComponent(btnMostrarInsumosTotal)
+                    .addComponent(btnBuscarInsumo))
+                .addGap(61, 61, 61)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Insumos", jPanel2);
+
+        txtaResultadosMateriaPrima1.setColumns(20);
+        txtaResultadosMateriaPrima1.setRows(5);
+        jScrollPane2.setViewportView(txtaResultadosMateriaPrima1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 483, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(199, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Productos Finales", jPanel3);
 
-        btnBusqueda.setText("Búsqueda");
-        btnBusqueda.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarMateriaPrima.setText("Búsqueda");
+        btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBusquedaActionPerformed(evt);
+                btnBuscarMateriaPrimaActionPerformed(evt);
             }
         });
 
-        btnMostrarTotales.setText("Mostrar Totales");
-        btnMostrarTotales.addActionListener(new java.awt.event.ActionListener() {
+        btnMostrarMateriaPrimaTotal.setText("Mostrar Materia Prima Total");
+        btnMostrarMateriaPrimaTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarTotalesActionPerformed(evt);
+                btnMostrarMateriaPrimaTotalActionPerformed(evt);
             }
         });
 
@@ -89,10 +145,10 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
-        btnTransformar.setText("Transformar");
-        btnTransformar.addActionListener(new java.awt.event.ActionListener() {
+        btnTransformarMateriaPrima.setText("Transformar");
+        btnTransformarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransformarActionPerformed(evt);
+                btnTransformarMateriaPrimaActionPerformed(evt);
             }
         });
 
@@ -106,37 +162,30 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnMostrarTotales))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBusqueda, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnTransformar, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addComponent(btnIngresarMateriaPrima)
-                .addGap(18, 18, 18))
+                .addGap(18, 18, 18)
+                .addComponent(btnMostrarMateriaPrimaTotal)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarMateriaPrima)
+                .addGap(18, 18, 18)
+                .addComponent(btnTransformarMateriaPrima)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(btnIngresarMateriaPrima)
-                .addGap(32, 32, 32)
-                .addComponent(btnMostrarTotales)
-                .addGap(29, 29, 29)
-                .addComponent(btnBusqueda)
-                .addGap(40, 40, 40)
-                .addComponent(btnTransformar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(128, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(138, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIngresarMateriaPrima)
+                    .addComponent(btnMostrarMateriaPrimaTotal)
+                    .addComponent(btnBuscarMateriaPrima)
+                    .addComponent(btnTransformarMateriaPrima))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -163,25 +212,30 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         LoteMielCosecha nuevoLote = dialog.getLoteMielCosecha();
         
         if(nuevoLote != null){
-            gestor.inventarioLotes.add(nuevoLote);
+            if(!gestor.repetirLote(nuevoLote.getIdLote())){
+                gestor.inventarioLotes.add(nuevoLote);
+                JOptionPane.showMessageDialog(rootPane, "Se ha agregado correctamente el lote nuevo.");
+                String tipoMov = "ENTRADA_LOTE_MIEL";
+                String idItem = nuevoLote.getIdLote();
+                double cantidad = nuevoLote.getCantKg();
+                String unidad = "KG";
+                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion() + ", Fecha Ingreso: " + nuevoLote.getFechaCompra();
+                gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
+                txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+            } else{
+                JOptionPane.showMessageDialog(rootPane, "El id de lote ingresado ya existe.");
+            }
         } else{
             JOptionPane.showMessageDialog(rootPane, "Ingreso de Lote de Miel cancelado.");
         }
         
     }//GEN-LAST:event_btnIngresarMateriaPrimaActionPerformed
 
-    private void btnMostrarTotalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTotalesActionPerformed
-        String mostrarLotes = """
-                              MOSTRANDO TODOS LOS LOTES:
-                              ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
-                              """;
-        for(LoteMielCosecha lote : gestor.inventarioLotes){
-            mostrarLotes += lote.getIdLote()+" - "+lote.getFloracion()+" - "+lote.getOrigen()+" - "+lote.getFechaCompra()+" - "+lote.getCantKg()+" - "+lote.getEstado()+"\n";
-        }
-        txtaResultadosMateriaPrima.setText(mostrarLotes);
-    }//GEN-LAST:event_btnMostrarTotalesActionPerformed
+    private void btnMostrarMateriaPrimaTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMateriaPrimaTotalActionPerformed
+        txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+    }//GEN-LAST:event_btnMostrarMateriaPrimaTotalActionPerformed
 
-    private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
+    private void btnBuscarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaPrimaActionPerformed
  String criterio = JOptionPane.showInputDialog(this, "Ingrese ID del Lote o Floración para buscar:");
         if (criterio == null || criterio.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Búsqueda cancelada o entrada vacía.");
@@ -211,9 +265,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         }
 
         txtaResultadosMateriaPrima.setText(resultados.toString());
-    }//GEN-LAST:event_btnBusquedaActionPerformed
+    }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
-    private void btnTransformarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarActionPerformed
+    private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
     String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
         if (idLote == null || idLote.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
@@ -289,7 +343,15 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             */
         }
           
-    }//GEN-LAST:event_btnTransformarActionPerformed
+    }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
+
+    private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresarInsumoActionPerformed
+
+    private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarInsumoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,15 +390,22 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBusqueda;
+    private javax.swing.JButton btnBuscarInsumo;
+    private javax.swing.JButton btnBuscarMateriaPrima;
+    private javax.swing.JButton btnIngresarInsumo;
     private javax.swing.JButton btnIngresarMateriaPrima;
-    private javax.swing.JButton btnMostrarTotales;
-    private javax.swing.JButton btnTransformar;
+    private javax.swing.JButton btnMostrarInsumosTotal;
+    private javax.swing.JButton btnMostrarMateriaPrimaTotal;
+    private javax.swing.JButton btnTransformarMateriaPrima;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea txtaResultadosMateriaPrima;
+    private javax.swing.JTextArea txtaResultadosMateriaPrima1;
+    private javax.swing.JTextArea txtaResultadosMateriaPrima2;
     // End of variables declaration//GEN-END:variables
 }

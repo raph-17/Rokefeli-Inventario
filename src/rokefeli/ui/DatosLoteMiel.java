@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package rokefeli.ui;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import rokefeli.model.LoteMielCosecha;
@@ -69,7 +64,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         labelFloracion.setText("Floración:");
         getContentPane().add(labelFloracion);
 
-        cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Huarango", "Eucalipto", "Naranjo", "Sierra" }));
+        cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Huarango", "Eucalipto", "Naranjo", "Polifloral" }));
         cbxFloracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxFloracionActionPerformed(evt);
@@ -129,12 +124,12 @@ public class DatosLoteMiel extends javax.swing.JDialog {
                     return;
                 } else{
                     nuevoLote = new LoteMielCosecha(idLote, floracion, origen, LocalDate.now(), cant);
-                    JOptionPane.showMessageDialog(rootPane, "Se ha agregado correctamente el Lote de Miel.");
                     dispose();
                 }
             } catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(rootPane, "Valor no válido en el campo 'Cantidad'", idLote, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.setText("");
+                txtCantidad.requestFocus();
             }
         }
         
