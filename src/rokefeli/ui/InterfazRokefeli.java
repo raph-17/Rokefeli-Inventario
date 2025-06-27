@@ -2,6 +2,7 @@ package rokefeli.ui;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.time.LocalDate;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -210,6 +211,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         dialog.setVisible(true);
         
         LoteMielCosecha nuevoLote = dialog.getLoteMielCosecha();
+        
+        String id = gestor.autogenerarIdLoteMiel(LocalDate.now(), nuevoLote.getFloracion());
+        nuevoLote.setIdLote(id);
         
         if(nuevoLote != null){
             if(!gestor.repetirLote(nuevoLote.getIdLote())){

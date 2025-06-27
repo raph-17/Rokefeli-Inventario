@@ -22,6 +22,21 @@ public class GestorInventario {
         this.fechaActualRegistro = LocalDate.now();
     }
     
+    // Autogeneración del id del Lote
+    public String autogenerarIdLoteMiel(LocalDate fecha, String floracion){
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMYY");
+        String fl = null;
+        switch(floracion){
+            case "Huarango" -> fl = "MH";
+            case "Eucalipto" -> fl = "ME";
+            case "Naranjo" -> fl = "MN";
+            case "Polifloral (S)" -> fl = "MS";
+            case "Polifloral (C)" -> fl = "MC";
+        }
+        return fecha.format(formato)+fl;
+    }
+    
+    // Obtener nombre para el archivo de teto en el que se hará el registro
     private String getNombreRegistroMateriaPrima(){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
         String mesAnio = fechaActualRegistro.format(formato);
@@ -47,7 +62,7 @@ public class GestorInventario {
         }
     }
     
-    // Método para mostrar todos los lotes
+    // Mostrar todos los lotes
     public String mostrarLotes() {
         StringBuilder resultado = new StringBuilder("""
                 MOSTRANDO TODOS LOS LOTES:
@@ -68,7 +83,7 @@ public class GestorInventario {
         return resultado.toString();
     }
 
-    // Método para buscar lotes por floración
+    // Buscar lotes por floración
     public String buscarPorFloracion(String floracionBuscada) {
         if (floracionBuscada == null || floracionBuscada.trim().isEmpty()) {
             return "Error: La floración buscada no puede ser vacía.";
@@ -97,7 +112,7 @@ public class GestorInventario {
         return resultado.toString();
     }
 
-    // Método para transformar el estado de un lote
+    // Transformar el estado de un lote
     public String transformarLote(String idLote, String nuevoEstado) {
         if (idLote == null || idLote.trim().isEmpty()) {
             return "Error: El ID del lote no puede ser vacío.";
@@ -147,7 +162,7 @@ public class GestorInventario {
         }
     }
 
-    // Getter para obtener la lista de IDs de lotes (para poblar el JComboBox)
+    // Obtener la lista de IDs de lotes (para poblar el JComboBox)
     public String[] getIdsLotes() {
         String[] ids = new String[inventarioLotes.size()];
         for (int i = 0; i < inventarioLotes.size(); i++) {
@@ -156,7 +171,7 @@ public class GestorInventario {
         return ids;
     }
 
-    // Método para obtener información de un lote por ID (para mostrar en el diálogo)
+    // Obtener información de un lote por ID (para mostrar en el diálogo)
     public String getInfoLote(String idLote) {
         for (LoteMielCosecha lote : inventarioLotes) {
             if (lote.getIdLote().equals(idLote)) {
@@ -167,7 +182,7 @@ public class GestorInventario {
         
     }
     
-    //Método para comprobar que el lote no se repita
+    //Comprobar que el lote no se repita
     public boolean repetirLote(String idlote){
         for(LoteMielCosecha lote : inventarioLotes){
             if(idlote.equals(lote.getIdLote())){

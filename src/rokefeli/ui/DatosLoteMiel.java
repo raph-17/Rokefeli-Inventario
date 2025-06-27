@@ -34,8 +34,6 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelIdLote = new javax.swing.JLabel();
-        txtIdLote = new javax.swing.JTextField();
         labelFloracion = new javax.swing.JLabel();
         cbxFloracion = new javax.swing.JComboBox<>();
         labelOrigen = new javax.swing.JLabel();
@@ -49,22 +47,12 @@ public class DatosLoteMiel extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Lote de Miel");
-        getContentPane().setLayout(new java.awt.GridLayout(6, 2));
+        getContentPane().setLayout(new java.awt.GridLayout(5, 2));
 
-        labelIdLote.setText("Lote:");
-        getContentPane().add(labelIdLote);
-
-        txtIdLote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdLoteActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtIdLote);
-
-        labelFloracion.setText("Floración:");
+        labelFloracion.setText("FLORACIÓN:");
         getContentPane().add(labelFloracion);
 
-        cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Huarango", "Eucalipto", "Naranjo", "Polifloral" }));
+        cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" }));
         cbxFloracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxFloracionActionPerformed(evt);
@@ -72,17 +60,17 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         });
         getContentPane().add(cbxFloracion);
 
-        labelOrigen.setText("Origen:");
+        labelOrigen.setText("ORIGEN:");
         getContentPane().add(labelOrigen);
         getContentPane().add(txtOrigen);
 
-        labelFechaIngreso.setText("Fecha de Ingreso:");
+        labelFechaIngreso.setText("FECHA DE INGRESO:");
         getContentPane().add(labelFechaIngreso);
 
         txtFechaIngreso.setEditable(false);
         getContentPane().add(txtFechaIngreso);
 
-        labelCantidad.setText("Cantidad (kg):");
+        labelCantidad.setText("CANTIDAD (KG):");
         getContentPane().add(labelCantidad);
         getContentPane().add(txtCantidad);
 
@@ -105,16 +93,11 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdLoteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdLoteActionPerformed
-
     private void btnGuardarLoteMielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLoteMielActionPerformed
-        String idLote = txtIdLote.getText();
         String floracion = cbxFloracion.getSelectedItem().toString();
         String origen = txtOrigen.getText();
         
-        if(idLote.trim().isEmpty() || floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty()) {
+        if(floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Uno o más campos vacíos, por favor rellene todo para continuar.");
         } else{
             try{
@@ -123,7 +106,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else{
-                    nuevoLote = new LoteMielCosecha(idLote, floracion, origen, LocalDate.now(), cant);
+                    nuevoLote = new LoteMielCosecha(null, floracion, origen, LocalDate.now(), cant);
                     dispose();
                 }
             } catch(NumberFormatException e){
@@ -195,11 +178,9 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelFechaIngreso;
     private javax.swing.JLabel labelFloracion;
-    private javax.swing.JLabel labelIdLote;
     private javax.swing.JLabel labelOrigen;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtFechaIngreso;
-    private javax.swing.JTextField txtIdLote;
     private javax.swing.JTextField txtOrigen;
     // End of variables declaration//GEN-END:variables
 }
