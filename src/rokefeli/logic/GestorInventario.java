@@ -1,6 +1,5 @@
 package rokefeli.logic;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -8,7 +7,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import rokefeli.model.*;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 
 public class GestorInventario {
     private LinkedList<Insumo> inventarioInsumos = new LinkedList();
@@ -53,8 +54,9 @@ public class GestorInventario {
                 fechaHora.format(fechaHoraFormato), tipoMovimiento, idItem, cantidad, unidad, descripcionExtra);
         
         try(
-            FileWriter fw = new FileWriter(nombreArchivo, true); 
-            PrintWriter pw = new PrintWriter(fw)){
+            FileOutputStream fos = new FileOutputStream(nombreArchivo, true); 
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            PrintWriter pw = new PrintWriter(osw)){
                 pw.print(entradaRegistro);
                 System.out.println("DEBUG: Movimiento registrado en: " + nombreArchivo);
         }catch(IOException e){
@@ -64,6 +66,7 @@ public class GestorInventario {
     
     // Mostrar todos los lotes
     public String mostrarLotes() {
+        int totalLotes = 0;
         StringBuilder resultado = new StringBuilder("""
                 MOSTRANDO TODOS LOS LOTES:
                 ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
@@ -72,6 +75,7 @@ public class GestorInventario {
             resultado.append("No hay lotes registrados.");
         } else {
             for (LoteMielCosecha lote : inventarioLotes) {
+                totalLotes++;
                 resultado.append(lote.getIdLote()).append(" - ")
                          .append(lote.getFloracion()).append(" - ")
                          .append(lote.getOrigen()).append(" - ")
@@ -79,12 +83,14 @@ public class GestorInventario {
                          .append(lote.getCantKg()).append(" - ")
                          .append(lote.getEstado()).append("\n");
             }
+            resultado.append("\nTOTAL: "+totalLotes);
         }
         return resultado.toString();
     }
 
     // Buscar lotes por floración
     public String buscarMateriaPrima(String criterio) {
+        int totalLotes = 0;
         StringBuilder resultados = new StringBuilder("""
             RESULTADOS DE BÚSQUEDA:
             ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
@@ -93,6 +99,7 @@ public class GestorInventario {
 
         for (LoteMielCosecha lote : inventarioLotes) {
             if (lote.getIdLote().equalsIgnoreCase(criterio.trim()) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase().trim())) {
+                totalLotes++;
                 resultados.append(lote.getIdLote()).append(" - ")
                          .append(lote.getFloracion()).append(" - ")
                          .append(lote.getOrigen()).append(" - ")
@@ -102,6 +109,7 @@ public class GestorInventario {
                 encontrado = true;
             }
         }
+        resultados.append("\nTOTAL: "+totalLotes);
 
         if (!encontrado) {
             resultados.append("No se encontraron lotes que coincidan con el criterio.");

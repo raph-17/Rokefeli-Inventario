@@ -250,6 +250,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
+        // Validaciones
         String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
         if (idLote == null || idLote.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
@@ -310,7 +311,10 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         
         // Actualizar el estado del lote
         gestor.transformarLote(loteSeleccionado.getIdLote(), nuevoEstado);
-        JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);  
+        JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
+        
+        // Mostrar el cambio en la interfaz de usuario
+        txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(loteSeleccionado.getIdLote()));
         
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
 
