@@ -250,7 +250,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
-    String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
+        String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
         if (idLote == null || idLote.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
             return;
@@ -268,11 +268,13 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Lote no encontrado.");
             return;
         }
+        
+        String estadoActual = loteSeleccionado.getEstado();
 
         // Crear un JComboBox con los estados
         String[] estados = {"En Reposo", "Pasteurizada", "Lista para Envasar"};
         JComboBox<String> comboEstados = new JComboBox<>(estados);
-        comboEstados.setSelectedItem(loteSeleccionado.getEstado()); // Estado actual seleccionado por defecto
+        comboEstados.setSelectedItem(estadoActual); // Estado actual seleccionado por defecto
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Seleccione el nuevo estado:"));
@@ -285,46 +287,31 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         }
 
         String nuevoEstado = (String) comboEstados.getSelectedItem();
-        if (nuevoEstado.equals(loteSeleccionado.getEstado())) {
+        if (nuevoEstado.equals(estadoActual)) {
             JOptionPane.showMessageDialog(this, "El lote ya está en el estado: " + nuevoEstado);
             return;
         }
-
-        // Actualizar el estado del lote
-        loteSeleccionado.setEstado(nuevoEstado);
-        JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
-
-        // Si el estado es "Lista para Envasar", crear ProductoFinal
-        if (nuevoEstado.equals("Lista para Envasar")) {
-            ProductoFinal producto = new ProductoFinal(
-                "PF" + loteSeleccionado.getIdLote(), // SKU
-                "Miel de " + loteSeleccionado.getFloracion(), // Descripción
-                loteSeleccionado.getIdLote(), // Lote Asociado
-                loteSeleccionado.getIdLote(), // ID Lote
-                (int) loteSeleccionado.getCantKg() // Stock (1 kg = 1 unidad)
-            );
-            /*
-            gestor.productosFinales.add(producto);
-            gestor.inventarioLotes.remove(loteSeleccionado);
-
-            // Actualizar la pestaña Productos Finales
-            StringBuilder mostrarProductos = new StringBuilder("""
-                PRODUCTOS FINALES:
-                SKU - DESCRIPCIÓN - LOTE ASOCIADO - ID LOTE - STOCK\n
-                """);
-            for (ProductoFinal prod : gestor.productosFinales) {
-                mostrarProductos.append(prod.getSku()).append(" - ")
-                               .append(prod.getDescripcion()).append(" - ")
-                               .append(prod.getLoteAsociado()).append(" - ")
-                               .append(prod.getIdLote()).append(" - ")
-                               .append(prod.getStock()).append("\n");
+        
+        // Validar transiciones de estado válidas
+        if (nuevoEstado.equals("En Reposo")) {
+            JOptionPane.showMessageDialog(this, "ERROR, no se puede revertir a 'En Reposo'");
+            return;
+        } else if (nuevoEstado.equals("Pasteurizada")) {
+            if (!estadoActual.equals("En Reposo")) {
+                JOptionPane.showMessageDialog(this, "ERROR, el lote ya ha sido pasteurizado.");
+            return;
             }
-            txtaResultadosProductosFinales.setText(mostrarProductos.toString());
-
-            JOptionPane.showMessageDialog(this, "Lote transformado en producto final.");
-            */
+        } else if (nuevoEstado.equals("Lista para Envasar")) {
+            if (!estadoActual.equals("Pasteurizada")) {
+                JOptionPane.showMessageDialog(this, "ERROR, sólo un lote pausterizado puede pasar a 'Listo para Envasar'.");
+            return;
+            }
         }
-          
+        
+        // Actualizar el estado del lote
+        gestor.transformarLote(loteSeleccionado.getIdLote(), nuevoEstado);
+        JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);  
+        
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
 
     private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed

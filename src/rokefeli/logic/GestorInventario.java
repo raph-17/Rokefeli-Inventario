@@ -14,7 +14,7 @@ public class GestorInventario {
     private LinkedList<Insumo> inventarioInsumos = new LinkedList();
     public LinkedList<LoteMielCosecha> inventarioLotes = new LinkedList();
     private LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
-    private int contadorLotesAsociados = 1; // Para generar loteAsociado Ãºnico
+    private int contadorLotesAsociados = 1; // Para generar loteAsociado único
     private LocalDate fechaActualRegistro;
     
     // Constructor inicializando con la fecha actual
@@ -36,7 +36,7 @@ public class GestorInventario {
         return fecha.format(formato)+fl;
     }
     
-    // Obtener nombre para el archivo de teto en el que se harÃ¡ el registro
+    // Obtener nombre para el archivo de teto en el que se hará el registro
     private String getNombreRegistroMateriaPrima(){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
         String mesAnio = fechaActualRegistro.format(formato);
@@ -110,14 +110,7 @@ public class GestorInventario {
     }
 
     // Transformar el estado de un lote
-    public String transformarLote(String idLote, String nuevoEstado) {
-        if (idLote == null || idLote.trim().isEmpty()) {
-            return "Error: El ID del lote no puede ser vacÃ­o.";
-        }
-        if (nuevoEstado == null || nuevoEstado.trim().isEmpty()) {
-            return "Error: El estado seleccionado no puede ser vacÃ­o.";
-        }
-
+    public void transformarLote(String idLote, String nuevoEstado) {
         // Buscar el lote por idLote (debe coincidir con un LoteMielCosecha existente)
         LoteMielCosecha loteEncontrado = null;
         for (LoteMielCosecha lote : inventarioLotes) {
@@ -126,37 +119,7 @@ public class GestorInventario {
                 break;
             }
         }
-
-        if (loteEncontrado == null) {
-            return "Error: Lote con ID " + idLote + " no encontrado.";
-        }
-
-        String estadoActual = loteEncontrado.getEstado();
-        // Validar transiciones de estado vÃ¡lidas
-        if (nuevoEstado.equals("En Reposo")) {
-            return "Error: No se puede revertir a estado En Reposo.";
-        } else if (nuevoEstado.equals("Pasteurizada")) {
-            if (!estadoActual.equals("En Reposo")) {
-                return "Error: Solo se puede pasteurizar un lote en estado En Reposo.";
-            }
-            loteEncontrado.setEstado("Pasteurizada");
-            return "Lote " + idLote + " transformado a estado: Pasteurizada.";
-        } else if (nuevoEstado.equals("Lista para Envasar")) {
-            if (!estadoActual.equals("Pasteurizada")) {
-                return "Error: Solo se puede preparar para envasar un lote en estado Pasteurizada.";
-            }
-            loteEncontrado.setEstado("Lista para Envasar");
-            String sku = "PF-" + String.format("%03d", contadorLotesAsociados);
-            String loteAsociado = "PF-LOTE-" + String.format("%03d", contadorLotesAsociados++);
-            String descripcion = "Miel " + loteEncontrado.getFloracion() + " Envasada";
-            int stockInicial = (int) (loteEncontrado.getCantKg() / 0.5); // Suponiendo envases de 0.5 kg
-            ProductoFinal nuevoProducto = new ProductoFinal(sku, descripcion, loteAsociado, idLote, stockInicial);
-            inventarioProductos.add(nuevoProducto);
-            return "Lote " + idLote + " transformado a estado: Lista para Envasar.\n" +
-                   "Producto final creado: " + descripcion + " (Lote Asociado: " + loteAsociado + ", Stock: " + stockInicial + " envases).";
-        } else {
-            return "Error: Estado " + nuevoEstado + " no vÃ¡lido.";
-        }
+        loteEncontrado.setEstado(nuevoEstado);
     }
 
     // Obtener la lista de IDs de lotes (para poblar el JComboBox)
