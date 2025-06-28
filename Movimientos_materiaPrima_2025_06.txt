@@ -1,1 +1,1 @@
-2025-06-27 18:51:10, ENTRADA_LOTE_MIEL, 270625MS, 300,00 KG, Origen: MiPutaCasa, Floración: Polifloral (S), Fecha Ingreso: 2025-06-27
+2025-06-28 12:28:50, ENTRADA_LOTE_MIEL, 280625MH, 300,00 KG, Origen: micas, Floración: Huarango

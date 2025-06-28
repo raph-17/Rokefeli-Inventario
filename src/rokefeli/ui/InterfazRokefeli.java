@@ -223,7 +223,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 String idItem = nuevoLote.getIdLote();
                 double cantidad = nuevoLote.getCantKg();
                 String unidad = "KG";
-                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion() + ", Fecha Ingreso: " + nuevoLote.getFechaCompra();
+                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion();
                 gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
                 txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
             } else{
@@ -253,7 +253,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         boolean encontrado = false;
 
         for (LoteMielCosecha lote : gestor.inventarioLotes) {
-            if (lote.getIdLote().equalsIgnoreCase(criterio) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase())) {
+            if (lote.getIdLote().equalsIgnoreCase(criterio.trim()) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase().trim())) {
                 resultados.append(lote.getIdLote()).append(" - ")
                          .append(lote.getFloracion()).append(" - ")
                          .append(lote.getOrigen()).append(" - ")
