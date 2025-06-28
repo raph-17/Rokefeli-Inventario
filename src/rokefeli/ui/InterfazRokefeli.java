@@ -63,7 +63,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
 
-        btnBuscarInsumo.setText("Búsqueda");
+        btnBuscarInsumo.setText("BÃºsqueda");
         btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarInsumoActionPerformed(evt);
@@ -125,7 +125,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Productos Finales", jPanel3);
 
-        btnBuscarMateriaPrima.setText("Búsqueda");
+        btnBuscarMateriaPrima.setText("BÃºsqueda");
         btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarMateriaPrimaActionPerformed(evt);
@@ -223,7 +223,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 String idItem = nuevoLote.getIdLote();
                 double cantidad = nuevoLote.getCantKg();
                 String unidad = "KG";
-                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion();
+                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", FloraciÃ³n: " + nuevoLote.getFloracion();
                 gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
                 txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
             } else{
@@ -240,41 +240,19 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMostrarMateriaPrimaTotalActionPerformed
 
     private void btnBuscarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaPrimaActionPerformed
- String criterio = JOptionPane.showInputDialog(this, "Ingrese ID del Lote o Floración para buscar:");
+        String criterio = JOptionPane.showInputDialog(this, "Ingrese ID del Lote o FloraciÃ³n para buscar:");
         if (criterio == null || criterio.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Búsqueda cancelada o entrada vacía.");
+            JOptionPane.showMessageDialog(this, "BÃºsqueda cancelada o entrada vacÃ­a.");
             return;
         }
 
-        StringBuilder resultados = new StringBuilder("""
-            RESULTADOS DE BÚSQUEDA:
-            ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
-            """);
-        boolean encontrado = false;
-
-        for (LoteMielCosecha lote : gestor.inventarioLotes) {
-            if (lote.getIdLote().equalsIgnoreCase(criterio.trim()) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase().trim())) {
-                resultados.append(lote.getIdLote()).append(" - ")
-                         .append(lote.getFloracion()).append(" - ")
-                         .append(lote.getOrigen()).append(" - ")
-                         .append(lote.getFechaCompra()).append(" - ")
-                         .append(lote.getCantKg()).append(" - ")
-                         .append(lote.getEstado()).append("\n");
-                encontrado = true;
-            }
-        }
-
-        if (!encontrado) {
-            resultados.append("No se encontraron lotes que coincidan con el criterio.");
-        }
-
-        txtaResultadosMateriaPrima.setText(resultados.toString());
+        txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(criterio));
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
     String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
         if (idLote == null || idLote.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
+            JOptionPane.showMessageDialog(this, "TransformaciÃ³n cancelada o ID vacÃ­o.");
             return;
         }
 
@@ -308,7 +286,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         String nuevoEstado = (String) comboEstados.getSelectedItem();
         if (nuevoEstado.equals(loteSeleccionado.getEstado())) {
-            JOptionPane.showMessageDialog(this, "El lote ya está en el estado: " + nuevoEstado);
+            JOptionPane.showMessageDialog(this, "El lote ya estÃ¡ en el estado: " + nuevoEstado);
             return;
         }
 
@@ -320,7 +298,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         if (nuevoEstado.equals("Lista para Envasar")) {
             ProductoFinal producto = new ProductoFinal(
                 "PF" + loteSeleccionado.getIdLote(), // SKU
-                "Miel de " + loteSeleccionado.getFloracion(), // Descripción
+                "Miel de " + loteSeleccionado.getFloracion(), // DescripciÃ³n
                 loteSeleccionado.getIdLote(), // Lote Asociado
                 loteSeleccionado.getIdLote(), // ID Lote
                 (int) loteSeleccionado.getCantKg() // Stock (1 kg = 1 unidad)
@@ -329,10 +307,10 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             gestor.productosFinales.add(producto);
             gestor.inventarioLotes.remove(loteSeleccionado);
 
-            // Actualizar la pestaña Productos Finales
+            // Actualizar la pestaÃ±a Productos Finales
             StringBuilder mostrarProductos = new StringBuilder("""
                 PRODUCTOS FINALES:
-                SKU - DESCRIPCIÓN - LOTE ASOCIADO - ID LOTE - STOCK\n
+                SKU - DESCRIPCIÃ“N - LOTE ASOCIADO - ID LOTE - STOCK\n
                 """);
             for (ProductoFinal prod : gestor.productosFinales) {
                 mostrarProductos.append(prod.getSku()).append(" - ")

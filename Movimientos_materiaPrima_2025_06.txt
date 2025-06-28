@@ -1,1 +1,3 @@
-2025-06-28 12:28:50, ENTRADA_LOTE_MIEL, 280625MH, 300,00 KG, Origen: micas, Floraci�n: Huarango
+2025-06-28 13:11:06, ENTRADA_LOTE_MIEL, 280625MN, 200,00 KG, Origen: tralalero, Floración: Naranjo
+2025-06-28 13:11:20, ENTRADA_LOTE_MIEL, 280625MS, 300,00 KG, Origen: lalala, Floración: Polifloral (S)
+2025-06-28 13:12:14, ENTRADA_LOTE_MIEL, 280625MC, 400,00 KG, Origen: kraken, Floración: Polifloral (C)

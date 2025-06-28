@@ -14,7 +14,7 @@ public class GestorInventario {
     private LinkedList<Insumo> inventarioInsumos = new LinkedList();
     public LinkedList<LoteMielCosecha> inventarioLotes = new LinkedList();
     private LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
-    private int contadorLotesAsociados = 1; // Para generar loteAsociado único
+    private int contadorLotesAsociados = 1; // Para generar loteAsociado Ãºnico
     private LocalDate fechaActualRegistro;
     
     // Constructor inicializando con la fecha actual
@@ -36,7 +36,7 @@ public class GestorInventario {
         return fecha.format(formato)+fl;
     }
     
-    // Obtener nombre para el archivo de teto en el que se hará el registro
+    // Obtener nombre para el archivo de teto en el que se harÃ¡ el registro
     private String getNombreRegistroMateriaPrima(){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
         String mesAnio = fechaActualRegistro.format(formato);
@@ -84,20 +84,16 @@ public class GestorInventario {
     }
 
     // Buscar lotes por floración
-    public String buscarPorFloracion(String floracionBuscada) {
-        if (floracionBuscada == null || floracionBuscada.trim().isEmpty()) {
-            return "Error: La floración buscada no puede ser vacía.";
-        }
-
-        floracionBuscada = floracionBuscada.trim().toLowerCase();
-        StringBuilder resultado = new StringBuilder("""
-                RESULTADOS DE BÚSQUEDA POR FLORACIÓN: """ + floracionBuscada.toUpperCase() + """
-                ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
-                """);
+    public String buscarMateriaPrima(String criterio) {
+        StringBuilder resultados = new StringBuilder("""
+            RESULTADOS DE BÚSQUEDA:
+            ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
+            """);
         boolean encontrado = false;
+
         for (LoteMielCosecha lote : inventarioLotes) {
-            if (lote.getFloracion().toLowerCase().contains(floracionBuscada)) {
-                resultado.append(lote.getIdLote()).append(" - ")
+            if (lote.getIdLote().equalsIgnoreCase(criterio.trim()) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase().trim())) {
+                resultados.append(lote.getIdLote()).append(" - ")
                          .append(lote.getFloracion()).append(" - ")
                          .append(lote.getOrigen()).append(" - ")
                          .append(lote.getFechaCompra()).append(" - ")
@@ -106,19 +102,20 @@ public class GestorInventario {
                 encontrado = true;
             }
         }
+
         if (!encontrado) {
-            resultado.append("No se encontraron lotes con la floración especificada.");
+            resultados.append("No se encontraron lotes que coincidan con el criterio.");
         }
-        return resultado.toString();
+        return resultados.toString();
     }
 
     // Transformar el estado de un lote
     public String transformarLote(String idLote, String nuevoEstado) {
         if (idLote == null || idLote.trim().isEmpty()) {
-            return "Error: El ID del lote no puede ser vacío.";
+            return "Error: El ID del lote no puede ser vacÃ­o.";
         }
         if (nuevoEstado == null || nuevoEstado.trim().isEmpty()) {
-            return "Error: El estado seleccionado no puede ser vacío.";
+            return "Error: El estado seleccionado no puede ser vacÃ­o.";
         }
 
         // Buscar el lote por idLote (debe coincidir con un LoteMielCosecha existente)
@@ -135,7 +132,7 @@ public class GestorInventario {
         }
 
         String estadoActual = loteEncontrado.getEstado();
-        // Validar transiciones de estado válidas
+        // Validar transiciones de estado vÃ¡lidas
         if (nuevoEstado.equals("En Reposo")) {
             return "Error: No se puede revertir a estado En Reposo.";
         } else if (nuevoEstado.equals("Pasteurizada")) {
@@ -158,7 +155,7 @@ public class GestorInventario {
             return "Lote " + idLote + " transformado a estado: Lista para Envasar.\n" +
                    "Producto final creado: " + descripcion + " (Lote Asociado: " + loteAsociado + ", Stock: " + stockInicial + " envases).";
         } else {
-            return "Error: Estado " + nuevoEstado + " no válido.";
+            return "Error: Estado " + nuevoEstado + " no vÃ¡lido.";
         }
     }
 
@@ -175,7 +172,7 @@ public class GestorInventario {
     public String getInfoLote(String idLote) {
         for (LoteMielCosecha lote : inventarioLotes) {
             if (lote.getIdLote().equals(idLote)) {
-                return "Lote: " + lote.getIdLote() + " | Floración: " + lote.getFloracion() +
+                return "Lote: " + lote.getIdLote() + " | FloraciÃ³n: " + lote.getFloracion() +
                        " | Estado actual: " + lote.getEstado();
             }
         } return "Lote no encontrado.";
@@ -191,6 +188,7 @@ public class GestorInventario {
         }
         return false;
     }
+    
     // Mostrar totales de insumos
     public String mostrarTotalesInsumos() {
         if (inventarioInsumos.isEmpty()) {
@@ -214,19 +212,19 @@ public class GestorInventario {
     // Buscar insumo por código
     public String buscarInsumoPorCodigo(String codigoBuscado) {
         if (codigoBuscado == null || codigoBuscado.trim().isEmpty()) {
-            return "Error: El código no puede estar vacío.";
+            return "Error: El cÃ³digo no puede estar vacÃ­o.";
         }
 
         for (Insumo insumo : inventarioInsumos) {
             if (insumo.getCodigo().equalsIgnoreCase(codigoBuscado.trim())) {
                 return "INSUMO ENCONTRADO:\n"
-                        + "Código: " + insumo.getCodigo() + "\n"
-                        + "Descripción: " + insumo.getDescripcion() + "\n"
+                        + "CÃ³digo: " + insumo.getCodigo() + "\n"
+                        + "DescripciÃ³n: " + insumo.getDescripcion() + "\n"
                         + "Stock actual: " + insumo.getStockActual() + "\n"
-                        + "Stock mínimo: " + insumo.getStockMin();
+                        + "Stock mÃ­nimo: " + insumo.getStockMin();
             }
         }
 
-        return "No se encontró ningún insumo con el código: " + codigoBuscado;
+        return "No se encontrÃ³ ningÃºn insumo con el cÃ³digo: " + codigoBuscado;
     }
 }
