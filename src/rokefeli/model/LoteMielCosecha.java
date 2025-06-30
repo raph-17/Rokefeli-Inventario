@@ -1,8 +1,9 @@
 package rokefeli.model;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class LoteMielCosecha {
+public class LoteMielCosecha implements Serializable{
     private String idLote;
     private String floracion; // "Huarango", "Eucalipto", "Naranjo", "Polifloral" 
     private String origen;

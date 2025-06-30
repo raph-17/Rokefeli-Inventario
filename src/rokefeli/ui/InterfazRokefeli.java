@@ -31,6 +31,13 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        btnBuscarMateriaPrima = new javax.swing.JButton();
+        btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
+        btnIngresarMateriaPrima = new javax.swing.JButton();
+        btnTransformarMateriaPrima = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtaResultadosMateriaPrima = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtaResultadosMateriaPrima2 = new javax.swing.JTextArea();
@@ -40,15 +47,76 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtaResultadosMateriaPrima1 = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
-        btnBuscarMateriaPrima = new javax.swing.JButton();
-        btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
-        btnIngresarMateriaPrima = new javax.swing.JButton();
-        btnTransformarMateriaPrima = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtaResultadosMateriaPrima = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnBuscarMateriaPrima.setText("Búsqueda");
+        btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        btnMostrarMateriaPrimaTotal.setText("Mostrar Materia Prima Total");
+        btnMostrarMateriaPrimaTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarMateriaPrimaTotalActionPerformed(evt);
+            }
+        });
+
+        btnIngresarMateriaPrima.setText("Ingresar Materia Prima");
+        btnIngresarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        btnTransformarMateriaPrima.setText("Transformar");
+        btnTransformarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransformarMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        txtaResultadosMateriaPrima.setEditable(false);
+        txtaResultadosMateriaPrima.setColumns(20);
+        txtaResultadosMateriaPrima.setRows(5);
+        jScrollPane1.setViewportView(txtaResultadosMateriaPrima);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(btnIngresarMateriaPrima)
+                .addGap(18, 18, 18)
+                .addComponent(btnMostrarMateriaPrimaTotal)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarMateriaPrima)
+                .addGap(18, 18, 18)
+                .addComponent(btnTransformarMateriaPrima)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(138, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIngresarMateriaPrima)
+                    .addComponent(btnMostrarMateriaPrimaTotal)
+                    .addComponent(btnBuscarMateriaPrima)
+                    .addComponent(btnTransformarMateriaPrima))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Materia Prima", jPanel1);
 
         txtaResultadosMateriaPrima2.setColumns(20);
         txtaResultadosMateriaPrima2.setRows(5);
@@ -125,73 +193,6 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Productos Finales", jPanel3);
 
-        btnBuscarMateriaPrima.setText("Búsqueda");
-        btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarMateriaPrimaActionPerformed(evt);
-            }
-        });
-
-        btnMostrarMateriaPrimaTotal.setText("Mostrar Materia Prima Total");
-        btnMostrarMateriaPrimaTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarMateriaPrimaTotalActionPerformed(evt);
-            }
-        });
-
-        btnIngresarMateriaPrima.setText("Ingresar Materia Prima");
-        btnIngresarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarMateriaPrimaActionPerformed(evt);
-            }
-        });
-
-        btnTransformarMateriaPrima.setText("Transformar");
-        btnTransformarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransformarMateriaPrimaActionPerformed(evt);
-            }
-        });
-
-        txtaResultadosMateriaPrima.setColumns(20);
-        txtaResultadosMateriaPrima.setRows(5);
-        jScrollPane1.setViewportView(txtaResultadosMateriaPrima);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(btnIngresarMateriaPrima)
-                .addGap(18, 18, 18)
-                .addComponent(btnMostrarMateriaPrimaTotal)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscarMateriaPrima)
-                .addGap(18, 18, 18)
-                .addComponent(btnTransformarMateriaPrima)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(138, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnIngresarMateriaPrima)
-                    .addComponent(btnMostrarMateriaPrimaTotal)
-                    .addComponent(btnBuscarMateriaPrima)
-                    .addComponent(btnTransformarMateriaPrima))
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Materia Prima", jPanel1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,24 +208,16 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarMateriaPrimaActionPerformed
-        DatosLoteMiel dialog = new DatosLoteMiel(this);
-        dialog.setVisible(true);
-        
-        LoteMielCosecha nuevoLote = dialog.getLoteMielCosecha();
-        
-        String id = gestor.autogenerarIdLoteMiel(LocalDate.now(), nuevoLote.getFloracion());
-        nuevoLote.setIdLote(id);
+        LoteMielCosecha nuevoLote = gestor.ingresarLoteMiel(this);
         
         if(nuevoLote != null){
             if(!gestor.repetirLote(nuevoLote.getIdLote())){
                 gestor.inventarioLotes.add(nuevoLote);
                 JOptionPane.showMessageDialog(rootPane, "Se ha agregado correctamente el lote nuevo.");
-                String tipoMov = "ENTRADA_LOTE_MIEL";
-                String idItem = nuevoLote.getIdLote();
-                double cantidad = nuevoLote.getCantKg();
+                String tipoMov = "ENT_LOTE_MIEL";
                 String unidad = "KG";
-                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion();
-                gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
+                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion() + ", Estado: " + nuevoLote.getEstado();
+                gestor.registrarMovimientoMateriaPrima(tipoMov, nuevoLote.getIdLote(), nuevoLote.getCantKg(), unidad, descripcion);
                 txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
             } else{
                 JOptionPane.showMessageDialog(rootPane, "El id de lote ingresado ya existe.");
@@ -312,6 +305,14 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         // Actualizar el estado del lote
         gestor.transformarLote(loteSeleccionado.getIdLote(), nuevoEstado);
         JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
+        
+        // Registrar movimiento en el archivo txt
+        String tipoMov = "TRA_LOTE_MIEL";
+                String idItem = loteSeleccionado.getIdLote();
+                double cantidad = loteSeleccionado.getCantKg();
+                String unidad = "KG";
+                String descripcion = "Origen: " + loteSeleccionado.getOrigen() + ", Floración: " + loteSeleccionado.getFloracion() + ", Estado: " + loteSeleccionado.getEstado();
+                gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
         
         // Mostrar el cambio en la interfaz de usuario
         txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(loteSeleccionado.getIdLote()));

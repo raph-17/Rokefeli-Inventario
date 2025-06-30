@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import rokefeli.model.LoteMielCosecha;
 
-/**
- *
- * @author ricar
- */
 public class DatosLoteMiel extends javax.swing.JDialog {
 
     private LoteMielCosecha nuevoLote;
@@ -22,7 +18,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         setSize(600, 250);
         txtFechaIngreso.setText(LocalDate.now().toString());
         setLocationRelativeTo(parent); // Centrar sobre el padre
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cerrar solo este diálogo
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cerrar solo este diï¿½logo
     }
     
     /**
@@ -49,7 +45,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         setTitle("Registro de Lote de Miel");
         getContentPane().setLayout(new java.awt.GridLayout(5, 2));
 
-        labelFloracion.setText("FLORACIÓN:");
+        labelFloracion.setText("FLORACIï¿½N:");
         getContentPane().add(labelFloracion);
 
         cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" }));
@@ -98,19 +94,19 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         String origen = txtOrigen.getText();
         
         if(floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Uno o más campos vacíos, por favor rellene todo para continuar.");
+            JOptionPane.showMessageDialog(rootPane, "Uno o mï¿½s campos vacï¿½os, por favor rellene todo para continuar.");
         } else{
             try{
                 double cant = Double.parseDouble(txtCantidad.getText());
                 if (cant <= 0) {
-                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un nï¿½mero positivo.", "Error de Validaciï¿½n", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else{
                     nuevoLote = new LoteMielCosecha(null, floracion, origen, LocalDate.now(), cant);
                     dispose();
                 }
             } catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Valor no vï¿½lido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.setText("");
                 txtCantidad.requestFocus();
             }

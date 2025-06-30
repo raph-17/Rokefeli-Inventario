@@ -1,27 +1,60 @@
 package rokefeli.logic;
 
-import java.io.IOException;
+// Manejo de archivos
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+
+// Interfaces de Ususario
+import rokefeli.ui.*;
+
+// Manejo de fechas
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import rokefeli.model.*;
+
+// LinkedList
 import java.util.LinkedList;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
+
+// Clases Materia Prima, Insumos, Producto Final
+import rokefeli.model.*;
+
+// Clase contenedora para el inventario general
+import rokefeli.data.InventarioData;
 
 public class GestorInventario {
-    private LinkedList<Insumo> inventarioInsumos = new LinkedList();
+    public LinkedList<Insumo> inventarioInsumos = new LinkedList();
     public LinkedList<LoteMielCosecha> inventarioLotes = new LinkedList();
-    private LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
-    private int contadorLotesAsociados = 1; // Para generar loteAsociado único
+    public LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
     private LocalDate fechaActualRegistro;
+    private final String INVENTARIO_FILE_NAME = "inventario_completo.ser";
     
     // Constructor inicializando con la fecha actual
     public GestorInventario(){
         this.fechaActualRegistro = LocalDate.now();
     }
+    
+    /* INVENTARIO GENERAL */
+
+    // Guardar todos los objetos del inventario
+    public void guardarInventario(){
+        
+    }
+    
+    // Cargar todos los objetos del inventario
+    public void cargarInventario(){
+        
+    }
+    
+    
+    /* MATERIA PRIMA */
     
     // Autogeneración del id del Lote
     public String autogenerarIdLoteMiel(LocalDate fecha, String floracion){
@@ -64,6 +97,21 @@ public class GestorInventario {
         }
     }
     
+    // Ingresar materia prima
+    public LoteMielCosecha ingresarLoteMiel(InterfazRokefeli interfaz){
+        DatosLoteMiel dialog = new DatosLoteMiel(interfaz);
+        dialog.setVisible(true);
+        
+        LoteMielCosecha nuevoLote = dialog.getLoteMielCosecha();
+        
+        String id = autogenerarIdLoteMiel(LocalDate.now(), nuevoLote.getFloracion());
+        nuevoLote.setIdLote(id);
+        
+        return nuevoLote;
+    }
+    
+    // 
+
     // Mostrar todos los lotes
     public String mostrarLotes() {
         int totalLotes = 0;
@@ -130,25 +178,25 @@ public class GestorInventario {
         loteEncontrado.setEstado(nuevoEstado);
     }
 
-    // Obtener la lista de IDs de lotes (para poblar el JComboBox)
-    public String[] getIdsLotes() {
-        String[] ids = new String[inventarioLotes.size()];
-        for (int i = 0; i < inventarioLotes.size(); i++) {
-            ids[i] = inventarioLotes.get(i).getIdLote();
-        }
-        return ids;
-    }
+//    // Obtener la lista de IDs de lotes (para poblar el JComboBox)
+//    public String[] getIdsLotes() {
+//        String[] ids = new String[inventarioLotes.size()];
+//        for (int i = 0; i < inventarioLotes.size(); i++) {
+//            ids[i] = inventarioLotes.get(i).getIdLote();
+//        }
+//        return ids;
+//    }
 
-    // Obtener información de un lote por ID (para mostrar en el diálogo)
-    public String getInfoLote(String idLote) {
-        for (LoteMielCosecha lote : inventarioLotes) {
-            if (lote.getIdLote().equals(idLote)) {
-                return "Lote: " + lote.getIdLote() + " | FloraciÃ³n: " + lote.getFloracion() +
-                       " | Estado actual: " + lote.getEstado();
-            }
-        } return "Lote no encontrado.";
-        
-    }
+//    // Obtener información de un lote por ID (para mostrar en el diálogo)
+//    public String getInfoLote(String idLote) {
+//        for (LoteMielCosecha lote : inventarioLotes) {
+//            if (lote.getIdLote().equals(idLote)) {
+//                return "Lote: " + lote.getIdLote() + " | FloraciÃ³n: " + lote.getFloracion() +
+//                       " | Estado actual: " + lote.getEstado();
+//            }
+//        } return "Lote no encontrado.";
+//        
+//    }
     
     //Comprobar que el lote no se repita
     public boolean repetirLote(String idlote){
@@ -158,6 +206,14 @@ public class GestorInventario {
             }
         }
         return false;
+    }
+    
+    
+    /* INSUMOS */
+    
+    // Ingresar insumo nuevo
+    public void ingresarInsumoNuevo(LinkedList<Insumo> insumos, String codigo, String descripcion, int stockActual, int stockMin){
+        
     }
     
     // Mostrar totales de insumos
