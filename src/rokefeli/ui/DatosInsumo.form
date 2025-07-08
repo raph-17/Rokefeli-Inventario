@@ -20,16 +20,67 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
-      </Group>
-    </DimensionLayout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+    <Property name="columns" type="int" value="2"/>
+    <Property name="rows" type="int" value="3"/>
   </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Insumo:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbxInsumo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="18">
+            <StringItem index="0" value=" "/>
+            <StringItem index="1" value="Frasco 1kg (pl&#xe1;stico)"/>
+            <StringItem index="2" value="Frasco 1kg (vidrio)"/>
+            <StringItem index="3" value="Frasco 1/2kg (pl&#xe1;stico)"/>
+            <StringItem index="4" value="Frasco 1/2kg (vidrio)"/>
+            <StringItem index="5" value="Bolsa 1kg"/>
+            <StringItem index="6" value="Bolsa 1/2kg"/>
+            <StringItem index="7" value="Precinto 1kg"/>
+            <StringItem index="8" value="Precinto 1/2kg"/>
+            <StringItem index="9" value="Etiqueta Frasco 1kg"/>
+            <StringItem index="10" value="Etiqueta Frasco 1/2kg"/>
+            <StringItem index="11" value="Etiqueta Bolsa 1kg"/>
+            <StringItem index="12" value="Etiqueta Bolsa 1/2kg"/>
+            <StringItem index="13" value="Tapa Frasco 1kg (pl&#xe1;stico)"/>
+            <StringItem index="14" value="Tapa Frasco 1kg (vidrio)"/>
+            <StringItem index="15" value="Tapa Frasco 1/2kg (pl&#xe1;stico)"/>
+            <StringItem index="16" value="Tapa Frasco 1/2kg (vidrio)"/>
+            <StringItem index="17" value=" "/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cantidad:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtCantidadInsumo">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnA&#xf1;adir">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnA&#xf1;adirActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancelar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancelar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
 </Form>

@@ -1,6 +1,8 @@
 package rokefeli.model;
 
-public class Insumo {
+import java.io.Serializable;
+
+public class Insumo implements Serializable{
     private String codigo;
     private String descripcion;
     private int stockActual;
@@ -45,5 +47,15 @@ public class Insumo {
         this.stockMin = stockMin;
     }
 
+    public void agregarStock(int cantidad){
+        this.stockActual += cantidad;
+    }
     
+    public boolean retirarStock(int cantidad){
+        if(this.stockActual >= cantidad){
+            this.stockActual -= cantidad;
+            return true;
+        }
+        return false;
+    }
 }

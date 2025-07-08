@@ -94,19 +94,19 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         String origen = txtOrigen.getText();
         
         if(floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Uno o m�s campos vac�os, por favor rellene todo para continuar.");
+            JOptionPane.showMessageDialog(rootPane, "Uno o más campos vacíos, por favor rellene todo para continuar.");
         } else{
             try{
                 double cant = Double.parseDouble(txtCantidad.getText());
                 if (cant <= 0) {
-                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un n�mero positivo.", "Error de Validaci�n", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else{
                     nuevoLote = new LoteMielCosecha(null, floracion, origen, LocalDate.now(), cant);
                     dispose();
                 }
             } catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(this, "Valor no v�lido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.setText("");
                 txtCantidad.requestFocus();
             }

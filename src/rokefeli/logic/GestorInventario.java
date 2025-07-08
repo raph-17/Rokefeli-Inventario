@@ -110,8 +110,6 @@ public class GestorInventario {
         return nuevoLote;
     }
     
-    // 
-
     // Mostrar todos los lotes
     public String mostrarLotes() {
         int totalLotes = 0;
@@ -211,13 +209,46 @@ public class GestorInventario {
     
     /* INSUMOS */
     
-    // Ingresar insumo nuevo
-    public void ingresarInsumoNuevo(LinkedList<Insumo> insumos, String codigo, String descripcion, int stockActual, int stockMin){
+    // Inicializar insumos por defecto
+    public void inicializarInsumosPorDefecto() {
+        if (inventarioInsumos.isEmpty()) {
+            inventarioInsumos.add(new Insumo("FRA1KP", "Frasco 1kg (plástico)", 0, 50));
+            inventarioInsumos.add(new Insumo("FRA1KV", "Frasco 1kg (vidrio)", 0, 50));
+            inventarioInsumos.add(new Insumo("FRA05KP", "Frasco 1/2kg (plástico)", 0, 50));
+            inventarioInsumos.add(new Insumo("FRA05KV", "Frasco 1/2kg (vidrio)", 0, 50));
+            inventarioInsumos.add(new Insumo("BOL1K", "Bolsa 1kg", 0, 50));
+            inventarioInsumos.add(new Insumo("BOL05K", "Bolsa 1/2kg", 0, 50));
+            inventarioInsumos.add(new Insumo("PRE1K", "Precinto 1kg", 0, 100));
+            inventarioInsumos.add(new Insumo("PRE05K", "Precinto 1/2kg", 0, 100));
+            inventarioInsumos.add(new Insumo("ETI_FRA1K", "Etiqueta Frasco 1kg", 0, 300));
+            inventarioInsumos.add(new Insumo("ETI_FRA05K", "Etiqueta Frasco 1/2kg", 0, 300));
+            inventarioInsumos.add(new Insumo("ETI_BOL1K", "Etiqueta Bolsa 1kg", 0, 300));
+            inventarioInsumos.add(new Insumo("ETI_BOL05K", "Etiqueta Bolsa 1/2kg", 0, 300));
+            inventarioInsumos.add(new Insumo("TAPA1KP", "Tapa frasco 1kg (plástico)", 0, 50));
+            inventarioInsumos.add(new Insumo("TAPA1KV", "Tapa frasco 1kg (vidrio)", 0, 50));
+            inventarioInsumos.add(new Insumo("TAPA05KP", "Tapa frasco 1/2kg (plástico)", 0, 50));
+            inventarioInsumos.add(new Insumo("TAPA05KV", "Tapa frasco 1/2kg (vidrio)", 0, 50));
+
+            System.out.println("DEBUG: Insumos por defecto inicializados.");
+        }
+    }
+
+    // Añadir stock a insumo
+    public void ingresarStockInsumo(InterfazRokefeli interfaz){
+        DatosInsumo dialog = new DatosInsumo(interfaz);
+        dialog.setVisible(true);
+        int cantidad = dialog.getCantidad();
+        String tipoInsumo = dialog.getTipoInsumo();
         
+        for (Insumo insumo : inventarioInsumos){
+            if(insumo.getDescripcion().equals(tipoInsumo)){
+                insumo.agregarStock(cantidad);
+            }
+        }
     }
     
     // Mostrar totales de insumos
-    public String mostrarTotalesInsumos() {
+    public String mostrarInsumos() {
         if (inventarioInsumos.isEmpty()) {
             return "No hay insumos registrados.";
         }
@@ -239,19 +270,19 @@ public class GestorInventario {
     // Buscar insumo por código
     public String buscarInsumoPorCodigo(String codigoBuscado) {
         if (codigoBuscado == null || codigoBuscado.trim().isEmpty()) {
-            return "Error: El cÃ³digo no puede estar vacÃ­o.";
+            return "Error: El código no puede estar vací­o.";
         }
 
         for (Insumo insumo : inventarioInsumos) {
             if (insumo.getCodigo().equalsIgnoreCase(codigoBuscado.trim())) {
                 return "INSUMO ENCONTRADO:\n"
-                        + "CÃ³digo: " + insumo.getCodigo() + "\n"
-                        + "DescripciÃ³n: " + insumo.getDescripcion() + "\n"
+                        + "Código: " + insumo.getCodigo() + "\n"
+                        + "Descripción: " + insumo.getDescripcion() + "\n"
                         + "Stock actual: " + insumo.getStockActual() + "\n"
-                        + "Stock mÃ­nimo: " + insumo.getStockMin();
+                        + "Stock mínimo: " + insumo.getStockMin();
             }
         }
 
-        return "No se encontrÃ³ ningÃºn insumo con el cÃ³digo: " + codigoBuscado;
+        return "No se encontró ningún insumo con el código: " + codigoBuscado;
     }
 }

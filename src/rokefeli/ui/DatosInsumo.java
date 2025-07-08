@@ -4,18 +4,35 @@
  */
 package rokefeli.ui;
 
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+
 /**
  *
  * @author ricar
  */
 public class DatosInsumo extends javax.swing.JDialog {
-
+    
+    int cantidad;
+    String tipoInsumo;
+    
+    public int getCantidad(){
+        return cantidad;
+    }
+    
+    public String getTipoInsumo(){
+        return tipoInsumo;
+    }
+    
     /**
      * Creates new form DatosInsumo
      */
-    public DatosInsumo(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public DatosInsumo(java.awt.Frame parent) {
+        super(parent, "Registrar Lote de Miel", true);
         initComponents();
+        setSize(600, 250);
+        setLocationRelativeTo(parent); // Centrar sobre el padre
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cerrar solo este di�logo
     }
 
     /**
@@ -27,21 +44,72 @@ public class DatosInsumo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jLabel1 = new javax.swing.JLabel();
+        cbxInsumo = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtCantidadInsumo = new javax.swing.JTextField();
+        btnAñadir = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(3, 2));
+
+        jLabel1.setText("Insumo:");
+        getContentPane().add(jLabel1);
+
+        cbxInsumo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (plástico)", "Frasco 1kg (vidrio)", "Frasco 1/2kg (plástico)", "Frasco 1/2kg (vidrio)", "Bolsa 1kg", "Bolsa 1/2kg", "Precinto 1kg", "Precinto 1/2kg", "Etiqueta Frasco 1kg", "Etiqueta Frasco 1/2kg", "Etiqueta Bolsa 1kg", "Etiqueta Bolsa 1/2kg", "Tapa Frasco 1kg (plástico)", "Tapa Frasco 1kg (vidrio)", "Tapa Frasco 1/2kg (plástico)", "Tapa Frasco 1/2kg (vidrio)", " " }));
+        getContentPane().add(cbxInsumo);
+
+        jLabel2.setText("Cantidad:");
+        getContentPane().add(jLabel2);
+        getContentPane().add(txtCantidadInsumo);
+
+        btnAñadir.setText("Añadir");
+        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAñadir);
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancelar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+        String tipoInsumo = cbxInsumo.getSelectedItem().toString();
+        
+        if(tipoInsumo.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Uno o más campos vacíos, por favor rellene todo para continuar.");
+        } else{
+            try{
+                int cant = Integer.parseInt(txtCantidadInsumo.getText());
+                if (cant <= 0) {
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else{
+                    this.cantidad = cant;
+                    this.tipoInsumo = tipoInsumo;
+                    dispose();
+                }
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+                txtCantidadInsumo.setText("");
+                txtCantidadInsumo.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -73,7 +141,7 @@ public class DatosInsumo extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DatosInsumo dialog = new DatosInsumo(new javax.swing.JFrame(), true);
+                DatosInsumo dialog = new DatosInsumo(new javax.swing.JFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -86,5 +154,11 @@ public class DatosInsumo extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAñadir;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> cbxInsumo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField txtCantidadInsumo;
     // End of variables declaration//GEN-END:variables
 }

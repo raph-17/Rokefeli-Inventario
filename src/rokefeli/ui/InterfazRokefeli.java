@@ -19,6 +19,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     
     public InterfazRokefeli() {
         initComponents();
+        gestor.inicializarInsumosPorDefecto();
     }
 
     /**
@@ -40,7 +41,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         txtaResultadosMateriaPrima = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        txtaResultadosMateriaPrima2 = new javax.swing.JTextArea();
+        txtaResultadosInsumos = new javax.swing.JTextArea();
         btnIngresarInsumo = new javax.swing.JButton();
         btnMostrarInsumosTotal = new javax.swing.JButton();
         btnBuscarInsumo = new javax.swing.JButton();
@@ -118,9 +119,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Materia Prima", jPanel1);
 
-        txtaResultadosMateriaPrima2.setColumns(20);
-        txtaResultadosMateriaPrima2.setRows(5);
-        jScrollPane3.setViewportView(txtaResultadosMateriaPrima2);
+        txtaResultadosInsumos.setColumns(20);
+        txtaResultadosInsumos.setRows(5);
+        jScrollPane3.setViewportView(txtaResultadosInsumos);
 
         btnIngresarInsumo.setText("Ingresar Insumo");
         btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +131,11 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         });
 
         btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
+        btnMostrarInsumosTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarInsumosTotalActionPerformed(evt);
+            }
+        });
 
         btnBuscarInsumo.setText("Búsqueda");
         btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
@@ -320,12 +326,17 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
 
     private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed
-        // TODO add your handling code here:
+        gestor.ingresarStockInsumo(this);
+        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
     }//GEN-LAST:event_btnIngresarInsumoActionPerformed
 
     private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarInsumoActionPerformed
+
+    private void btnMostrarInsumosTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInsumosTotalActionPerformed
+        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+    }//GEN-LAST:event_btnMostrarInsumosTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,8 +389,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea txtaResultadosInsumos;
     private javax.swing.JTextArea txtaResultadosMateriaPrima;
     private javax.swing.JTextArea txtaResultadosMateriaPrima1;
-    private javax.swing.JTextArea txtaResultadosMateriaPrima2;
     // End of variables declaration//GEN-END:variables
 }
