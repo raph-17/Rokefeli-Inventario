@@ -1,25 +1,22 @@
 package rokefeli.ui;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.time.LocalDate;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import rokefeli.logic.GestorInventario;
 import rokefeli.model.LoteMielCosecha;
-import rokefeli.model.ProductoFinal;
 
 public class InterfazRokefeli extends javax.swing.JFrame {
 
     GestorInventario gestor = new GestorInventario();
-    
+
     public InterfazRokefeli() {
         initComponents();
+        gestor.cargarInventario(); // Carga el inventario guardado al iniciar
         gestor.inicializarInsumosPorDefecto();
+        
+        // Actualiza las vistas con los datos cargados
+        txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
     }
 
     /**
@@ -47,9 +44,14 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         btnBuscarInsumo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtaResultadosMateriaPrima1 = new javax.swing.JTextArea();
+        txtaResultadosProductosFinales = new javax.swing.JTextArea();
+        btnCrearProductoFinal = new javax.swing.JButton();
+        btnBuscarProductoFinal = new javax.swing.JButton();
+        btnMostrarProductosFinales = new javax.swing.JButton();
+        btnVenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de Inventario Rokefeli");
 
         btnBuscarMateriaPrima.setText("Búsqueda");
         btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
@@ -101,24 +103,25 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 .addComponent(btnBuscarMateriaPrima)
                 .addGap(18, 18, 18)
                 .addComponent(btnTransformarMateriaPrima)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(138, Short.MAX_VALUE)
+                .addContainerGap(137, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresarMateriaPrima)
                     .addComponent(btnMostrarMateriaPrimaTotal)
                     .addComponent(btnBuscarMateriaPrima)
                     .addComponent(btnTransformarMateriaPrima))
-                .addGap(38, 38, 38)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Materia Prima", jPanel1);
 
+        txtaResultadosInsumos.setEditable(false);
         txtaResultadosInsumos.setColumns(20);
         txtaResultadosInsumos.setRows(5);
         jScrollPane3.setViewportView(txtaResultadosInsumos);
@@ -159,7 +162,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 .addComponent(btnMostrarInsumosTotal)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscarInsumo)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,9 +179,41 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Insumos", jPanel2);
 
-        txtaResultadosMateriaPrima1.setColumns(20);
-        txtaResultadosMateriaPrima1.setRows(5);
-        jScrollPane2.setViewportView(txtaResultadosMateriaPrima1);
+        txtaResultadosProductosFinales.setEditable(false);
+        txtaResultadosProductosFinales.setColumns(20);
+        txtaResultadosProductosFinales.setRows(5);
+        jScrollPane2.setViewportView(txtaResultadosProductosFinales);
+
+        btnCrearProductoFinal.setText("Crear Producto Final");
+        btnCrearProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnBuscarProductoFinal.setText("Búsqueda");
+        btnBuscarProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnMostrarProductosFinales.setText("Mostrar Productos");
+        btnMostrarProductosFinales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarProductosFinalesActionPerformed(evt);
+            }
+        });
+
+        btnVenta.setBackground(new java.awt.Color(0, 153, 51));
+        btnVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVenta.setForeground(new java.awt.Color(255, 255, 255));
+        btnVenta.setText("VENTA");
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -186,13 +221,29 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(btnCrearProductoFinal)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarProductoFinal)
+                .addGap(18, 18, 18)
+                .addComponent(btnMostrarProductosFinales)
+                .addGap(18, 18, 18)
+                .addComponent(btnVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(199, Short.MAX_VALUE)
+                .addContainerGap(137, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearProductoFinal)
+                    .addComponent(btnBuscarProductoFinal)
+                    .addComponent(btnMostrarProductosFinales)
+                    .addComponent(btnVenta))
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -249,7 +300,6 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
-        // Validaciones
         String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
         if (idLote == null || idLote.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Transformación cancelada o ID vacío.");
@@ -271,13 +321,12 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         
         String estadoActual = loteSeleccionado.getEstado();
 
-        // Crear un JComboBox con los estados
         String[] estados = {"En Reposo", "Pasteurizada", "Lista para Envasar"};
-        JComboBox<String> comboEstados = new JComboBox<>(estados);
-        comboEstados.setSelectedItem(estadoActual); // Estado actual seleccionado por defecto
+        javax.swing.JComboBox<String> comboEstados = new javax.swing.JComboBox<>(estados);
+        comboEstados.setSelectedItem(estadoActual);
 
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Seleccione el nuevo estado:"));
+        javax.swing.JPanel panel = new javax.swing.JPanel();
+        panel.add(new javax.swing.JLabel("Seleccione el nuevo estado:"));
         panel.add(comboEstados);
 
         int resultado = JOptionPane.showConfirmDialog(this, panel, "Cambiar Estado", JOptionPane.OK_CANCEL_OPTION);
@@ -292,7 +341,6 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             return;
         }
         
-        // Validar transiciones de estado válidas
         if (nuevoEstado.equals("En Reposo")) {
             JOptionPane.showMessageDialog(this, "ERROR, no se puede revertir a 'En Reposo'");
             return;
@@ -308,19 +356,16 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         }
         
-        // Actualizar el estado del lote
         gestor.transformarLote(loteSeleccionado.getIdLote(), nuevoEstado);
         JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
         
-        // Registrar movimiento en el archivo txt
         String tipoMov = "TRA_LOTE_MIEL";
-                String idItem = loteSeleccionado.getIdLote();
-                double cantidad = loteSeleccionado.getCantKg();
-                String unidad = "KG";
-                String descripcion = "Origen: " + loteSeleccionado.getOrigen() + ", Floración: " + loteSeleccionado.getFloracion() + ", Estado: " + loteSeleccionado.getEstado();
-                gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
+        String idItem = loteSeleccionado.getIdLote();
+        double cantidad = loteSeleccionado.getCantKg();
+        String unidad = "KG";
+        String descripcion = "Origen: " + loteSeleccionado.getOrigen() + ", Floración: " + loteSeleccionado.getFloracion() + ", Estado: " + loteSeleccionado.getEstado();
+        gestor.registrarMovimientoMateriaPrima(tipoMov, idItem, cantidad, unidad, descripcion);
         
-        // Mostrar el cambio en la interfaz de usuario
         txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(loteSeleccionado.getIdLote()));
         
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
@@ -331,22 +376,86 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresarInsumoActionPerformed
 
     private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
-        // TODO add your handling code here:
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del insumo a buscar:");
+        if (codigo == null || codigo.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Búsqueda cancelada o entrada vacía.");
+            return;
+        }
+        
+        String resultado = gestor.buscarInsumoPorCodigo(codigo);
+        txtaResultadosInsumos.setText(resultado);
     }//GEN-LAST:event_btnBuscarInsumoActionPerformed
 
     private void btnMostrarInsumosTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInsumosTotalActionPerformed
         txtaResultadosInsumos.setText(gestor.mostrarInsumos());
     }//GEN-LAST:event_btnMostrarInsumosTotalActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnCrearProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProductoFinalActionPerformed
+        String[] idsLotesDisponibles = gestor.getIdsLotesListosParaEnvasar();
+
+        if (idsLotesDisponibles.length == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay lotes de miel en estado 'Lista para Envasar'.\n"
+                    + "Por favor, transforme un lote primero desde la pestaña 'Materia Prima'.",
+                    "No hay Lotes Disponibles",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        DatosProductoFinal dialog = new DatosProductoFinal(this, idsLotesDisponibles);
+        dialog.setVisible(true);
+
+        if (dialog.isConfirmado()) {
+            String idLote = dialog.getIdLoteSeleccionado();
+            String tipoProducto = dialog.getTipoProductoSeleccionado();
+            int cantidad = dialog.getCantidad();
+
+            String resultado = gestor.crearProductoFinal(idLote, tipoProducto, cantidad);
+
+            JOptionPane.showMessageDialog(this, resultado);
+
+            txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+            txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+            txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+        }
+    }//GEN-LAST:event_btnCrearProductoFinalActionPerformed
+
+    private void btnBuscarProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoFinalActionPerformed
+        String criterio = JOptionPane.showInputDialog(this, "Ingrese descripción del producto a buscar:");
+        if (criterio != null && !criterio.trim().isEmpty()) {
+            String resultado = gestor.buscarProductoFinal(criterio);
+            txtaResultadosProductosFinales.setText(resultado);
+        }
+    }//GEN-LAST:event_btnBuscarProductoFinalActionPerformed
+
+    private void btnMostrarProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarProductosFinalesActionPerformed
+        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+    }//GEN-LAST:event_btnMostrarProductosFinalesActionPerformed
+
+    private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
+        // 1. Obtener la lista de productos con stock
+        String[] productosParaVenta = gestor.getDescripcionesProductosParaVenta();
+
+        // 2. Crear y mostrar el diálogo de venta
+        DatosVenta dialog = new DatosVenta(this, productosParaVenta);
+        dialog.setVisible(true);
+        
+        // 3. Si el usuario confirma la venta, procesarla
+        if(dialog.isConfirmado()){
+            String producto = dialog.getProductoSeleccionado();
+            int cantidad = dialog.getCantidad();
+            String comprador = dialog.getComprador();
+            
+            // 4. Llamar al gestor para que procese la venta
+            String resultado = gestor.procesarVenta(producto, cantidad, comprador);
+            
+            // 5. Mostrar resultado y actualizar la vista
+            JOptionPane.showMessageDialog(this, resultado);
+            txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+        }
+    }//GEN-LAST:event_btnVentaActionPerformed
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -363,13 +472,19 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InterfazRokefeli.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
-                new InterfazRokefeli().setVisible(true);
+                InterfazRokefeli frame = new InterfazRokefeli();
+                
+                frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        frame.gestor.guardarInventario(); // Guarda el inventario al cerrar
+                    }
+                });
+                
+                frame.setVisible(true);
             }
         });
     }
@@ -377,11 +492,15 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarInsumo;
     private javax.swing.JButton btnBuscarMateriaPrima;
+    private javax.swing.JButton btnBuscarProductoFinal;
+    private javax.swing.JButton btnCrearProductoFinal;
     private javax.swing.JButton btnIngresarInsumo;
     private javax.swing.JButton btnIngresarMateriaPrima;
     private javax.swing.JButton btnMostrarInsumosTotal;
     private javax.swing.JButton btnMostrarMateriaPrimaTotal;
+    private javax.swing.JButton btnMostrarProductosFinales;
     private javax.swing.JButton btnTransformarMateriaPrima;
+    private javax.swing.JButton btnVenta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -391,6 +510,6 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea txtaResultadosInsumos;
     private javax.swing.JTextArea txtaResultadosMateriaPrima;
-    private javax.swing.JTextArea txtaResultadosMateriaPrima1;
+    private javax.swing.JTextArea txtaResultadosProductosFinales;
     // End of variables declaration//GEN-END:variables
 }

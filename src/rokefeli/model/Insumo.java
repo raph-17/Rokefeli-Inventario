@@ -47,7 +47,7 @@ public class Insumo implements Serializable{
         this.stockMin = stockMin;
     }
 
-    public void agregarStock(int cantidad){
+    public void agregarStock(int cantidad) {
         this.stockActual += cantidad;
     }
     

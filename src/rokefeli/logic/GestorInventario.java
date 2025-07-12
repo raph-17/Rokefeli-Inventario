@@ -285,4 +285,218 @@ public class GestorInventario {
 
         return "No se encontró ningún insumo con el código: " + codigoBuscado;
     }
+    
+    /* PRODUCTOS FINALES */
+
+    // Método para obtener solo los lotes listos para el envasado
+    public String[] getIdsLotesListosParaEnvasar() {
+        return inventarioLotes.stream()
+                .filter(lote -> lote.getEstado().equals("Lista para Envasar"))
+                .map(LoteMielCosecha::getIdLote)
+                .toArray(String[]::new);
+    }
+
+    // Método principal para crear el producto final
+    public String crearProductoFinal(String idLote, String tipoProducto, int cantidad) {
+    // 1. Encontrar el lote de miel
+    LoteMielCosecha loteSeleccionado = null;
+    for (LoteMielCosecha lote : inventarioLotes) {
+        if (lote.getIdLote().equals(idLote)) {
+            loteSeleccionado = lote;
+            break;
+        }
+    }
+    if (loteSeleccionado == null) {
+        return "Error: Lote de miel no encontrado.";
+    }
+
+    // 2. Definir los insumos y la cantidad de miel necesaria
+    double mielRequeridaKg = 0;
+    String[] codigosInsumosRequeridos;
+
+    switch (tipoProducto) {
+        case "Frasco 1kg (vidrio)":
+            mielRequeridaKg = 1.0 * cantidad;
+            codigosInsumosRequeridos = new String[]{"FRA1KV", "TAPA1KV", "ETI_FRA1K", "PRE1K"};
+            break;
+        case "Frasco 1/2kg (vidrio)":
+            mielRequeridaKg = 0.5 * cantidad;
+            codigosInsumosRequeridos = new String[]{"FRA05KV", "TAPA05KV", "ETI_FRA05K", "PRE05K"};
+            break;
+        case "Frasco 1kg (plástico)":
+            mielRequeridaKg = 1.0 * cantidad;
+            codigosInsumosRequeridos = new String[]{"FRA1KP", "TAPA1KP", "ETI_FRA1K", "PRE1K"};
+            break;
+        case "Frasco 1/2kg (plástico)":
+            mielRequeridaKg = 0.5 * cantidad;
+            codigosInsumosRequeridos = new String[]{"FRA05KP", "TAPA05KP", "ETI_FRA05K", "PRE05K"};
+            break;
+        case "Bolsa 1kg":
+            mielRequeridaKg = 1.0 * cantidad;
+            codigosInsumosRequeridos = new String[]{"BOL1K", "ETI_BOL1K"};
+            break;
+        case "Bolsa 1/2kg":
+            mielRequeridaKg = 0.5 * cantidad;
+            codigosInsumosRequeridos = new String[]{"BOL05K", "ETI_BOL05K"};
+            break;
+        default:
+            return "Error: Tipo de producto no reconocido.";
+    }
+
+    // 3. Validar si hay suficiente miel y stock de insumos
+    if (loteSeleccionado.getCantKg() < mielRequeridaKg) {
+        return "Error: No hay suficiente miel en el lote. Requerido: " + mielRequeridaKg + "kg, Disponible: " + loteSeleccionado.getCantKg() + "kg.";
+    }
+    for (String codigoInsumo : codigosInsumosRequeridos) {
+        boolean insumoEncontrado = false;
+        for (Insumo insumo : inventarioInsumos) {
+            if (insumo.getCodigo().equals(codigoInsumo)) {
+                insumoEncontrado = true;
+                if (insumo.getStockActual() < cantidad) {
+                    return "Error: Stock insuficiente para el insumo '" + insumo.getDescripcion() + "'. Requerido: " + cantidad + ", Disponible: " + insumo.getStockActual() + ".";
+                }
+                break;
+            }
+        }
+        if (!insumoEncontrado) {
+            return "Error: El insumo con código '" + codigoInsumo + "' no fue encontrado en el inventario de insumos.";
+        }
+    }
+
+    // 4. Si todo es correcto, descontar la miel y los insumos
+    loteSeleccionado.setCantKg(loteSeleccionado.getCantKg() - mielRequeridaKg);
+    for (String codigoInsumo : codigosInsumosRequeridos) {
+        for (Insumo insumo : inventarioInsumos) {
+            if (insumo.getCodigo().equals(codigoInsumo)) {
+                insumo.retirarStock(cantidad);
+                break;
+            }
+        }
+    }
+
+    // 5. Crear o actualizar el producto final en el inventario
+    boolean productoExistente = false;
+    for (ProductoFinal pf : inventarioProductos) {
+        if (pf.getDescripcion().equals(tipoProducto) && pf.getIdLote().equals(idLote)) {
+            pf.setStock(pf.getStock() + cantidad);
+            productoExistente = true;
+            break;
+        }
+    }
+    if (!productoExistente) {
+        // Usamos la descripción como SKU por simplicidad
+        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, tipoProducto, idLote, idLote, cantidad);
+        inventarioProductos.add(nuevoProducto);
+    }
+
+    return "¡Éxito! Se han creado " + cantidad + " unidades de '" + tipoProducto + "'.";
+}
+    
+    // Método para mostrar los productos finales en la interfaz
+    public String mostrarProductosFinales() {
+        if (inventarioProductos.isEmpty()) {
+            return "No hay productos finales registrados.";
+        }
+
+        StringBuilder sb = new StringBuilder("INVENTARIO DE PRODUCTOS FINALES:\n");
+        sb.append("SKU/DESCRIPCIÓN - LOTE DE ORIGEN - STOCK ACTUAL\n");
+        
+        int totalGeneral = 0;
+        for (ProductoFinal producto : inventarioProductos) {
+            sb.append(producto.getDescripcion()).append(" - ")
+              .append(producto.getIdLote()).append(" - ")
+              .append(producto.getStock()).append(" unidades\n");
+            totalGeneral += producto.getStock();
+        }
+
+        sb.append("\nTOTAL GENERAL DE UNIDADES: ").append(totalGeneral);
+        return sb.toString();
+    }
+    // Buscar productos finales por criterio (descripción/SKU)
+    public String buscarProductoFinal(String criterio) {
+        if (criterio == null || criterio.trim().isEmpty()) {
+            return "Criterio de búsqueda no puede estar vacío.";
+        }
+        
+        StringBuilder resultados = new StringBuilder("RESULTADOS DE BÚSQUEDA DE PRODUCTOS FINALES:\n");
+        resultados.append("SKU/DESCRIPCIÓN - LOTE DE ORIGEN - STOCK ACTUAL\n");
+        
+        boolean encontrado = false;
+        String criterioBusqueda = criterio.trim().toLowerCase();
+
+        for (ProductoFinal producto : inventarioProductos) {
+            // Buscamos por la descripción, que usamos como SKU
+            if (producto.getDescripcion().toLowerCase().contains(criterioBusqueda)) {
+                resultados.append(producto.getDescripcion()).append(" - ")
+                          .append(producto.getIdLote()).append(" - ")
+                          .append(producto.getStock()).append(" unidades\n");
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            resultados.append("No se encontraron productos que coincidan con '").append(criterio).append("'.");
+        }
+        
+        return resultados.toString();
+    }
+    
+    /* VENTAS */
+
+    // Obtiene las descripciones de productos con stock para llenar el menú de venta
+    public String[] getDescripcionesProductosParaVenta() {
+        return inventarioProductos.stream()
+                .filter(p -> p.getStock() > 0)
+                .map(ProductoFinal::getDescripcion)
+                .toArray(String[]::new);
+    }
+
+    // Registra el movimiento de la venta en un archivo de texto
+    private void registrarMovimientoVenta(String producto, int cantidad, String comprador) {
+        DateTimeFormatter mesAnioFormato = DateTimeFormatter.ofPattern("yyyy_MM");
+        String nombreArchivo = "Movimientos_Ventas_" + fechaActualRegistro.format(mesAnioFormato) + ".txt";
+        
+        LocalDateTime fechaHora = LocalDateTime.now();
+        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String entradaRegistro = String.format("%s, VENTA, %s, %d uds, Comprador: %s%n",
+                fechaHora.format(fechaHoraFormato), producto, cantidad, comprador);
+
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nombreArchivo), true))) {
+            pw.print(entradaRegistro);
+            System.out.println("DEBUG: Venta registrada en: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("ERROR al escribir en el archivo de ventas: " + e.getMessage());
+        }
+    }
+
+    // Procesa la venta, valida el stock y descuenta si es exitosa
+    public String procesarVenta(String productoDesc, int cantidad, String comprador) {
+        // 1. Buscar el producto final en el inventario
+        ProductoFinal productoAVender = null;
+        for (ProductoFinal pf : inventarioProductos) {
+            if (pf.getDescripcion().equals(productoDesc)) {
+                productoAVender = pf;
+                break;
+            }
+        }
+
+        if (productoAVender == null) {
+            return "Error: Producto no encontrado.";
+        }
+
+        // 2. Validar si hay stock suficiente
+        if (productoAVender.getStock() < cantidad) {
+            return "Error: Stock insuficiente para realizar la venta.\n"
+                    + "Requerido: " + cantidad + ", Disponible: " + productoAVender.getStock();
+        }
+
+        // 3. Si hay stock, realizar la venta
+        productoAVender.setStock(productoAVender.getStock() - cantidad);
+
+        // 4. Registrar la venta en el archivo de texto
+        registrarMovimientoVenta(productoDesc, cantidad, comprador);
+        
+        return "¡Venta exitosa! Se vendieron " + cantidad + " unidades a " + comprador + ".";
+    }
 }

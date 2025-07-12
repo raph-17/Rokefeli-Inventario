@@ -1,0 +1,21 @@
+2025-07-10 16:53:55, ENT_LOTE_MIEL, 100725MS, 100,00 KG, Origen: pisco, Floración: Polifloral (S), Estado: En Reposo
+2025-07-10 16:54:09, TRA_LOTE_MIEL, 100725MS, 100,00 KG, Origen: pisco, Floración: Polifloral (S), Estado: Pasteurizada
+2025-07-10 16:54:16, TRA_LOTE_MIEL, 100725MS, 100,00 KG, Origen: pisco, Floración: Polifloral (S), Estado: Lista para Envasar
+2025-07-10 17:00:32, ENT_LOTE_MIEL, 100725MH, 100,00 KG, Origen: palpa, Floración: Huarango, Estado: En Reposo
+2025-07-10 17:00:40, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: palpa, Floración: Huarango, Estado: Pasteurizada
+2025-07-10 17:00:45, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: palpa, Floración: Huarango, Estado: Lista para Envasar
+2025-07-10 17:07:02, ENT_LOTE_MIEL, 100725MC, 100,00 KG, Origen: palpa, Floración: Polifloral (C), Estado: En Reposo
+2025-07-10 17:07:12, TRA_LOTE_MIEL, 100725MC, 100,00 KG, Origen: palpa, Floración: Polifloral (C), Estado: Pasteurizada
+2025-07-10 17:07:17, TRA_LOTE_MIEL, 100725MC, 100,00 KG, Origen: palpa, Floración: Polifloral (C), Estado: Lista para Envasar
+2025-07-10 17:13:31, ENT_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: En Reposo
+2025-07-10 17:13:39, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Pasteurizada
+2025-07-10 17:13:44, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Lista para Envasar
+2025-07-10 17:36:14, ENT_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: En Reposo
+2025-07-10 17:36:25, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Pasteurizada
+2025-07-10 17:36:29, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Lista para Envasar
+2025-07-10 18:10:12, ENT_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: En Reposo
+2025-07-10 18:10:26, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Pasteurizada
+2025-07-10 18:10:30, TRA_LOTE_MIEL, 100725MH, 100,00 KG, Origen: pisco, Floración: Huarango, Estado: Lista para Envasar
+2025-07-12 10:11:58, ENT_LOTE_MIEL, 120725MN, 300,00 KG, Origen: mi casa, Floración: Naranjo, Estado: En Reposo
+2025-07-12 10:12:21, TRA_LOTE_MIEL, 120725MN, 300,00 KG, Origen: mi casa, Floración: Naranjo, Estado: Pasteurizada
+2025-07-12 10:12:27, TRA_LOTE_MIEL, 120725MN, 300,00 KG, Origen: mi casa, Floración: Naranjo, Estado: Lista para Envasar
