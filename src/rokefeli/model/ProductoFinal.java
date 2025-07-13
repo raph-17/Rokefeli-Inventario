@@ -1,18 +1,22 @@
 package rokefeli.model;
 
-public class ProductoFinal {
-    private String sku;
-    private String descripcion;    
-    private String loteAsociado;
-    private int stock;
-    private String idLote;
+import java.io.Serializable;
 
-    public ProductoFinal(String sku, String descripcion, String loteAsociado, String idLote, int stock) {
+public class ProductoFinal implements Serializable{
+    private String sku;
+    private String idLote;
+    private String descripcion;
+    private double precioVenta;
+    private int stockActual;
+    private int stockMin;
+
+    public ProductoFinal(String sku, String idLote, String descripcion, double precioVenta, int stockActual, int stockMin) {
         this.sku = sku;
-        this.descripcion = descripcion;
-        this.loteAsociado = loteAsociado;
         this.idLote = idLote;
-        this.stock = stock;
+        this.descripcion = descripcion;
+        this.precioVenta = precioVenta;
+        this.stockActual = stockActual;
+        this.stockMin = stockMin;
     }
 
     public String getSku() {
@@ -23,30 +27,6 @@ public class ProductoFinal {
         this.sku = sku;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getLoteAsociado() {
-        return loteAsociado;
-    }
-
-    public void setLoteAsociado(String loteAsociado) {
-        this.loteAsociado = loteAsociado;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public String getIdLote() {
         return idLote;
     }
@@ -55,5 +35,63 @@ public class ProductoFinal {
         this.idLote = idLote;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(double precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
+    public int getStockActual() {
+        return stockActual;
+    }
+
+    public void setStockActual(int stockActual) {
+        this.stockActual = stockActual;
+    }
+
+    public int getStockMin() {
+        return stockMin;
+    }
+
+    public void setStockMin(int stockMin) {
+        this.stockMin = stockMin;
+    }
+
+    
+    // Métodos para ajustar el stock
+    public void agregarStock(int cantidad) {
+        if (cantidad > 0) {
+            this.stockActual += cantidad;
+        }
+    }
+    
+     public boolean retirarStock(int cantidad) {
+        if (cantidad > 0 && this.stockActual >= cantidad) {
+            this.stockActual -= cantidad;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductoFinal{" +
+               "sku='" + sku + '\'' +
+               ", descripcion='" + descripcion + '\'' +
+               ", precioVenta=" + precioVenta +
+               ", stockActual=" + stockActual +
+               ", stockMin=" + stockMin +
+               '}';
+    }
     
 }

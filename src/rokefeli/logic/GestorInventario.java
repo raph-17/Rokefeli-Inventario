@@ -43,14 +43,69 @@ public class GestorInventario {
     
     /* INVENTARIO GENERAL */
 
-    // Guardar todos los objetos del inventario
+    // Guardar todos los objetos del inventario en archivo
     public void guardarInventario(){
-        
+        try (FileOutputStream fos = new FileOutputStream(INVENTARIO_FILE_NAME);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+            // Crea un objeto contenedor con todas tus listas actuales
+            InventarioData data = new InventarioData(inventarioLotes, inventarioInsumos, inventarioProductos);
+            oos.writeObject(data); // Guarda el objeto contenedor completo
+            System.out.println("DEBUG: Todos los inventarios guardados exitosamente en " + INVENTARIO_FILE_NAME);
+        } catch (IOException e) {
+            System.err.println("ERROR al guardar todos los inventarios: " + e.getMessage());
+        }
     }
     
-    // Cargar todos los objetos del inventario
+    // Cargar todos los objetos del inventario desde el archivo
     public void cargarInventario(){
-        
+        File file = new File(INVENTARIO_FILE_NAME);
+        if (!file.exists()) {
+            System.out.println("DEBUG: Archivo de inventario completo '" + INVENTARIO_FILE_NAME + "' no encontrado. Se inician listas vacías.");
+            inventarioLotes = new LinkedList<>();
+            inventarioInsumos = new LinkedList<>();
+            inventarioProductos = new LinkedList<>();
+            inicializarInsumosPorDefecto();
+            return;
+        }
+
+        try (FileInputStream fis = new FileInputStream(INVENTARIO_FILE_NAME);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            InventarioData data = (InventarioData) ois.readObject(); // Carga el objeto contenedor
+            // Asigna las listas cargadas a los atributos de GestorInventario
+            inventarioLotes = data.getLotesMiel();
+            inventarioInsumos = data.getInsumos();
+            inventarioProductos = data.getProductosFinales();
+            System.out.println("DEBUG: Todos los inventarios cargados exitosamente desde " + INVENTARIO_FILE_NAME);
+
+            // Asegura que los insumos por defecto estén presentes si por alguna razón el archivo
+            // cargado no los contenía (ej. primera versión del archivo sin insumos)
+            if (inventarioInsumos.isEmpty()) {
+                inicializarInsumosPorDefecto();
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("ERROR: Archivo de inventario no encontrado al cargar (debería ser cubierto por file.exists()): " + e.getMessage());
+            inicializarListasVaciasYInsumosDefecto();
+        } catch (IOException e) {
+            System.err.println("ERROR al leer el inventario completo: " + e.getMessage());
+            inicializarListasVaciasYInsumosDefecto();
+        } catch (ClassNotFoundException e) {
+            System.err.println("ERROR: No se encontró la clase del objeto al cargar el inventario (posible versión incompatible): " + e.getMessage());
+            inicializarListasVaciasYInsumosDefecto();
+        } catch (ClassCastException e) {
+            System.err.println("ERROR: Tipo de objeto inesperado en el archivo de inventario: " + e.getMessage());
+            inicializarListasVaciasYInsumosDefecto();
+        }
+    }
+
+    // Método auxiliar para inicializar listas en caso de error de carga
+    private void inicializarListasVaciasYInsumosDefecto() {
+        inventarioLotes = new LinkedList<>();
+        inventarioInsumos = new LinkedList<>();
+        inventarioProductos = new LinkedList<>();
+        inicializarInsumosPorDefecto();
     }
     
     
@@ -129,7 +184,7 @@ public class GestorInventario {
                          .append(lote.getCantKg()).append(" - ")
                          .append(lote.getEstado()).append("\n");
             }
-            resultado.append("\nTOTAL: "+totalLotes);
+            resultado.append("\nTOTAL: ").append(totalLotes);
         }
         return resultado.toString();
     }
@@ -286,6 +341,7 @@ public class GestorInventario {
         return "No se encontró ningún insumo con el código: " + codigoBuscado;
     }
     
+    
     /* PRODUCTOS FINALES */
 
     // Método para obtener solo los lotes listos para el envasado
@@ -378,14 +434,14 @@ public class GestorInventario {
     boolean productoExistente = false;
     for (ProductoFinal pf : inventarioProductos) {
         if (pf.getDescripcion().equals(tipoProducto) && pf.getIdLote().equals(idLote)) {
-            pf.setStock(pf.getStock() + cantidad);
+            pf.setStockActual(pf.getStockActual() + cantidad);
             productoExistente = true;
             break;
         }
     }
     if (!productoExistente) {
         // Usamos la descripción como SKU por simplicidad
-        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, tipoProducto, idLote, idLote, cantidad);
+        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, idLote,tipoProducto, 0.0, cantidad, 0);
         inventarioProductos.add(nuevoProducto);
     }
 
@@ -405,8 +461,8 @@ public class GestorInventario {
         for (ProductoFinal producto : inventarioProductos) {
             sb.append(producto.getDescripcion()).append(" - ")
               .append(producto.getIdLote()).append(" - ")
-              .append(producto.getStock()).append(" unidades\n");
-            totalGeneral += producto.getStock();
+              .append(producto.getStockActual()).append(" unidades\n");
+            totalGeneral += producto.getStockActual();
         }
 
         sb.append("\nTOTAL GENERAL DE UNIDADES: ").append(totalGeneral);
@@ -429,7 +485,7 @@ public class GestorInventario {
             if (producto.getDescripcion().toLowerCase().contains(criterioBusqueda)) {
                 resultados.append(producto.getDescripcion()).append(" - ")
                           .append(producto.getIdLote()).append(" - ")
-                          .append(producto.getStock()).append(" unidades\n");
+                          .append(producto.getStockActual()).append(" unidades\n");
                 encontrado = true;
             }
         }
@@ -446,7 +502,7 @@ public class GestorInventario {
     // Obtiene las descripciones de productos con stock para llenar el menú de venta
     public String[] getDescripcionesProductosParaVenta() {
         return inventarioProductos.stream()
-                .filter(p -> p.getStock() > 0)
+                .filter(p -> p.getStockActual() > 0)
                 .map(ProductoFinal::getDescripcion)
                 .toArray(String[]::new);
     }
@@ -486,13 +542,13 @@ public class GestorInventario {
         }
 
         // 2. Validar si hay stock suficiente
-        if (productoAVender.getStock() < cantidad) {
+        if (productoAVender.getStockActual() < cantidad) {
             return "Error: Stock insuficiente para realizar la venta.\n"
-                    + "Requerido: " + cantidad + ", Disponible: " + productoAVender.getStock();
+                    + "Requerido: " + cantidad + ", Disponible: " + productoAVender.getStockActual();
         }
 
         // 3. Si hay stock, realizar la venta
-        productoAVender.setStock(productoAVender.getStock() - cantidad);
+        productoAVender.setStockActual(productoAVender.getStockActual() - cantidad);
 
         // 4. Registrar la venta en el archivo de texto
         registrarMovimientoVenta(productoDesc, cantidad, comprador);

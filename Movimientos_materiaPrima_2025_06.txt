@@ -1,3 +1,0 @@
-2025-06-29 00:23:10, ENT_LOTE_MIEL, 290625MS, 300,00 KG, Origen: asdasd, Floración: Polifloral (S), Estado: En Reposo
-2025-06-29 20:00:45, ENT_LOTE_MIEL, 290625MN, 300,00 KG, Origen: jijijija, Floración: Naranjo, Estado: En Reposo
-2025-06-29 20:01:04, TRA_LOTE_MIEL, 290625MN, 300,00 KG, Origen: jijijija, Floración: Naranjo, Estado: Pasteurizada

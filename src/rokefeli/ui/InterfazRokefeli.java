@@ -1,5 +1,7 @@
 package rokefeli.ui;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import rokefeli.logic.GestorInventario;
 import rokefeli.model.LoteMielCosecha;
@@ -17,6 +19,14 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
         txtaResultadosInsumos.setText(gestor.mostrarInsumos());
         txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gestor.guardarInventario(); // Guarda todos los inventarios antes de cerrar
+                System.out.println("DEBUG: Aplicación cerrándose. Inventario completo guardado.");
+            }
+        });
     }
 
     /**

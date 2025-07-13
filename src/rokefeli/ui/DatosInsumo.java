@@ -57,8 +57,7 @@ public class DatosInsumo extends javax.swing.JDialog {
         jLabel1.setText("Insumo:");
         getContentPane().add(jLabel1);
 
-        // En DatosInsumo.java
-cbxInsumo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (plástico)", "Frasco 1kg (vidrio)", "Frasco 1/2kg (plástico)", "Frasco 1/2kg (vidrio)", "Bolsa 1kg", "Bolsa 1/2kg", "Precinto 1kg", "Precinto 1/2kg", "Etiqueta Frasco 1kg", "Etiqueta Frasco 1/2kg", "Etiqueta Bolsa 1kg", "Etiqueta Bolsa 1/2kg", "Tapa frasco 1kg (plástico)", "Tapa frasco 1kg (vidrio)", "Tapa frasco 1/2kg (plástico)", "Tapa frasco 1/2kg (vidrio)", " " }));
+        cbxInsumo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (plástico)", "Frasco 1kg (vidrio)", "Frasco 1/2kg (plástico)", "Frasco 1/2kg (vidrio)", "Bolsa 1kg", "Bolsa 1/2kg", "Precinto 1kg", "Precinto 1/2kg", "Etiqueta Frasco 1kg", "Etiqueta Frasco 1/2kg", "Etiqueta Bolsa 1kg", "Etiqueta Bolsa 1/2kg", "Tapa Frasco 1kg (plástico)", "Tapa Frasco 1kg (vidrio)", "Tapa Frasco 1/2kg (plástico)", "Tapa Frasco 1/2kg (vidrio)" }));
         getContentPane().add(cbxInsumo);
 
         jLabel2.setText("Cantidad:");

@@ -47,8 +47,11 @@ public class Insumo implements Serializable{
         this.stockMin = stockMin;
     }
 
+    // Métodos para ajustar el stock
     public void agregarStock(int cantidad) {
-        this.stockActual += cantidad;
+        if(cantidad > 0){
+            this.stockActual += cantidad;
+        }
     }
     
     public boolean retirarStock(int cantidad){
@@ -57,5 +60,15 @@ public class Insumo implements Serializable{
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public String toString() {
+        return "Insumo{" +
+               "codigo='" + codigo + '\'' +
+               ", descripcion='" + descripcion + '\'' +
+               ", stockActual=" + stockActual +
+               ", stockMin=" + stockMin +
+               '}';
     }
 }

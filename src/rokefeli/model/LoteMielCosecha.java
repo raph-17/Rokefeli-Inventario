@@ -68,6 +68,16 @@ public class LoteMielCosecha implements Serializable{
         this.estado = estado;
     }
     
-    
+    @Override
+    public String toString() {
+        return "LoteMielCosecha{" +
+               "idLote='" + idLote + '\'' +
+               ", floracion='" + floracion + '\'' +
+               ", origen='" + origen + '\'' +
+               ", fechaCompra=" + fechaCompra +
+               ", cantKg=" + cantKg +
+               ", estado='" + estado + '\'' +
+               '}';
+    }
     
 }
