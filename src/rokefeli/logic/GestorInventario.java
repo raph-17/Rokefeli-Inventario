@@ -266,26 +266,68 @@ public class GestorInventario {
     
     // Inicializar insumos por defecto
     public void inicializarInsumosPorDefecto() {
-        if (inventarioInsumos.isEmpty()) {
+        // Asegurarse de que cada insumo por defecto exista en la lista
+        // Solo se añadirán si no están ya presentes
+        if (buscarInsumoPorDescripcion("Frasco 1kg (plástico)") == null) {
             inventarioInsumos.add(new Insumo("FRA1KP", "Frasco 1kg (plástico)", 0, 50));
-            inventarioInsumos.add(new Insumo("FRA1KV", "Frasco 1kg (vidrio)", 0, 50));
-            inventarioInsumos.add(new Insumo("FRA05KP", "Frasco 1/2kg (plástico)", 0, 50));
-            inventarioInsumos.add(new Insumo("FRA05KV", "Frasco 1/2kg (vidrio)", 0, 50));
-            inventarioInsumos.add(new Insumo("BOL1K", "Bolsa 1kg", 0, 50));
-            inventarioInsumos.add(new Insumo("BOL05K", "Bolsa 1/2kg", 0, 50));
-            inventarioInsumos.add(new Insumo("PRE1K", "Precinto 1kg", 0, 100));
-            inventarioInsumos.add(new Insumo("PRE05K", "Precinto 1/2kg", 0, 100));
-            inventarioInsumos.add(new Insumo("ETI_FRA1K", "Etiqueta Frasco 1kg", 0, 300));
-            inventarioInsumos.add(new Insumo("ETI_FRA05K", "Etiqueta Frasco 1/2kg", 0, 300));
-            inventarioInsumos.add(new Insumo("ETI_BOL1K", "Etiqueta Bolsa 1kg", 0, 300));
-            inventarioInsumos.add(new Insumo("ETI_BOL05K", "Etiqueta Bolsa 1/2kg", 0, 300));
-            inventarioInsumos.add(new Insumo("TAPA1KP", "Tapa frasco 1kg (plástico)", 0, 50));
-            inventarioInsumos.add(new Insumo("TAPA1KV", "Tapa frasco 1kg (vidrio)", 0, 50));
-            inventarioInsumos.add(new Insumo("TAPA05KP", "Tapa frasco 1/2kg (plástico)", 0, 50));
-            inventarioInsumos.add(new Insumo("TAPA05KV", "Tapa frasco 1/2kg (vidrio)", 0, 50));
-
-            System.out.println("DEBUG: Insumos por defecto inicializados.");
         }
+        if (buscarInsumoPorDescripcion("Frasco 1kg (vidrio)") == null) {
+            inventarioInsumos.add(new Insumo("FRA1KV", "Frasco 1kg (vidrio)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Frasco 1/2kg (plástico)") == null) {
+            inventarioInsumos.add(new Insumo("FRA05KP", "Frasco 1/2kg (plástico)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Frasco 1/2kg (vidrio)") == null) {
+            inventarioInsumos.add(new Insumo("FRA05KV", "Frasco 1/2kg (vidrio)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Bolsa 1kg") == null) {
+            inventarioInsumos.add(new Insumo("BOL1K", "Bolsa 1kg", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Bolsa 1/2kg") == null) {
+            inventarioInsumos.add(new Insumo("BOL05K", "Bolsa 1/2kg", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Precinto 1kg") == null) {
+            inventarioInsumos.add(new Insumo("PRE1K", "Precinto 1kg", 0, 100));
+        }
+        if (buscarInsumoPorDescripcion("Precinto 1/2kg") == null) {
+            inventarioInsumos.add(new Insumo("PRE05K", "Precinto 1/2kg", 0, 100));
+        }
+        if (buscarInsumoPorDescripcion("Etiqueta Frasco 1kg") == null) {
+            inventarioInsumos.add(new Insumo("ETI_FRA1K", "Etiqueta Frasco 1kg", 0, 300));
+        }
+        if (buscarInsumoPorDescripcion("Etiqueta Frasco 1/2kg") == null) {
+            inventarioInsumos.add(new Insumo("ETI_FRA05K", "Etiqueta Frasco 1/2kg", 0, 300));
+        }
+        if (buscarInsumoPorDescripcion("Etiqueta Bolsa 1kg") == null) {
+            inventarioInsumos.add(new Insumo("ETI_BOL1K", "Etiqueta Bolsa 1kg", 0, 300));
+        }
+        if (buscarInsumoPorDescripcion("Etiqueta Bolsa 1/2kg") == null) {
+            inventarioInsumos.add(new Insumo("ETI_BOL05K", "Etiqueta Bolsa 1/2kg", 0, 300));
+        }
+        if (buscarInsumoPorDescripcion("Tapa Frasco 1kg (plástico)") == null) {
+            inventarioInsumos.add(new Insumo("TAPA1KP", "Tapa Frasco 1kg (plástico)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Tapa Frasco 1kg (vidrio)") == null) {
+            inventarioInsumos.add(new Insumo("TAPA1KV", "Tapa Frasco 1kg (vidrio)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Tapa Frasco 1/2kg (plástico)") == null) {
+            inventarioInsumos.add(new Insumo("TAPA05KP", "Tapa Frasco 1/2kg (plástico)", 0, 50));
+        }
+        if (buscarInsumoPorDescripcion("Tapa Frasco 1/2kg (vidrio)") == null) {
+            inventarioInsumos.add(new Insumo("TAPA05KV", "Tapa Frasco 1/2kg (vidrio)", 0, 50));
+        }
+
+        System.out.println("DEBUG: Insumos por defecto inicializados/verificados.");
+    }
+
+    // Asegúrese de que este método también esté en su clase GestorInventario.java
+    public Insumo buscarInsumoPorDescripcion(String descripcion) {
+        for (Insumo insumo : inventarioInsumos) {
+            if (insumo.getDescripcion().equals(descripcion)) {
+                return insumo;
+            }
+        }
+        return null;
     }
 
     // Añadir stock a insumo
@@ -368,30 +410,37 @@ public class GestorInventario {
 
     // 2. Definir los insumos y la cantidad de miel necesaria
     double mielRequeridaKg = 0;
+    double precioVenta = 0;
     String[] codigosInsumosRequeridos;
 
     switch (tipoProducto) {
         case "Frasco 1kg (vidrio)":
+            precioVenta = 25.50;
             mielRequeridaKg = 1.0 * cantidad;
             codigosInsumosRequeridos = new String[]{"FRA1KV", "TAPA1KV", "ETI_FRA1K", "PRE1K"};
             break;
         case "Frasco 1/2kg (vidrio)":
+            precioVenta = 15.40;
             mielRequeridaKg = 0.5 * cantidad;
             codigosInsumosRequeridos = new String[]{"FRA05KV", "TAPA05KV", "ETI_FRA05K", "PRE05K"};
             break;
         case "Frasco 1kg (plástico)":
+            precioVenta = 25.50;
             mielRequeridaKg = 1.0 * cantidad;
             codigosInsumosRequeridos = new String[]{"FRA1KP", "TAPA1KP", "ETI_FRA1K", "PRE1K"};
             break;
         case "Frasco 1/2kg (plástico)":
+            precioVenta = 15.40;
             mielRequeridaKg = 0.5 * cantidad;
             codigosInsumosRequeridos = new String[]{"FRA05KP", "TAPA05KP", "ETI_FRA05K", "PRE05K"};
             break;
         case "Bolsa 1kg":
+            precioVenta = 23.00;
             mielRequeridaKg = 1.0 * cantidad;
             codigosInsumosRequeridos = new String[]{"BOL1K", "ETI_BOL1K"};
             break;
         case "Bolsa 1/2kg":
+            precioVenta = 13.30;
             mielRequeridaKg = 0.5 * cantidad;
             codigosInsumosRequeridos = new String[]{"BOL05K", "ETI_BOL05K"};
             break;
@@ -441,7 +490,7 @@ public class GestorInventario {
     }
     if (!productoExistente) {
         // Usamos la descripción como SKU por simplicidad
-        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, idLote,tipoProducto, 0.0, cantidad, 0);
+        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, idLote,tipoProducto, precioVenta, cantidad, 0);
         inventarioProductos.add(nuevoProducto);
     }
 
@@ -455,12 +504,13 @@ public class GestorInventario {
         }
 
         StringBuilder sb = new StringBuilder("INVENTARIO DE PRODUCTOS FINALES:\n");
-        sb.append("SKU/DESCRIPCIÓN - LOTE DE ORIGEN - STOCK ACTUAL\n");
+        sb.append("SKU/DESCRIPCIÓN - LOTE DE ORIGEN - PRECIO DE VENTA - STOCK ACTUAL\n");
         
         int totalGeneral = 0;
         for (ProductoFinal producto : inventarioProductos) {
             sb.append(producto.getDescripcion()).append(" - ")
               .append(producto.getIdLote()).append(" - ")
+              .append(producto.getPrecioVenta()).append(" - ")
               .append(producto.getStockActual()).append(" unidades\n");
             totalGeneral += producto.getStockActual();
         }

@@ -111,6 +111,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        txtaResultadosMateriaPrima.setEditable(false);
         txtaResultadosMateriaPrima.setColumns(20);
         txtaResultadosMateriaPrima.setRows(5);
         jScrollPane4.setViewportView(txtaResultadosMateriaPrima);
@@ -172,6 +173,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        txtaResultadosInsumos.setEditable(false);
         txtaResultadosInsumos.setColumns(20);
         txtaResultadosInsumos.setRows(5);
         jScrollPane3.setViewportView(txtaResultadosInsumos);
@@ -237,6 +239,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        txtaResultadosProductosFinales.setEditable(false);
         txtaResultadosProductosFinales.setColumns(20);
         txtaResultadosProductosFinales.setRows(5);
         jScrollPane2.setViewportView(txtaResultadosProductosFinales);
@@ -331,6 +334,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        txtaResultadosRegistros.setEditable(false);
         txtaResultadosRegistros.setColumns(20);
         txtaResultadosRegistros.setRows(5);
         jScrollPane1.setViewportView(txtaResultadosRegistros);
