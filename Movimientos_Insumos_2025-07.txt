@@ -1,0 +1,8 @@
+2025-07-14 18:43:05 | Tipo: ENTRADA | Insumo: Frasco 1kg (plástico) | Cantidad: 300
+2025-07-14 18:43:10 | Tipo: ENTRADA | Insumo: Precinto 1kg | Cantidad: 300
+2025-07-14 18:43:17 | Tipo: ENTRADA | Insumo: Etiqueta Frasco 1kg | Cantidad: 300
+2025-07-14 18:43:22 | Tipo: ENTRADA | Insumo: Tapa Frasco 1kg (plástico) | Cantidad: 300
+2025-07-14 18:43:46 | Tipo: SALIDA | Insumo: Frasco 1kg (plástico) | Cantidad: 300
+2025-07-14 18:43:46 | Tipo: SALIDA | Insumo: Tapa Frasco 1kg (plástico) | Cantidad: 300
+2025-07-14 18:43:46 | Tipo: SALIDA | Insumo: Etiqueta Frasco 1kg | Cantidad: 300
+2025-07-14 18:43:46 | Tipo: SALIDA | Insumo: Precinto 1kg | Cantidad: 300

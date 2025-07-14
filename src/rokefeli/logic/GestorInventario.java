@@ -1,6 +1,7 @@
 package rokefeli.logic;
 
 // Manejo de archivos
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -10,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 // Interfaces de Ususario
@@ -126,10 +128,10 @@ public class GestorInventario {
     }
     
     // Obtener nombre para el archivo de teto en el que se hará el registro
-    private String getNombreRegistroMateriaPrima(){
+    public String getNombreRegistroMateriaPrima(){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
         String mesAnio = fechaActualRegistro.format(formato);
-        return "Movimientos_materiaPrima_" + mesAnio + ".txt";
+        return "Movimientos_Materia_Prima_" + mesAnio + ".txt";
     }
     
     // Escribir registro de materia prima en txt
@@ -331,19 +333,36 @@ public class GestorInventario {
     }
 
     // Añadir stock a insumo
-    public void ingresarStockInsumo(InterfazRokefeli interfaz){
-        DatosInsumo dialog = new DatosInsumo(interfaz);
-        dialog.setVisible(true);
-        int cantidad = dialog.getCantidad();
-        String tipoInsumo = dialog.getTipoInsumo();
-        
-        for (Insumo insumo : inventarioInsumos){
-            if(insumo.getDescripcion().equals(tipoInsumo)){
-                insumo.agregarStock(cantidad);
-            }
+    public String añadirStockInsumo(String descripcionInsumo, int cantidad) {
+        if (cantidad <= 0) {
+            return "La cantidad a añadir debe ser positiva.";
+        }
+
+        Insumo insumo = buscarInsumoPorDescripcion(descripcionInsumo);
+        if (insumo != null) {
+            insumo.agregarStock(cantidad); // Llama al método agregarStock de la clase Insumo
+            registrarMovimientoInsumo("ENTRADA", descripcionInsumo, cantidad);
+            return "Se añadieron " + cantidad + " unidades a '" + descripcionInsumo + "'. Nuevo stock: " + insumo.getStockActual();
+        } else {
+            return "Insumo '" + descripcionInsumo + "' no encontrado.";
         }
     }
     
+    // Retirar stock de insumo
+    public String retirarStockInsumo(String codigo, int cantidad) {
+        for (Insumo insumo : inventarioInsumos) {
+            if (insumo.getCodigo().equals(codigo)) {
+                if (insumo.retirarStock(cantidad)) {
+                    registrarMovimientoInsumo("SALIDA", insumo.getDescripcion(), cantidad);
+                    return "Stock de " + insumo.getDescripcion() + " actualizado. Nuevo stock: " + insumo.getStockActual();
+                } else {
+                    return "Error: Stock insuficiente para " + insumo.getDescripcion() + ". Stock actual: " + insumo.getStockActual();
+                }
+            }
+        }
+        return "Error: Insumo con código " + codigo + " no encontrado.";
+    }
+
     // Mostrar totales de insumos
     public String mostrarInsumos() {
         if (inventarioInsumos.isEmpty()) {
@@ -383,6 +402,38 @@ public class GestorInventario {
         return "No se encontró ningún insumo con el código: " + codigoBuscado;
     }
     
+    // Crear nombre de archivo para registro
+    public String getNombreArchivoRegistroInsumos() {
+        LocalDate hoy = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        return "Movimientos_Insumos_" + hoy.format(formatter) + ".txt";
+    }
+    
+    // Registrar movimientos insumos en txt
+    public void registrarMovimientoInsumo(String tipoMovimiento, String descripcionInsumo, int cantidad) {
+        String nombreArchivo = getNombreArchivoRegistroInsumos();
+        
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(nombreArchivo, true), StandardCharsets.UTF_8))) {
+            
+            LocalDateTime ahora = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String fechaHoraFormateada = ahora.format(formatter);
+
+            String entradaRegistro = String.format("%s | Tipo: %s | Insumo: %s | Cantidad: %d",
+                                                    fechaHoraFormateada,
+                                                    tipoMovimiento, // "ENTRADA" o "SALIDA"
+                                                    descripcionInsumo,
+                                                    cantidad);
+            
+            pw.println(entradaRegistro);
+            System.out.println("DEBUG: Movimiento de insumo registrado en: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("ERROR al escribir en el archivo de movimientos de insumos (" + nombreArchivo + "): " + e.getMessage());
+        }
+    }
+
+    
     
     /* PRODUCTOS FINALES */
 
@@ -396,106 +447,126 @@ public class GestorInventario {
 
     // Método principal para crear el producto final
     public String crearProductoFinal(String idLote, String tipoProducto, int cantidad) {
-    // 1. Encontrar el lote de miel
-    LoteMielCosecha loteSeleccionado = null;
-    for (LoteMielCosecha lote : inventarioLotes) {
-        if (lote.getIdLote().equals(idLote)) {
-            loteSeleccionado = lote;
-            break;
+        // 1. Encontrar el lote de miel
+        LoteMielCosecha loteSeleccionado = null;
+        for (LoteMielCosecha lote : inventarioLotes) {
+            if (lote.getIdLote().equals(idLote)) {
+                loteSeleccionado = lote;
+                break;
+            }
         }
-    }
-    if (loteSeleccionado == null) {
-        return "Error: Lote de miel no encontrado.";
-    }
+        if (loteSeleccionado == null) {
+            return "Error: Lote de miel no encontrado.";
+        }
 
-    // 2. Definir los insumos y la cantidad de miel necesaria
-    double mielRequeridaKg = 0;
-    double precioVenta = 0;
-    String[] codigosInsumosRequeridos;
+        // 2. Definir los insumos y la cantidad de miel necesaria
+        double mielRequeridaKg = 0;
+        double precioVenta = 0;
+        String[] codigosInsumosRequeridos;
 
-    switch (tipoProducto) {
-        case "Frasco 1kg (vidrio)":
-            precioVenta = 25.50;
-            mielRequeridaKg = 1.0 * cantidad;
-            codigosInsumosRequeridos = new String[]{"FRA1KV", "TAPA1KV", "ETI_FRA1K", "PRE1K"};
-            break;
-        case "Frasco 1/2kg (vidrio)":
-            precioVenta = 15.40;
-            mielRequeridaKg = 0.5 * cantidad;
-            codigosInsumosRequeridos = new String[]{"FRA05KV", "TAPA05KV", "ETI_FRA05K", "PRE05K"};
-            break;
-        case "Frasco 1kg (plástico)":
-            precioVenta = 25.50;
-            mielRequeridaKg = 1.0 * cantidad;
-            codigosInsumosRequeridos = new String[]{"FRA1KP", "TAPA1KP", "ETI_FRA1K", "PRE1K"};
-            break;
-        case "Frasco 1/2kg (plástico)":
-            precioVenta = 15.40;
-            mielRequeridaKg = 0.5 * cantidad;
-            codigosInsumosRequeridos = new String[]{"FRA05KP", "TAPA05KP", "ETI_FRA05K", "PRE05K"};
-            break;
-        case "Bolsa 1kg":
-            precioVenta = 23.00;
-            mielRequeridaKg = 1.0 * cantidad;
-            codigosInsumosRequeridos = new String[]{"BOL1K", "ETI_BOL1K"};
-            break;
-        case "Bolsa 1/2kg":
-            precioVenta = 13.30;
-            mielRequeridaKg = 0.5 * cantidad;
-            codigosInsumosRequeridos = new String[]{"BOL05K", "ETI_BOL05K"};
-            break;
-        default:
-            return "Error: Tipo de producto no reconocido.";
-    }
+        switch (tipoProducto) {
+            case "Frasco 1kg (vidrio)":
+                precioVenta = 25.50;
+                mielRequeridaKg = 1.0 * cantidad;
+                codigosInsumosRequeridos = new String[]{"FRA1KV", "TAPA1KV", "ETI_FRA1K", "PRE1K"};
+                break;
+            case "Frasco 1/2kg (vidrio)":
+                precioVenta = 15.40;
+                mielRequeridaKg = 0.5 * cantidad;
+                codigosInsumosRequeridos = new String[]{"FRA05KV", "TAPA05KV", "ETI_FRA05K", "PRE05K"};
+                break;
+            case "Frasco 1kg (plástico)":
+                precioVenta = 25.50;
+                mielRequeridaKg = 1.0 * cantidad;
+                codigosInsumosRequeridos = new String[]{"FRA1KP", "TAPA1KP", "ETI_FRA1K", "PRE1K"};
+                break;
+            case "Frasco 1/2kg (plástico)":
+                precioVenta = 15.40;
+                mielRequeridaKg = 0.5 * cantidad;
+                codigosInsumosRequeridos = new String[]{"FRA05KP", "TAPA05KP", "ETI_FRA05K", "PRE05K"};
+                break;
+            case "Bolsa 1kg":
+                precioVenta = 23.00;
+                mielRequeridaKg = 1.0 * cantidad;
+                codigosInsumosRequeridos = new String[]{"BOL1K", "ETI_BOL1K"};
+                break;
+            case "Bolsa 1/2kg":
+                precioVenta = 13.30;
+                mielRequeridaKg = 0.5 * cantidad;
+                codigosInsumosRequeridos = new String[]{"BOL05K", "ETI_BOL05K"};
+                break;
+            default:
+                return "Error: Tipo de producto no reconocido.";
+        }
 
-    // 3. Validar si hay suficiente miel y stock de insumos
-    if (loteSeleccionado.getCantKg() < mielRequeridaKg) {
-        return "Error: No hay suficiente miel en el lote. Requerido: " + mielRequeridaKg + "kg, Disponible: " + loteSeleccionado.getCantKg() + "kg.";
-    }
-    for (String codigoInsumo : codigosInsumosRequeridos) {
-        boolean insumoEncontrado = false;
-        for (Insumo insumo : inventarioInsumos) {
-            if (insumo.getCodigo().equals(codigoInsumo)) {
-                insumoEncontrado = true;
-                if (insumo.getStockActual() < cantidad) {
-                    return "Error: Stock insuficiente para el insumo '" + insumo.getDescripcion() + "'. Requerido: " + cantidad + ", Disponible: " + insumo.getStockActual() + ".";
+        // 3. Validar si hay suficiente miel y stock de insumos
+        if (loteSeleccionado.getCantKg() < mielRequeridaKg) {
+            return "Error: No hay suficiente miel en el lote. Requerido: " + mielRequeridaKg + "kg, Disponible: " + loteSeleccionado.getCantKg() + "kg.";
+        }
+        for (String codigoInsumo : codigosInsumosRequeridos) {
+            boolean insumoEncontrado = false;
+            for (Insumo insumo : inventarioInsumos) {
+                if (insumo.getCodigo().equals(codigoInsumo)) {
+                    insumoEncontrado = true;
+                    if (insumo.getStockActual() < cantidad) {
+                        return "Error: Stock insuficiente para el insumo '" + insumo.getDescripcion() + "'. Requerido: " + cantidad + ", Disponible: " + insumo.getStockActual() + ".";
+                    }
+                    break;
                 }
+            }
+            if (!insumoEncontrado) {
+                return "Error: El insumo con código '" + codigoInsumo + "' no fue encontrado en el inventario de insumos.";
+            }
+        }
+
+        // 4. Si todo es correcto, descontar la miel y los insumos
+        loteSeleccionado.setCantKg(loteSeleccionado.getCantKg() - mielRequeridaKg);
+        for (String codigoInsumo : codigosInsumosRequeridos) {
+            for (Insumo insumo : inventarioInsumos) {
+                if (insumo.getCodigo().equals(codigoInsumo)) {
+                    insumo.retirarStock(cantidad);
+                    registrarMovimientoInsumo("SALIDA", insumo.getDescripcion(), cantidad);
+                    break;
+                }
+            }
+        }
+
+        // 5. Crear o actualizar el producto final en el inventario
+        boolean productoExistente = false;
+        for (ProductoFinal pf : inventarioProductos) {
+            if (pf.getDescripcion().equals(tipoProducto) && pf.getIdLote().equals(idLote)) {
+                pf.setStockActual(pf.getStockActual() + cantidad);
+                productoExistente = true;
                 break;
             }
         }
-        if (!insumoEncontrado) {
-            return "Error: El insumo con código '" + codigoInsumo + "' no fue encontrado en el inventario de insumos.";
+        if (!productoExistente) {
+            // Usamos la descripción como SKU por simplicidad
+            ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, idLote,tipoProducto, precioVenta, cantidad, 0);
+            inventarioProductos.add(nuevoProducto);
         }
-    }
 
-    // 4. Si todo es correcto, descontar la miel y los insumos
-    loteSeleccionado.setCantKg(loteSeleccionado.getCantKg() - mielRequeridaKg);
-    for (String codigoInsumo : codigosInsumosRequeridos) {
-        for (Insumo insumo : inventarioInsumos) {
-            if (insumo.getCodigo().equals(codigoInsumo)) {
-                insumo.retirarStock(cantidad);
-                break;
+        // Obtener la descripción y SKU del producto recién creado para el registro
+        ProductoFinal productoCreado = buscarProductoFinalPorLoteYTipo(idLote, tipoProducto); // Asumiendo que tienes un método para buscarlo
+        if (productoCreado != null) {
+            registrarMovimientoProductoFinal("CREACION", productoCreado.getDescripcion(), cantidad, productoCreado.getSku(), idLote);
+        }
+
+        return "¡Éxito! Se han creado " + cantidad + " unidades de '" + tipoProducto + "'.";
+    }
+    
+    // Buscar por idLote y tipo
+    public ProductoFinal buscarProductoFinalPorLoteYTipo(String idLote, String descripcion) {
+        for (ProductoFinal pf : inventarioProductos) {
+            // Se asume que 'descripcion' del ProductoFinal es lo que se usa como 'tipoProducto'
+            // al crear/identificarlo, y que idLote del ProductoFinal corresponde a idLote de la miel.
+            if (pf.getIdLote() != null && pf.getIdLote().equals(idLote) &&
+                pf.getDescripcion() != null && pf.getDescripcion().equals(descripcion)) {
+                return pf;
             }
         }
+        return null; // Si no se encuentra ningún ProductoFinal que coincida
     }
-
-    // 5. Crear o actualizar el producto final en el inventario
-    boolean productoExistente = false;
-    for (ProductoFinal pf : inventarioProductos) {
-        if (pf.getDescripcion().equals(tipoProducto) && pf.getIdLote().equals(idLote)) {
-            pf.setStockActual(pf.getStockActual() + cantidad);
-            productoExistente = true;
-            break;
-        }
-    }
-    if (!productoExistente) {
-        // Usamos la descripción como SKU por simplicidad
-        ProductoFinal nuevoProducto = new ProductoFinal(tipoProducto, idLote,tipoProducto, precioVenta, cantidad, 0);
-        inventarioProductos.add(nuevoProducto);
-    }
-
-    return "¡Éxito! Se han creado " + cantidad + " unidades de '" + tipoProducto + "'.";
-}
     
     // Método para mostrar los productos finales en la interfaz
     public String mostrarProductosFinales() {
@@ -546,6 +617,45 @@ public class GestorInventario {
         }
         
         return resultados.toString();
+    }
+    
+    // Crear archivo txt para registro pf
+    public String getNombreArchivoRegistroProductosFinales() {
+        LocalDate hoy = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        return "Movimientos_Productos_Finales_" + hoy.format(formatter) + ".txt";
+    }
+    
+    // Método para guardar los Productos Finales en un archivo de texto
+    public void registrarMovimientoProductoFinal(String tipoMovimiento, String descripcionProducto, int cantidad, String skuProducto, String idLoteAsociado) {
+        String nombreArchivo = getNombreArchivoRegistroProductosFinales(); // Obtiene el nombre del archivo con un método
+
+        try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(nombreArchivo, true), StandardCharsets.UTF_8))) {
+            
+            LocalDateTime ahora = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String fechaHoraFormateada = ahora.format(formatter);
+
+            // Construye la entrada del registro, incluyendo SKU e ID de Lote si están disponibles
+            StringBuilder entradaRegistro = new StringBuilder();
+            entradaRegistro.append(String.format("%s | Tipo: %s | Producto: %s | Cantidad: %d",
+                                                    fechaHoraFormateada,
+                                                    tipoMovimiento,
+                                                    descripcionProducto,
+                                                    cantidad));
+            if (skuProducto != null && !skuProducto.isEmpty()) {
+                entradaRegistro.append(" | SKU: ").append(skuProducto);
+            }
+            if (idLoteAsociado != null && !idLoteAsociado.isEmpty()) {
+                entradaRegistro.append(" | Lote: ").append(idLoteAsociado);
+            }
+            
+            pw.println(entradaRegistro.toString());
+            System.out.println("DEBUG: Movimiento de producto final registrado en: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("ERROR al escribir en el archivo de movimientos de productos finales (" + nombreArchivo + "): " + e.getMessage());
+        }
     }
     
     
@@ -605,11 +715,71 @@ public class GestorInventario {
         // 4. Registrar la venta en el archivo de texto
         registrarMovimientoVenta(productoDesc, cantidad, comprador);
         
+        // 5. Registrar salida de producto final
+        registrarMovimientoProductoFinal("VENTA", productoDesc, cantidad, productoAVender.getSku(), productoAVender.getIdLote());
+        
         return "¡Venta exitosa! Se vendieron " + cantidad + " unidades a " + comprador + ".";
     }
     
     /* PESTAÑA REGISTRO*/
     
+    public String filtrarRegistros(String nombreArchivo, String textoBusqueda, LocalDate fechaDesde, LocalDate fechaHasta) {
+        StringBuilder resultadoFiltrado = new StringBuilder();
+        File archivo = new File(nombreArchivo); // Crea un objeto File para verificar la existencia
+
+        if (!archivo.exists()) {
+            return "El archivo de registros ('" + nombreArchivo + "') no existe aún o no se pudo encontrar.";
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(nombreArchivo), StandardCharsets.UTF_8))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Normalizar texto de búsqueda para comparación
+                String textoBusquedaLower = (textoBusqueda != null) ? textoBusqueda.toLowerCase() : null;
+                boolean pasaFiltro = true;
+
+                // Filtro por palabra clave
+                if (pasaFiltro && textoBusquedaLower != null) {
+                    if (!linea.toLowerCase().contains(textoBusquedaLower)) {
+                        pasaFiltro = false;
+                    }
+                }
+
+                // Filtro por fecha (asumiendo que la fecha está al inicio de la línea en formato YYYY-MM-DD)
+                if (pasaFiltro && (fechaDesde != null || fechaHasta != null)) {
+                    try {
+                        // Extraemos 'AAAA-MM-DD' de la línea (los primeros 10 caracteres)
+                        String fechaDeLineaStr = linea.substring(0, 10); 
+                        LocalDate fechaDeLinea = LocalDate.parse(fechaDeLineaStr);
+
+                        if (fechaDesde != null && fechaDeLinea.isBefore(fechaDesde)) {
+                            pasaFiltro = false;
+                        }
+                        if (fechaHasta != null && fechaDeLinea.isAfter(fechaHasta)) {
+                            pasaFiltro = false;
+                        }
+                    } catch (Exception e) {
+                        // Si la línea no tiene un formato de fecha válido o no se puede parsear,
+                        // no pasa el filtro de fecha.
+                        pasaFiltro = false;
+                    }
+                }
+
+                // Si la línea pasó todos los filtros, la añadimos al resultado
+                if (pasaFiltro) {
+                    resultadoFiltrado.append(linea).append("\n");
+                }
+            }
+        } catch (IOException e) {
+            return "Error al leer el archivo de registros ('" + nombreArchivo + "'): " + e.getMessage();
+        }
+
+        if (resultadoFiltrado.length() == 0) {
+            return "No se encontraron registros que coincidan con los filtros aplicados en '" + nombreArchivo + "'.";
+        }
+        return resultadoFiltrado.toString();
+    }
+
     // Método para leer y devolver el contenido de un archivo de registro
     public String getContenidoRegistro(String tipoRegistro) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");

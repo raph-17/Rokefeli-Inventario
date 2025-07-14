@@ -2,6 +2,8 @@ package rokefeli.ui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 import rokefeli.logic.GestorInventario;
 import rokefeli.model.LoteMielCosecha;
@@ -35,6 +37,19 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         });
     }
 
+    // Método auxiliar para parsear fechas de los JTextField
+    private LocalDate parseDate(String dateStr, String fieldName) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(dateStr.trim());
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha '" + fieldName + "' inválido (AAAA-MM-DD).", "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -471,7 +486,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 // Llamar al método del GestorInventario para crear el producto final
                 String resultado = gestor.crearProductoFinal(idLoteSeleccionado, tipoProducto, cantidadEnvases);
                 JOptionPane.showMessageDialog(this, resultado, "Producto Final Creado", JOptionPane.INFORMATION_MESSAGE);
-
+                
                 // Opcional: Actualizar la vista de productos finales en la InterfazRokefeli
                 txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
 
@@ -532,8 +547,31 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
 
     private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed
-        gestor.ingresarStockInsumo(this);
-        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+        DatosInsumo dialog = new DatosInsumo(this); // 'this' se refiere a la instancia de InterfazRokefeli
+        dialog.setVisible(true);
+
+        if (dialog.getTipoInsumo() != null && dialog.getCantidad() > 0) {
+            String tipoInsumo = dialog.getTipoInsumo(); // Obtiene la descripción del insumo (ej. "Miel de Huarango")
+            int cantidad = dialog.getCantidad(); // Obtiene la cantidad a ingresar/retirar
+
+            // Aquí debes decidir si es una entrada o una salida.
+            // Si el diálogo 'DatosInsumo' solo maneja ENTRADAS, o si tienes otro diálogo para SALIDAS.
+            // Asumiendo que 'DatosInsumo' es para entradas:
+            String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
+            JOptionPane.showMessageDialog(this, mensaje);
+
+            // O si DatosInsumo es general y puede indicar el tipo de operación:
+            // if (dialog.esEntrada()) {
+            //     String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
+            //     JOptionPane.showMessageDialog(this, mensaje);
+            // } else if (dialog.esSalida()) {
+            //     String mensaje = gestor.retirarStockInsumo(tipoInsumo, cantidad);
+            //     JOptionPane.showMessageDialog(this, mensaje);
+            // }
+
+            // Actualiza la visualización de los insumos en tu interfaz
+            txtaResultadosInsumos.setText(gestor.mostrarInsumos()); 
+        }
     }//GEN-LAST:event_btnIngresarInsumoActionPerformed
 
     private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
@@ -611,18 +649,57 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
 
     private void btnRegistroMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroMateriaPrimaActionPerformed
-        ultimoRegistroCargado = "Materia Prima";
-        btnLimpiarFiltrosActionPerformed(null);
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
+            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+            
+            String registros = gestor.filtrarRegistros(
+                gestor.getNombreRegistroMateriaPrima(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                textoBusqueda.isEmpty() ? null : textoBusqueda,
+                fechaInicio,
+                fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
     }//GEN-LAST:event_btnRegistroMateriaPrimaActionPerformed
 
     private void btnRegistroInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroInsumosActionPerformed
-        ultimoRegistroCargado = "Insumos";
-        btnLimpiarFiltrosActionPerformed(null);
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
+            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+            
+            String registros = gestor.filtrarRegistros(
+                gestor.getNombreArchivoRegistroInsumos(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                textoBusqueda.isEmpty() ? null : textoBusqueda,
+                fechaInicio,
+                fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
     }//GEN-LAST:event_btnRegistroInsumosActionPerformed
 
     private void btnRegistroProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroProductosFinalesActionPerformed
-        ultimoRegistroCargado = "Productos Finales";
-        btnLimpiarFiltrosActionPerformed(null);
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
+            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+            
+            String registros = gestor.filtrarRegistros(
+                gestor.getNombreArchivoRegistroProductosFinales(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                textoBusqueda.isEmpty() ? null : textoBusqueda,
+                fechaInicio,
+                fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
     }//GEN-LAST:event_btnRegistroProductosFinalesActionPerformed
 
     private void btnRegistroVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroVentasActionPerformed

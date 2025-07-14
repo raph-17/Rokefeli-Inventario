@@ -1,0 +1,2 @@
+2025-07-14 18:43:46 | Tipo: CREACION | Producto: Frasco 1kg (plástico) | Cantidad: 300 | SKU: Frasco 1kg (plástico) | Lote: 140725MH
+2025-07-14 18:44:10 | Tipo: VENTA | Producto: Frasco 1kg (plástico) | Cantidad: 300 | SKU: Frasco 1kg (plástico) | Lote: 140725MH
