@@ -1,95 +1,52 @@
 package rokefeli.ui;
 
-import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import rokefeli.logic.GestorInventario;
 
-public class DatosVenta extends JDialog {
+public class DatosVenta extends javax.swing.JDialog {
 
-    private JComboBox<String> cbxProductos;
-    private JTextField txtCantidad;
-    private JTextField txtComprador;
     private boolean confirmado = false;
-
-    public DatosVenta(Frame parent, String[] productosDisponibles) {
+    
+    /**
+     * Creates new form DatosVenta
+     */
+    public DatosVenta(java.awt.Frame parent, String[] productosDisponibles) {
         super(parent, "Registrar Venta", true);
+        // 1. ¡¡¡LLAMAR A initComponents() PRIMERO!!! Esto es CRÍTICO para que cbxProductos no sea null.
+        initComponents(); 
 
+        // 2. Primero, verificamos si hay productos. Si no hay, mostramos el mensaje y cerramos el diálogo.
         if (productosDisponibles == null || productosDisponibles.length == 0) {
-            JOptionPane.showMessageDialog(parent, "No hay productos con stock disponibles para la venta.", "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            JOptionPane.showMessageDialog(parent,
+                    "No hay productos con stock disponibles para la venta.",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Cierra el diálogo si no hay productos
+            return; // Salir del constructor
+        }
+        
+        // 3. Si hay productos, poblar el JComboBox utilizando su MODELO.
+        // ¡¡¡NO HAGAS 'cbxProductos = new JComboBox<>(productosDisponibles);' aquí de nuevo!!!
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(productosDisponibles);
+        cbxProductos.setModel(model); // <--- ESTA ES LA LÍNEA CORRECTA PARA POBLAR EL JCOMBOBOX EXISTENTE
+        
+        // Configurar la fecha actual y hacerla no editable
+        txtFecha.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        txtFecha.setEditable(false);
+
+        // Puedes configurar el primer elemento seleccionado si lo deseas
+        if (productosDisponibles.length > 0) {
+            cbxProductos.setSelectedIndex(0);
         }
 
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
-
-        // Fila 1: Producto
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(new JLabel("Producto a Vender:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        cbxProductos = new JComboBox<>(productosDisponibles);
-        add(cbxProductos, gbc);
-
-        // Fila 2: Cantidad
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        add(new JLabel("Cantidad:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        txtCantidad = new JTextField();
-        add(txtCantidad, gbc);
-        
-        // Fila 3: Comprador
-        gbc.gridy = 2;
-        gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        add(new JLabel("Nombre del Comprador:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        txtComprador = new JTextField();
-        add(txtComprador, gbc);
-
-        // Fila 4: Fecha
-        gbc.gridy = 3;
-        gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        add(new JLabel("Fecha de Venta:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        JTextField txtFecha = new JTextField(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        txtFecha.setEditable(false);
-        add(txtFecha, gbc);
-
-        // Fila 5: Botones
-        gbc.gridy = 4;
-        gbc.gridx = 0;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton btnVender = new JButton("Vender");
-        btnVender.addActionListener(e -> {
-            if (validarCampos()) {
-                confirmado = true;
-                dispose();
-            }
-        });
-        panelBotones.add(btnVender);
-
-        JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(e -> dispose());
-        panelBotones.add(btnCancelar);
-        add(panelBotones, gbc);
-
-        pack();
+        // Configuración de tamaño, posición, y operación de cierre
+        // Estos valores de tamaño y ubicación deben coincidir con tu diseñador
+        // setSize(600, 250); // Puedes ajustar esto si usas GridBagLayout manualmente
+        pack(); // Ajusta el tamaño de la ventana a sus componentes
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
@@ -111,10 +68,138 @@ public class DatosVenta extends JDialog {
         }
         return true;
     }
-
+    
     // Getters para que la interfaz principal pueda recuperar los datos
     public boolean isConfirmado() { return confirmado; }
     public String getProductoSeleccionado() { return (String) cbxProductos.getSelectedItem(); }
     public int getCantidad() { return Integer.parseInt(txtCantidad.getText().trim()); }
     public String getComprador() { return txtComprador.getText().trim(); }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        cbxProductos = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtComprador = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtFecha = new javax.swing.JTextField();
+        btnVender = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(5, 2));
+
+        jLabel1.setText("Prodcuto a Vender:");
+        getContentPane().add(jLabel1);
+
+        getContentPane().add(cbxProductos);
+
+        jLabel2.setText("Cantidad:");
+        getContentPane().add(jLabel2);
+        getContentPane().add(txtCantidad);
+
+        jLabel3.setText("Comprador:");
+        getContentPane().add(jLabel3);
+        getContentPane().add(txtComprador);
+
+        jLabel4.setText("Fecha de Venta:");
+        getContentPane().add(jLabel4);
+        getContentPane().add(txtFecha);
+
+        btnVender.setText("Vender");
+        btnVender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVenderActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnVender);
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancelar);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
+        if (validarCampos()) {
+                confirmado = true;
+                dispose();
+            }
+    }//GEN-LAST:event_btnVenderActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DatosVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DatosVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DatosVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DatosVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                // *** Para propósito de prueba aislada del diálogo ***
+                // Simula datos de productos disponibles
+                String[] productosParaPrueba = {"Frasco 1kg", "Frasco 1/2kg", "Bolsa 1kg"};
+                DatosVenta dialog = new DatosVenta(new javax.swing.JFrame(), productosParaPrueba);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnVender;
+    private javax.swing.JComboBox<String> cbxProductos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtComprador;
+    private javax.swing.JTextField txtFecha;
+    // End of variables declaration//GEN-END:variables
 }

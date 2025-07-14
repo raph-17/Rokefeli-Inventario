@@ -28,7 +28,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Insumo:"/>
+        <Property name="text" type="java.lang.String" value="INSUMO:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxInsumo">
@@ -61,7 +61,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cantidad:"/>
+        <Property name="text" type="java.lang.String" value="CANTIDAD:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCantidadInsumo">

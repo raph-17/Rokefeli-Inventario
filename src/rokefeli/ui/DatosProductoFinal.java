@@ -2,104 +2,56 @@ package rokefeli.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.time.LocalDate;
+import rokefeli.logic.GestorInventario; 
 
-public class DatosProductoFinal extends JDialog {
-
-    private JComboBox<String> cbxLotes;
-    private JComboBox<String> cbxTipoProducto;
-    private JTextField txtCantidad;
+public class DatosProductoFinal extends javax.swing.JDialog {
+    
     private boolean confirmado = false;
-
-    public DatosProductoFinal(Frame parent, String[] idsLotes) {
+    
+    /**
+     * Creates new form DatosProductoFinal
+     */
+    public DatosProductoFinal(java.awt.Frame parent, String[] idsLotes) {
         super(parent, "Crear Producto Final", true);
-
+        initComponents();
+        // Ahora, una vez que cbxLotes ha sido instanciado por initComponents(), lo poblamos.
+        // Primero, verificamos si hay lotes. Si no hay, mostramos el mensaje y nos vamos.
         if (idsLotes == null || idsLotes.length == 0) {
             JOptionPane.showMessageDialog(parent,
                     "No hay lotes de miel en estado 'Lista para Envasar'.\n" +
-                            "Por favor, transforme un lote primero.",
+                    "Por favor, transforme un lote primero.",
                     "Acción Requerida",
                     JOptionPane.INFORMATION_MESSAGE);
-            return;
+            // Si no hay lotes, dispose() cierra el diálogo.
+            dispose(); 
+            // Podríamos incluso no mostrar el diálogo si idsLotes está vacío en InterfazRokefeli.
+            // Para asegurar que el diálogo no se muestre si está vacío,
+            // InterfazRokefeli debe verificar `idsLotesListos.length` antes de llamar a `setVisible(true)`.
+            return; // Salir del constructor si no hay lotes.
         }
+        // Si hay lotes, poblar el JComboBox.
+        // Es mejor reemplazar el modelo del ComboBox para asegurar que esté limpio.
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(idsLotes);
+        cbxLotes.setModel(model);
 
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
-
-        // Fila 1: Lote de Miel
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(new JLabel("Lote de Miel a usar:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        cbxLotes = new JComboBox<>(idsLotes);
-        add(cbxLotes, gbc);
-        gbc.weightx = 0.0;
-        gbc.fill = GridBagConstraints.NONE;
-
-        // Fila 2: Tipo de Producto
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add(new JLabel("Tipo de Producto a crear:"), gbc);
-
-        String[] tiposProducto = {
-                "Frasco 1kg (vidrio)",
-                "Frasco 1/2kg (vidrio)",
-                "Frasco 1kg (plástico)",
-                "Frasco 1/2kg (plástico)",
-                "Bolsa 1kg",
-                "Bolsa 1/2kg"
-        };
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        cbxTipoProducto = new JComboBox<>(tiposProducto);
-        add(cbxTipoProducto, gbc);
-        gbc.weightx = 0.0;
-        gbc.fill = GridBagConstraints.NONE;
-
-        // Fila 3: Cantidad
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        add(new JLabel("Cantidad de unidades a crear:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        txtCantidad = new JTextField();
-        add(txtCantidad, gbc);
-
-        // Fila 4: Botones
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        JButton btnCrear = new JButton("Crear");
-        btnCrear.addActionListener(e -> {
-            if (validarCampos()) {
-                confirmado = true;
-                dispose();
-            }
-        });
-        buttonPanel.add(btnCrear);
-
-        JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(e -> dispose());
-        buttonPanel.add(btnCancelar);
-
-        add(buttonPanel, gbc);
-        gbc.gridwidth = 1; // Reset gridwidth
-
-        pack();
-        setLocationRelativeTo(parent);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        // Puedes configurar el primer elemento seleccionado si lo deseas
+        if (idsLotes.length > 0) {
+            cbxLotes.setSelectedIndex(0);
+        }
+        
+        // Configuración de tamaño, posición, y operación de cierre
+        pack(); // Ajusta el tamaño al contenido
+        setLocationRelativeTo(parent); // Centrar sobre el padre
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cerrar solo este diálogo
     }
-
+    
     private boolean validarCampos() {
+        if (" ".equals(cbxTipoProducto.getSelectedItem().toString())) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         String cantTexto = txtCantidad.getText();
         if (cantTexto.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El campo 'Cantidad' no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -117,20 +69,151 @@ public class DatosProductoFinal extends JDialog {
         }
         return true;
     }
-
+    
     public String getIdLoteSeleccionado() {
         return (String) cbxLotes.getSelectedItem();
     }
-
     public String getTipoProductoSeleccionado() {
         return (String) cbxTipoProducto.getSelectedItem();
     }
-
     public int getCantidad() {
         return Integer.parseInt(txtCantidad.getText());
     }
-
     public boolean isConfirmado() {
         return confirmado;
     }
+    
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        cbxLotes = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        cbxTipoProducto = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
+        btnCrear = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(4, 2));
+
+        jLabel1.setText("Lote de Miel a usar:");
+        getContentPane().add(jLabel1);
+
+        getContentPane().add(cbxLotes);
+
+        jLabel2.setText("Tipo de Producto a crear:");
+        getContentPane().add(jLabel2);
+
+        cbxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (vidrio)", "Frasco 1/2kg (vidrio)", "Frasco 1kg (plástico)", "Frasco 1/2kg (plástico)", "Bolsa 1kg", "Bolsa 1/2kg" }));
+        getContentPane().add(cbxTipoProducto);
+
+        jLabel3.setText("Cantidad de unidades a crear:");
+        getContentPane().add(jLabel3);
+        getContentPane().add(txtCantidad);
+
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCrear);
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCancelar);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        if (validarCampos()) {
+            confirmado = true;
+            dispose();
+        }
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DatosProductoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DatosProductoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DatosProductoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DatosProductoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                GestorInventario dummyGestor = new GestorInventario();
+                dummyGestor.cargarInventario();
+                if (dummyGestor.getIdsLotesListosParaEnvasar().length == 0) {
+                    // Asegúrate de que LoteMielCosecha exista y sea accesible
+                    dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_01", "Polifloral", "Granja Demo", LocalDate.now(), 50.0));
+                    dummyGestor.inventarioLotes.get(0).setEstado("Lista para Envasar");
+                    dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_02", "Eucalipto", "Granja Demo", LocalDate.now(), 30.0));
+                    dummyGestor.inventarioLotes.get(1).setEstado("Lista para Envasar");
+                }
+                
+                // Obtener los IDs de lotes listos para envasar del GestorInventario dummy
+                String[] idsLotesParaPrueba = dummyGestor.getIdsLotesListosParaEnvasar();
+
+                DatosProductoFinal dialog = new DatosProductoFinal(new javax.swing.JFrame(), idsLotesParaPrueba);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JComboBox<String> cbxLotes;
+    private javax.swing.JComboBox<String> cbxTipoProducto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtCantidad;
+    // End of variables declaration//GEN-END:variables
 }

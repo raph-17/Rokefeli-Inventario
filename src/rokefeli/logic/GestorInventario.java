@@ -468,6 +468,7 @@ public class GestorInventario {
         sb.append("\nTOTAL GENERAL DE UNIDADES: ").append(totalGeneral);
         return sb.toString();
     }
+    
     // Buscar productos finales por criterio (descripción/SKU)
     public String buscarProductoFinal(String criterio) {
         if (criterio == null || criterio.trim().isEmpty()) {
@@ -496,6 +497,7 @@ public class GestorInventario {
         
         return resultados.toString();
     }
+    
     
     /* VENTAS */
 
@@ -554,5 +556,132 @@ public class GestorInventario {
         registrarMovimientoVenta(productoDesc, cantidad, comprador);
         
         return "¡Venta exitosa! Se vendieron " + cantidad + " unidades a " + comprador + ".";
+    }
+    
+    /* PESTAÑA REGISTRO*/
+    
+    // Método para leer y devolver el contenido de un archivo de registro
+    public String getContenidoRegistro(String tipoRegistro) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
+        String mesAnio = fechaActualRegistro.format(formato);
+        String nombreArchivo = "";
+
+        switch (tipoRegistro) {
+            case "Materia Prima":
+                nombreArchivo = "Movimientos_materiaPrima_" + mesAnio + ".txt";
+                break;
+            case "Insumos":
+                nombreArchivo = "Movimientos_Insumos_" + mesAnio + ".txt";
+                break;
+            case "Productos Finales":
+                nombreArchivo = "Movimientos_ProductosFinales_" + mesAnio + ".txt";
+                break;
+            case "Ventas":
+                nombreArchivo = "Movimientos_Ventas_" + mesAnio + ".txt";
+                break;
+            default:
+                return "Tipo de registro no válido.";
+        }
+
+        File archivo = new File(nombreArchivo);
+        if (!archivo.exists()) {
+            return "Aún no existen registros para '" + tipoRegistro + "' en el mes actual.";
+        }
+
+        StringBuilder contenido = new StringBuilder();
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.FileReader(archivo, java.nio.charset.StandardCharsets.UTF_8))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+        } catch (IOException e) {
+            return "Error al leer el archivo de registro: " + e.getMessage();
+        }
+
+        if (contenido.length() == 0) {
+            return "El registro de '" + tipoRegistro + "' para este mes está vacío.";
+        }
+        
+        return contenido.toString();
+    }
+    /**
+     * Devuelve el contenido de un archivo de registro, aplicando filtros opcionales.
+     * @param tipoRegistro El tipo de registro a leer (ej. "Ventas").
+     * @param textoClave   Palabra clave para buscar en la línea. Si es nulo o vacío, se ignora.
+     * @param fechaInicio  Fecha de inicio del rango (formato AAAA-MM-DD). Si es nulo o vacío, se ignora.
+     * @param fechaFin     Fecha de fin del rango (formato AAAA-MM-DD). Si es nulo o vacío, se ignora.
+     * @return Un string con el contenido filtrado del registro.
+     */
+    
+    public String getContenidoRegistroFiltrado(String tipoRegistro, String textoClave, String fechaInicio, String fechaFin) {
+        // Primero, obtenemos el contenido completo del registro
+        String contenidoCompleto = getContenidoRegistro(tipoRegistro);
+        
+        // Si no hay registros o hubo un error, lo devolvemos tal cual
+        if (contenidoCompleto.startsWith("Aún no existen registros") || contenidoCompleto.startsWith("Error")) {
+            return contenidoCompleto;
+        }
+
+        // Preparamos los filtros
+        final String textoBusqueda = (textoClave == null || textoClave.trim().isEmpty()) ? null : textoClave.trim().toLowerCase();
+        LocalDate fInicio = null;
+        LocalDate fFin = null;
+
+        try {
+            if (fechaInicio != null && !fechaInicio.trim().isEmpty()) {
+                fInicio = LocalDate.parse(fechaInicio.trim());
+            }
+            if (fechaFin != null && !fechaFin.trim().isEmpty()) {
+                fFin = LocalDate.parse(fechaFin.trim());
+            }
+        } catch (java.time.format.DateTimeParseException e) {
+            return "Error: Formato de fecha incorrecto. Use AAAA-MM-DD.";
+        }
+        
+        // Procesamos el contenido línea por línea
+        StringBuilder resultadoFiltrado = new StringBuilder();
+        String[] lineas = contenidoCompleto.split("\n");
+
+        for (String linea : lineas) {
+            if (linea.trim().isEmpty()) continue;
+
+            boolean pasaFiltro = true;
+
+            // Filtro por palabra clave
+            if (pasaFiltro && textoBusqueda != null) {
+                if (!linea.toLowerCase().contains(textoBusqueda)) {
+                    pasaFiltro = false;
+                }
+            }
+
+            // Filtro por fecha
+            if (pasaFiltro && (fInicio != null || fFin != null)) {
+                try {
+                    String fechaDeLineaStr = linea.substring(0, 10); // Extraemos 'AAAA-MM-DD'
+                    LocalDate fechaDeLinea = LocalDate.parse(fechaDeLineaStr);
+
+                    if (fInicio != null && fechaDeLinea.isBefore(fInicio)) {
+                        pasaFiltro = false;
+                    }
+                    if (fFin != null && fechaDeLinea.isAfter(fFin)) {
+                        pasaFiltro = false;
+                    }
+                } catch (Exception e) {
+                    // Si la línea no tiene un formato de fecha válido, no pasa el filtro de fecha
+                    pasaFiltro = false; 
+                }
+            }
+            
+            // Si la línea pasó todos los filtros, la añadimos al resultado
+            if (pasaFiltro) {
+                resultadoFiltrado.append(linea).append("\n");
+            }
+        }
+
+        if (resultadoFiltrado.length() == 0) {
+            return "No se encontraron registros que coincidan con los filtros aplicados.";
+        }
+
+        return resultadoFiltrado.toString();
     }
 }

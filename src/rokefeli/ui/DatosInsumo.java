@@ -5,12 +5,8 @@
 package rokefeli.ui;
 
 import javax.swing.JOptionPane;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-/**
- *
- * @author ricar
- */
+
 public class DatosInsumo extends javax.swing.JDialog {
     
     int cantidad;
@@ -23,6 +19,7 @@ public class DatosInsumo extends javax.swing.JDialog {
     public String getTipoInsumo(){
         return tipoInsumo;
     }
+    
     
     /**
      * Creates new form DatosInsumo
@@ -54,13 +51,13 @@ public class DatosInsumo extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(3, 2));
 
-        jLabel1.setText("Insumo:");
+        jLabel1.setText("INSUMO:");
         getContentPane().add(jLabel1);
 
         cbxInsumo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (plástico)", "Frasco 1kg (vidrio)", "Frasco 1/2kg (plástico)", "Frasco 1/2kg (vidrio)", "Bolsa 1kg", "Bolsa 1/2kg", "Precinto 1kg", "Precinto 1/2kg", "Etiqueta Frasco 1kg", "Etiqueta Frasco 1/2kg", "Etiqueta Bolsa 1kg", "Etiqueta Bolsa 1/2kg", "Tapa Frasco 1kg (plástico)", "Tapa Frasco 1kg (vidrio)", "Tapa Frasco 1/2kg (plástico)", "Tapa Frasco 1/2kg (vidrio)" }));
         getContentPane().add(cbxInsumo);
 
-        jLabel2.setText("Cantidad:");
+        jLabel2.setText("CANTIDAD:");
         getContentPane().add(jLabel2);
         getContentPane().add(txtCantidadInsumo);
 

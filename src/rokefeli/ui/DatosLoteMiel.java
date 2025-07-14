@@ -20,7 +20,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         setLocationRelativeTo(parent); // Centrar sobre el padre
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Cerrar solo este di�logo
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,47 +30,45 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelFloracion = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         cbxFloracion = new javax.swing.JComboBox<>();
-        labelOrigen = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         txtOrigen = new javax.swing.JTextField();
-        labelFechaIngreso = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         txtFechaIngreso = new javax.swing.JTextField();
-        labelCantidad = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         btnGuardarLoteMiel = new javax.swing.JButton();
         btnCancelarLoteMiel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registro de Lote de Miel");
         getContentPane().setLayout(new java.awt.GridLayout(5, 2));
 
-        labelFloracion.setText("FLORACI�N:");
-        getContentPane().add(labelFloracion);
+        jLabel1.setText("FLORACIÓN:");
+        getContentPane().add(jLabel1);
 
         cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" }));
-        cbxFloracion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxFloracionActionPerformed(evt);
-            }
-        });
         getContentPane().add(cbxFloracion);
 
-        labelOrigen.setText("ORIGEN:");
-        getContentPane().add(labelOrigen);
+        jLabel2.setText("ORIGEN:");
+        getContentPane().add(jLabel2);
+
+        txtOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrigenActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtOrigen);
 
-        labelFechaIngreso.setText("FECHA DE INGRESO:");
-        getContentPane().add(labelFechaIngreso);
-
-        txtFechaIngreso.setEditable(false);
+        jLabel3.setText("FECHA DE INGRESO:");
+        getContentPane().add(jLabel3);
         getContentPane().add(txtFechaIngreso);
 
-        labelCantidad.setText("CANTIDAD (KG):");
-        getContentPane().add(labelCantidad);
+        jLabel4.setText("CANTIDAD (KG):");
+        getContentPane().add(jLabel4);
         getContentPane().add(txtCantidad);
 
-        btnGuardarLoteMiel.setText("Guardar");
+        btnGuardarLoteMiel.setText("GUARDAR");
         btnGuardarLoteMiel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarLoteMielActionPerformed(evt);
@@ -78,7 +76,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         });
         getContentPane().add(btnGuardarLoteMiel);
 
-        btnCancelarLoteMiel.setText("Cancelar");
+        btnCancelarLoteMiel.setText("CANCELAR");
         btnCancelarLoteMiel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarLoteMielActionPerformed(evt);
@@ -88,6 +86,10 @@ public class DatosLoteMiel extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrigenActionPerformed
 
     private void btnGuardarLoteMielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLoteMielActionPerformed
         String floracion = cbxFloracion.getSelectedItem().toString();
@@ -111,14 +113,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
                 txtCantidad.requestFocus();
             }
         }
-        
-        
-        
     }//GEN-LAST:event_btnGuardarLoteMielActionPerformed
-
-    private void cbxFloracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFloracionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxFloracionActionPerformed
 
     private void btnCancelarLoteMielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarLoteMielActionPerformed
         nuevoLote = null;
@@ -171,10 +166,10 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelarLoteMiel;
     private javax.swing.JButton btnGuardarLoteMiel;
     private javax.swing.JComboBox<String> cbxFloracion;
-    private javax.swing.JLabel labelCantidad;
-    private javax.swing.JLabel labelFechaIngreso;
-    private javax.swing.JLabel labelFloracion;
-    private javax.swing.JLabel labelOrigen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtFechaIngreso;
     private javax.swing.JTextField txtOrigen;
