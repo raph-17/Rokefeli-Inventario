@@ -44,15 +44,27 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(5, 2));
 
-        jLabel1.setText("FLORACIÓN:");
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Floración:");
         getContentPane().add(jLabel1);
 
+        cbxFloracion.setBackground(new java.awt.Color(255, 204, 51));
+        cbxFloracion.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        cbxFloracion.setForeground(new java.awt.Color(0, 0, 0));
         cbxFloracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" }));
         getContentPane().add(cbxFloracion);
 
-        jLabel2.setText("ORIGEN:");
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Origen:");
         getContentPane().add(jLabel2);
 
+        txtOrigen.setBackground(new java.awt.Color(255, 204, 51));
+        txtOrigen.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtOrigen.setForeground(new java.awt.Color(0, 0, 0));
         txtOrigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtOrigenActionPerformed(evt);
@@ -60,15 +72,32 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         });
         getContentPane().add(txtOrigen);
 
-        jLabel3.setText("FECHA DE INGRESO:");
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Fecha de Ingreso:");
         getContentPane().add(jLabel3);
+
+        txtFechaIngreso.setBackground(new java.awt.Color(255, 204, 51));
+        txtFechaIngreso.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtFechaIngreso.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtFechaIngreso);
 
-        jLabel4.setText("CANTIDAD (KG):");
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Cantidad (kg):");
         getContentPane().add(jLabel4);
+
+        txtCantidad.setBackground(new java.awt.Color(255, 204, 51));
+        txtCantidad.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtCantidad.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtCantidad);
 
-        btnGuardarLoteMiel.setText("GUARDAR");
+        btnGuardarLoteMiel.setBackground(new java.awt.Color(255, 255, 255));
+        btnGuardarLoteMiel.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnGuardarLoteMiel.setForeground(new java.awt.Color(0, 0, 0));
+        btnGuardarLoteMiel.setText("Guardar");
         btnGuardarLoteMiel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarLoteMielActionPerformed(evt);
@@ -76,7 +105,10 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         });
         getContentPane().add(btnGuardarLoteMiel);
 
-        btnCancelarLoteMiel.setText("CANCELAR");
+        btnCancelarLoteMiel.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelarLoteMiel.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnCancelarLoteMiel.setForeground(new java.awt.Color(0, 0, 0));
+        btnCancelarLoteMiel.setText("Cancelar");
         btnCancelarLoteMiel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarLoteMielActionPerformed(evt);

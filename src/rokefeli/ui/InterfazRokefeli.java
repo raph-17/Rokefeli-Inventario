@@ -13,22 +13,20 @@ import javax.swing.JLabel;
 
 public class InterfazRokefeli extends javax.swing.JFrame {
 
-    
-    
     GestorInventario gestor = new GestorInventario();
     private String ultimoRegistroCargado = "";
 
     public InterfazRokefeli() {
         initComponents();
-        setSize(950, 650);
+        setSize(930, 560);
         setLocationRelativeTo(null);
-        gestor.cargarInventario(); 
+        gestor.cargarInventario();
         gestor.inicializarInsumosPorDefecto();
-        
+
         txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
         txtaResultadosInsumos.setText(gestor.mostrarInsumos());
         txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
-        
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -49,7 +47,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             return null;
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,32 +57,21 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        label1 = new java.awt.Label();
+        jLabel6 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        btnIngresarMateriaPrima = new javax.swing.JButton();
-        btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
-        btnBuscarMateriaPrima = new javax.swing.JButton();
-        btnTransformarMateriaPrima = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtaResultadosMateriaPrima = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
-        btnIngresarInsumo = new javax.swing.JButton();
-        btnMostrarInsumosTotal = new javax.swing.JButton();
-        btnBuscarInsumo = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtaResultadosInsumos = new javax.swing.JTextArea();
-        jPanel3 = new javax.swing.JPanel();
-        btnCrearProductoFinal = new javax.swing.JButton();
-        btnBuscarProductoFinal = new javax.swing.JButton();
-        btnMostrarProductosFinales = new javax.swing.JButton();
-        btnVenta = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtaResultadosProductosFinales = new javax.swing.JTextArea();
+        jPanel5 = new javax.swing.JPanel();
+        btnIngresarMateriaPrima = new javax.swing.JButton();
+        btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
+        btnTransformarMateriaPrima = new javax.swing.JButton();
+        btnBuscarMateriaPrima = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnRegistroMateriaPrima = new javax.swing.JButton();
-        btnRegistroInsumos = new javax.swing.JButton();
-        btnRegistroProductosFinales = new javax.swing.JButton();
-        btnRegistroVentas = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtFechaDesde = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -95,9 +82,47 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         btnLimpiarFiltros = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaResultadosRegistros = new javax.swing.JTextArea();
+        jPanel7 = new javax.swing.JPanel();
+        btnRegistroMateriaPrima = new javax.swing.JButton();
+        btnRegistroInsumos = new javax.swing.JButton();
+        btnRegistroProductosFinales = new javax.swing.JButton();
+        btnRegistroVentas = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtaResultadosInsumos = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        btnIngresarInsumo = new javax.swing.JButton();
+        btnBuscarInsumo = new javax.swing.JButton();
+        btnMostrarInsumosTotal = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtaResultadosProductosFinales = new javax.swing.JTextArea();
+        jPanel8 = new javax.swing.JPanel();
+        btnCrearProductoFinal = new javax.swing.JButton();
+        btnBuscarProductoFinal = new javax.swing.JButton();
+        btnMostrarProductosFinales = new javax.swing.JButton();
+        btnVenta = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+
+        label1.setText("label1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtaResultadosMateriaPrima.setEditable(false);
+        txtaResultadosMateriaPrima.setBackground(new java.awt.Color(204, 204, 204));
+        txtaResultadosMateriaPrima.setColumns(20);
+        txtaResultadosMateriaPrima.setRows(5);
+        jScrollPane4.setViewportView(txtaResultadosMateriaPrima);
+
+        jPanel5.setBackground(new java.awt.Color(255, 204, 51));
+
+        btnIngresarMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
+        btnIngresarMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnIngresarMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
         btnIngresarMateriaPrima.setText("Ingresar Materia Prima");
         btnIngresarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +130,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        btnMostrarMateriaPrimaTotal.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarMateriaPrimaTotal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarMateriaPrimaTotal.setForeground(new java.awt.Color(0, 0, 0));
         btnMostrarMateriaPrimaTotal.setText("Mostrar Materia Prima Total");
         btnMostrarMateriaPrimaTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,13 +140,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
-        btnBuscarMateriaPrima.setText("Búsqueda");
-        btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarMateriaPrimaActionPerformed(evt);
-            }
-        });
-
+        btnTransformarMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
+        btnTransformarMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnTransformarMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
         btnTransformarMateriaPrima.setText("Transformar");
         btnTransformarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,215 +150,106 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
-        txtaResultadosMateriaPrima.setEditable(false);
-        txtaResultadosMateriaPrima.setColumns(20);
-        txtaResultadosMateriaPrima.setRows(5);
-        jScrollPane4.setViewportView(txtaResultadosMateriaPrima);
+        btnBuscarMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
+        btnBuscarMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnBuscarMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarMateriaPrima.setText("Búsqueda");
+        btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnIngresarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMostrarMateriaPrimaTotal))
+                .addGap(72, 72, 72)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(btnBuscarMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                    .addComponent(btnTransformarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnIngresarMateriaPrima)
+                            .addComponent(btnTransformarMateriaPrima))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMostrarMateriaPrimaTotal)
+                            .addComponent(btnBuscarMateriaPrima))
+                        .addGap(0, 14, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(btnIngresarMateriaPrima)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMostrarMateriaPrimaTotal)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscarMateriaPrima)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnTransformarMateriaPrima))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnIngresarMateriaPrima)
-                    .addComponent(btnMostrarMateriaPrimaTotal)
-                    .addComponent(btnBuscarMateriaPrima)
-                    .addComponent(btnTransformarMateriaPrima))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
 
         jTabbedPane1.addTab("Materia Prima", jPanel1);
 
-        btnIngresarInsumo.setText("Ingresar Insumo");
-        btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarInsumoActionPerformed(evt);
-            }
-        });
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
-        btnMostrarInsumosTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarInsumosTotalActionPerformed(evt);
-            }
-        });
-
-        btnBuscarInsumo.setText("Búsqueda");
-        btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarInsumoActionPerformed(evt);
-            }
-        });
-
-        txtaResultadosInsumos.setEditable(false);
-        txtaResultadosInsumos.setColumns(20);
-        txtaResultadosInsumos.setRows(5);
-        jScrollPane3.setViewportView(txtaResultadosInsumos);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(btnIngresarInsumo)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnMostrarInsumosTotal)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnBuscarInsumo))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(153, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnIngresarInsumo)
-                    .addComponent(btnMostrarInsumosTotal)
-                    .addComponent(btnBuscarInsumo))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Insumos", jPanel2);
-
-        btnCrearProductoFinal.setText("Crear Producto Final");
-        btnCrearProductoFinal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearProductoFinalActionPerformed(evt);
-            }
-        });
-
-        btnBuscarProductoFinal.setText("Búsqueda");
-        btnBuscarProductoFinal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarProductoFinalActionPerformed(evt);
-            }
-        });
-
-        btnMostrarProductosFinales.setText("Mostrar Productos");
-        btnMostrarProductosFinales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarProductosFinalesActionPerformed(evt);
-            }
-        });
-
-        btnVenta.setText("VENTA");
-        btnVenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVentaActionPerformed(evt);
-            }
-        });
-
-        txtaResultadosProductosFinales.setEditable(false);
-        txtaResultadosProductosFinales.setColumns(20);
-        txtaResultadosProductosFinales.setRows(5);
-        jScrollPane2.setViewportView(txtaResultadosProductosFinales);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(btnCrearProductoFinal)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscarProductoFinal)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMostrarProductosFinales)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnVenta))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearProductoFinal)
-                    .addComponent(btnBuscarProductoFinal)
-                    .addComponent(btnMostrarProductosFinales)
-                    .addComponent(btnVenta))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Productos Finales", jPanel3);
-
-        btnRegistroMateriaPrima.setText("Materia Prima");
-        btnRegistroMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistroMateriaPrimaActionPerformed(evt);
-            }
-        });
-
-        btnRegistroInsumos.setText("Insumos");
-        btnRegistroInsumos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistroInsumosActionPerformed(evt);
-            }
-        });
-
-        btnRegistroProductosFinales.setText("Productos");
-        btnRegistroProductosFinales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistroProductosFinalesActionPerformed(evt);
-            }
-        });
-
-        btnRegistroVentas.setText("Ventas");
-        btnRegistroVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistroVentasActionPerformed(evt);
-            }
-        });
-
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Fecha Desde (AAAA-MM-DD):");
 
+        txtFechaDesde.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Hasta:");
 
+        txtFechaHasta.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Palabra Clave:");
 
+        txtPalabraClave.setBackground(new java.awt.Color(204, 204, 204));
         txtPalabraClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPalabraClaveActionPerformed(evt);
             }
         });
 
+        btnFiltrar.setBackground(new java.awt.Color(255, 255, 51));
+        btnFiltrar.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnFiltrar.setForeground(new java.awt.Color(0, 0, 0));
         btnFiltrar.setText("Filtrar");
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,6 +257,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiarFiltros.setBackground(new java.awt.Color(255, 255, 51));
+        btnLimpiarFiltros.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnLimpiarFiltros.setForeground(new java.awt.Color(0, 0, 0));
         btnLimpiarFiltros.setText("Limpiar Filtros");
         btnLimpiarFiltros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -350,57 +268,125 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         });
 
         txtaResultadosRegistros.setEditable(false);
+        txtaResultadosRegistros.setBackground(new java.awt.Color(204, 204, 204));
         txtaResultadosRegistros.setColumns(20);
         txtaResultadosRegistros.setRows(5);
         jScrollPane1.setViewportView(txtaResultadosRegistros);
+
+        jPanel7.setBackground(new java.awt.Color(255, 204, 51));
+
+        btnRegistroMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
+        btnRegistroMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnRegistroMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistroMateriaPrima.setText("Materia Prima");
+        btnRegistroMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroMateriaPrimaActionPerformed(evt);
+            }
+        });
+
+        btnRegistroInsumos.setBackground(new java.awt.Color(255, 255, 51));
+        btnRegistroInsumos.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnRegistroInsumos.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistroInsumos.setText("Insumos");
+        btnRegistroInsumos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroInsumosActionPerformed(evt);
+            }
+        });
+
+        btnRegistroProductosFinales.setBackground(new java.awt.Color(255, 255, 51));
+        btnRegistroProductosFinales.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnRegistroProductosFinales.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistroProductosFinales.setText("Productos");
+        btnRegistroProductosFinales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroProductosFinalesActionPerformed(evt);
+            }
+        });
+
+        btnRegistroVentas.setBackground(new java.awt.Color(255, 255, 51));
+        btnRegistroVentas.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnRegistroVentas.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistroVentas.setText("Ventas");
+        btnRegistroVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroVentasActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(btnRegistroMateriaPrima)
+                .addGap(34, 34, 34)
+                .addComponent(btnRegistroInsumos, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(btnRegistroProductosFinales)
+                .addGap(35, 35, 35)
+                .addComponent(btnRegistroVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegistroInsumos)
+                            .addComponent(btnRegistroProductosFinales)
+                            .addComponent(btnRegistroMateriaPrima)
+                            .addComponent(btnRegistroVentas)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(btnRegistroMateriaPrima)
-                        .addGap(34, 34, 34)
-                        .addComponent(btnRegistroInsumos)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnRegistroProductosFinales)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnRegistroVentas))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPalabraClave, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnFiltrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnLimpiarFiltros)))))
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPalabraClave, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFiltrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpiarFiltros))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistroMateriaPrima)
-                    .addComponent(btnRegistroInsumos)
-                    .addComponent(btnRegistroProductosFinales)
-                    .addComponent(btnRegistroVentas))
-                .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -411,21 +397,234 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                     .addComponent(btnFiltrar)
                     .addComponent(btnLimpiarFiltros))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registros", jPanel4);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtaResultadosInsumos.setEditable(false);
+        txtaResultadosInsumos.setBackground(new java.awt.Color(204, 204, 204));
+        txtaResultadosInsumos.setColumns(20);
+        txtaResultadosInsumos.setRows(5);
+        jScrollPane3.setViewportView(txtaResultadosInsumos);
+
+        jPanel6.setBackground(new java.awt.Color(255, 204, 51));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        btnIngresarInsumo.setBackground(new java.awt.Color(255, 255, 51));
+        btnIngresarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnIngresarInsumo.setForeground(new java.awt.Color(0, 0, 0));
+        btnIngresarInsumo.setText("Ingresar Insumo");
+        btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarInsumoActionPerformed(evt);
+            }
+        });
+
+        btnBuscarInsumo.setBackground(new java.awt.Color(255, 255, 51));
+        btnBuscarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnBuscarInsumo.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarInsumo.setText("Búsqueda");
+        btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarInsumoActionPerformed(evt);
+            }
+        });
+
+        btnMostrarInsumosTotal.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarInsumosTotal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarInsumosTotal.setForeground(new java.awt.Color(0, 0, 0));
+        btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
+        btnMostrarInsumosTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarInsumosTotalActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(btnIngresarInsumo)
+                .addGap(30, 30, 30)
+                .addComponent(btnBuscarInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnMostrarInsumosTotal)
+                .addGap(51, 51, 51))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMostrarInsumosTotal)
+                            .addComponent(btnIngresarInsumo)
+                            .addComponent(btnBuscarInsumo))
+                        .addGap(0, 41, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Insumos", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
+
+        txtaResultadosProductosFinales.setEditable(false);
+        txtaResultadosProductosFinales.setBackground(new java.awt.Color(204, 204, 204));
+        txtaResultadosProductosFinales.setColumns(20);
+        txtaResultadosProductosFinales.setRows(5);
+        jScrollPane2.setViewportView(txtaResultadosProductosFinales);
+
+        jPanel8.setBackground(new java.awt.Color(255, 204, 51));
+
+        btnCrearProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
+        btnCrearProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnCrearProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
+        btnCrearProductoFinal.setText("Crear Producto Final");
+        btnCrearProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnBuscarProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
+        btnBuscarProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnBuscarProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarProductoFinal.setText("Búsqueda");
+        btnBuscarProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnMostrarProductosFinales.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarProductosFinales.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarProductosFinales.setForeground(new java.awt.Color(0, 0, 0));
+        btnMostrarProductosFinales.setText("Mostrar Productos");
+        btnMostrarProductosFinales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarProductosFinalesActionPerformed(evt);
+            }
+        });
+
+        btnVenta.setBackground(new java.awt.Color(255, 255, 51));
+        btnVenta.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnVenta.setForeground(new java.awt.Color(0, 0, 0));
+        btnVenta.setText("Venta");
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMostrarProductosFinales, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrearProductoFinal))
+                .addGap(119, 119, 119)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarProductoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(119, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 82, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnVenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscarProductoFinal)
+                        .addGap(9, 9, 9)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(btnCrearProductoFinal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnMostrarProductosFinales)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 852, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Productos Finales", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 916, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
@@ -439,8 +638,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
     private void btnIngresarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarMateriaPrimaActionPerformed
         LoteMielCosecha nuevoLote = gestor.ingresarLoteMiel(this);
-        if(nuevoLote != null){
-            if(!gestor.repetirLote(nuevoLote.getIdLote())){
+        if (nuevoLote != null) {
+            if (!gestor.repetirLote(nuevoLote.getIdLote())) {
                 gestor.inventarioLotes.add(nuevoLote);
                 JOptionPane.showMessageDialog(rootPane, "Se ha agregado correctamente el lote nuevo.");
                 String tipoMov = "ENT_LOTE_MIEL";
@@ -448,56 +647,13 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion() + ", Estado: " + nuevoLote.getEstado();
                 gestor.registrarMovimientoMateriaPrima(tipoMov, nuevoLote.getIdLote(), nuevoLote.getCantKg(), unidad, descripcion);
                 txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(rootPane, "El id de lote ingresado ya existe.");
             }
-        } else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "Ingreso de Lote de Miel cancelado.");
         }
     }//GEN-LAST:event_btnIngresarMateriaPrimaActionPerformed
-
-    private void btnCrearProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProductoFinalActionPerformed
-        // 1. Obtener la lista de IDs de lotes listos para envasar
-        String[] idsLotesListos = gestor.getIdsLotesListosParaEnvasar();
-
-        // 2. Verificar si hay lotes disponibles. Si no, informar al usuario.
-        if (idsLotesListos == null || idsLotesListos.length == 0) {
-            JOptionPane.showMessageDialog(this, // 'this' se refiere a la instancia de InterfazRokefeli
-                    "No hay lotes de miel en estado 'Lista para Envasar'.\n" +
-                    "Por favor, transforme un lote primero.",
-                    "Acción Requerida",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return; // Salir del método ya que no hay lotes para mostrar
-        }
-
-        // 3. Crear una instancia de DatosProductoFinal, pasándole la ventana padre y los IDs de los lotes
-        DatosProductoFinal dialog = new DatosProductoFinal(this, idsLotesListos); // 'this' como Frame parent
-
-        // 4. Hacer visible el diálogo
-        dialog.setVisible(true);
-
-        // 5. Una vez que el diálogo se cierra, verificar si el usuario confirmó la operación
-        if (dialog.isConfirmado()) {
-            try {
-                String idLoteSeleccionado = dialog.getIdLoteSeleccionado();
-                String tipoProducto = dialog.getTipoProductoSeleccionado();
-                int cantidadEnvases = dialog.getCantidad();
-
-                // Llamar al método del GestorInventario para crear el producto final
-                String resultado = gestor.crearProductoFinal(idLoteSeleccionado, tipoProducto, cantidadEnvases);
-                JOptionPane.showMessageDialog(this, resultado, "Producto Final Creado", JOptionPane.INFORMATION_MESSAGE);
-                
-                // Opcional: Actualizar la vista de productos finales en la InterfazRokefeli
-                txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Error al procesar la cantidad. Asegúrese de que sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Ocurrió un error al crear el producto final: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace(); // Para depuración
-            }
-        }
-    }//GEN-LAST:event_btnCrearProductoFinalActionPerformed
 
     private void btnMostrarMateriaPrimaTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMateriaPrimaTotalActionPerformed
         txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
@@ -505,13 +661,17 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
     private void btnBuscarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaPrimaActionPerformed
         String criterio = JOptionPane.showInputDialog(this, "Ingrese ID del Lote o Floración para buscar:");
-        if (criterio == null || criterio.trim().isEmpty()) { return; }
+        if (criterio == null || criterio.trim().isEmpty()) {
+            return;
+        }
         txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(criterio));
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
         String idLote = JOptionPane.showInputDialog(this, "Ingrese el ID del Lote a transformar:");
-        if (idLote == null || idLote.trim().isEmpty()) { return; }
+        if (idLote == null || idLote.trim().isEmpty()) {
+            return;
+        }
         LoteMielCosecha loteSeleccionado = null;
         for (LoteMielCosecha lote : gestor.inventarioLotes) {
             if (lote.getIdLote().equalsIgnoreCase(idLote)) {
@@ -531,9 +691,13 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         panel.add(new JLabel("Seleccione el nuevo estado:"));
         panel.add(comboEstados);
         int resultado = JOptionPane.showConfirmDialog(this, panel, "Cambiar Estado", JOptionPane.OK_CANCEL_OPTION);
-        if (resultado != JOptionPane.OK_OPTION) { return; }
+        if (resultado != JOptionPane.OK_OPTION) {
+            return;
+        }
         String nuevoEstado = (String) comboEstados.getSelectedItem();
-        if (nuevoEstado.equals(estadoActual)) { return; }
+        if (nuevoEstado.equals(estadoActual)) {
+            return;
+        }
         if (nuevoEstado.equals("En Reposo") || (nuevoEstado.equals("Pasteurizada") && !estadoActual.equals("En Reposo")) || (nuevoEstado.equals("Lista para Envasar") && !estadoActual.equals("Pasteurizada"))) {
             JOptionPane.showMessageDialog(this, "ERROR: Movimiento de estado no permitido.");
             return;
@@ -545,6 +709,100 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         gestor.registrarMovimientoMateriaPrima(tipoMov, loteSeleccionado.getIdLote(), loteSeleccionado.getCantKg(), "KG", descripcion);
         txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        if (ultimoRegistroCargado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, primero carga un registro seleccionando una categoría.", "Acción Requerida", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String texto = txtPalabraClave.getText();
+        String fechaI = txtFechaDesde.getText();
+        String fechaF = txtFechaHasta.getText();
+
+        String contenidoFiltrado = gestor.getContenidoRegistroFiltrado(ultimoRegistroCargado, texto, fechaI, fechaF);
+        txtaResultadosRegistros.setText(contenidoFiltrado);
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void btnLimpiarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltrosActionPerformed
+        txtPalabraClave.setText("");
+        txtFechaDesde.setText("");
+        txtFechaHasta.setText("");
+        if (!ultimoRegistroCargado.isEmpty()) {
+            txtaResultadosRegistros.setText(gestor.getContenidoRegistro(ultimoRegistroCargado));
+        }
+    }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
+
+    private void btnRegistroMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroMateriaPrimaActionPerformed
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null)
+                && (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+
+            String registros = gestor.filtrarRegistros(
+                    gestor.getNombreRegistroMateriaPrima(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                    textoBusqueda.isEmpty() ? null : textoBusqueda,
+                    fechaInicio,
+                    fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
+    }//GEN-LAST:event_btnRegistroMateriaPrimaActionPerformed
+
+    private void btnRegistroInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroInsumosActionPerformed
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null)
+                && (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+
+            String registros = gestor.filtrarRegistros(
+                    gestor.getNombreArchivoRegistroInsumos(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                    textoBusqueda.isEmpty() ? null : textoBusqueda,
+                    fechaInicio,
+                    fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
+    }//GEN-LAST:event_btnRegistroInsumosActionPerformed
+
+    private void btnRegistroProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroProductosFinalesActionPerformed
+        String textoBusqueda = txtPalabraClave.getText().trim();
+        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
+        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+
+        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null)
+                && (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
+
+            String registros = gestor.filtrarRegistros(
+                    gestor.getNombreArchivoRegistroProductosFinales(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                    textoBusqueda.isEmpty() ? null : textoBusqueda,
+                    fechaInicio,
+                    fechaFin
+            );
+            txtaResultadosRegistros.setText(registros);
+        }
+    }//GEN-LAST:event_btnRegistroProductosFinalesActionPerformed
+
+    private void btnRegistroVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroVentasActionPerformed
+        ultimoRegistroCargado = "Ventas";
+        btnLimpiarFiltrosActionPerformed(null);
+    }//GEN-LAST:event_btnRegistroVentasActionPerformed
+
+    private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
+        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del insumo a buscar:");
+        if (codigo == null || codigo.trim().isEmpty()) {
+            return;
+        }
+        txtaResultadosInsumos.setText(gestor.buscarInsumoPorCodigo(codigo));
+    }//GEN-LAST:event_btnBuscarInsumoActionPerformed
+
+    private void btnMostrarInsumosTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInsumosTotalActionPerformed
+        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+    }//GEN-LAST:event_btnMostrarInsumosTotalActionPerformed
 
     private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed
         DatosInsumo dialog = new DatosInsumo(this); // 'this' se refiere a la instancia de InterfazRokefeli
@@ -562,38 +820,16 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
             // O si DatosInsumo es general y puede indicar el tipo de operación:
             // if (dialog.esEntrada()) {
-            //     String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
-            //     JOptionPane.showMessageDialog(this, mensaje);
-            // } else if (dialog.esSalida()) {
-            //     String mensaje = gestor.retirarStockInsumo(tipoInsumo, cantidad);
-            //     JOptionPane.showMessageDialog(this, mensaje);
-            // }
-
+                //     String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
+                //     JOptionPane.showMessageDialog(this, mensaje);
+                // } else if (dialog.esSalida()) {
+                //     String mensaje = gestor.retirarStockInsumo(tipoInsumo, cantidad);
+                //     JOptionPane.showMessageDialog(this, mensaje);
+                // }
             // Actualiza la visualización de los insumos en tu interfaz
-            txtaResultadosInsumos.setText(gestor.mostrarInsumos()); 
+            txtaResultadosInsumos.setText(gestor.mostrarInsumos());
         }
     }//GEN-LAST:event_btnIngresarInsumoActionPerformed
-
-    private void btnBuscarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarInsumoActionPerformed
-        String codigo = JOptionPane.showInputDialog(this, "Ingrese el código del insumo a buscar:");
-        if (codigo == null || codigo.trim().isEmpty()) { return; }
-        txtaResultadosInsumos.setText(gestor.buscarInsumoPorCodigo(codigo));
-    }//GEN-LAST:event_btnBuscarInsumoActionPerformed
-
-    private void btnMostrarInsumosTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInsumosTotalActionPerformed
-        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
-    }//GEN-LAST:event_btnMostrarInsumosTotalActionPerformed
-
-    private void btnBuscarProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoFinalActionPerformed
-        String criterio = JOptionPane.showInputDialog(this, "Ingrese descripción del producto a buscar:");
-        if (criterio != null && !criterio.trim().isEmpty()) {
-            txtaResultadosProductosFinales.setText(gestor.buscarProductoFinal(criterio));
-        }
-    }//GEN-LAST:event_btnBuscarProductoFinalActionPerformed
-
-    private void btnMostrarProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarProductosFinalesActionPerformed
-        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
-    }//GEN-LAST:event_btnMostrarProductosFinalesActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         // Obtener la lista de productos disponibles del gestor principal
@@ -602,9 +838,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         // Verificar si hay productos antes de mostrar el diálogo
         if (productosDisponibles == null || productosDisponibles.length == 0) {
             JOptionPane.showMessageDialog(this,
-                    "No hay productos con stock disponibles para la venta.",
-                    "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
+                "No hay productos con stock disponibles para la venta.",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
             return; // No abrir el diálogo
         }
 
@@ -625,87 +861,59 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVentaActionPerformed
 
-    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        if (ultimoRegistroCargado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, primero carga un registro seleccionando una categoría.", "Acción Requerida", JOptionPane.INFORMATION_MESSAGE);
-            return;
+    private void btnMostrarProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarProductosFinalesActionPerformed
+        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+    }//GEN-LAST:event_btnMostrarProductosFinalesActionPerformed
+
+    private void btnBuscarProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoFinalActionPerformed
+        String criterio = JOptionPane.showInputDialog(this, "Ingrese descripción del producto a buscar:");
+        if (criterio != null && !criterio.trim().isEmpty()) {
+            txtaResultadosProductosFinales.setText(gestor.buscarProductoFinal(criterio));
         }
-        
-        String texto = txtPalabraClave.getText();
-        String fechaI = txtFechaDesde.getText();
-        String fechaF = txtFechaHasta.getText();
-        
-        String contenidoFiltrado = gestor.getContenidoRegistroFiltrado(ultimoRegistroCargado, texto, fechaI, fechaF);
-        txtaResultadosRegistros.setText(contenidoFiltrado);
-    }//GEN-LAST:event_btnFiltrarActionPerformed
+    }//GEN-LAST:event_btnBuscarProductoFinalActionPerformed
 
-    private void btnLimpiarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltrosActionPerformed
-        txtPalabraClave.setText("");
-        txtFechaDesde.setText("");
-        txtFechaHasta.setText("");
-        if (!ultimoRegistroCargado.isEmpty()) {
-            txtaResultadosRegistros.setText(gestor.getContenidoRegistro(ultimoRegistroCargado));
+    private void btnCrearProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearProductoFinalActionPerformed
+        // 1. Obtener la lista de IDs de lotes listos para envasar
+        String[] idsLotesListos = gestor.getIdsLotesListosParaEnvasar();
+
+        // 2. Verificar si hay lotes disponibles. Si no, informar al usuario.
+        if (idsLotesListos == null || idsLotesListos.length == 0) {
+            JOptionPane.showMessageDialog(this, // 'this' se refiere a la instancia de InterfazRokefeli
+                "No hay lotes de miel en estado 'Lista para Envasar'.\n"
+                + "Por favor, transforme un lote primero.",
+                "Acción Requerida",
+                JOptionPane.INFORMATION_MESSAGE);
+            return; // Salir del método ya que no hay lotes para mostrar
         }
-    }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
 
-    private void btnRegistroMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroMateriaPrimaActionPerformed
-        String textoBusqueda = txtPalabraClave.getText().trim();
-        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
-        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
+        // 3. Crear una instancia de DatosProductoFinal, pasándole la ventana padre y los IDs de los lotes
+        DatosProductoFinal dialog = new DatosProductoFinal(this, idsLotesListos); // 'this' como Frame parent
 
-        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
-            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
-            
-            String registros = gestor.filtrarRegistros(
-                gestor.getNombreRegistroMateriaPrima(), // <--- ¡Aquí se usa el método para el nombre del archivo!
-                textoBusqueda.isEmpty() ? null : textoBusqueda,
-                fechaInicio,
-                fechaFin
-            );
-            txtaResultadosRegistros.setText(registros);
+        // 4. Hacer visible el diálogo
+        dialog.setVisible(true);
+
+        // 5. Una vez que el diálogo se cierra, verificar si el usuario confirmó la operación
+        if (dialog.isConfirmado()) {
+            try {
+                String idLoteSeleccionado = dialog.getIdLoteSeleccionado();
+                String tipoProducto = dialog.getTipoProductoSeleccionado();
+                int cantidadEnvases = dialog.getCantidad();
+
+                // Llamar al método del GestorInventario para crear el producto final
+                String resultado = gestor.crearProductoFinal(idLoteSeleccionado, tipoProducto, cantidadEnvases);
+                JOptionPane.showMessageDialog(this, resultado, "Producto Final Creado", JOptionPane.INFORMATION_MESSAGE);
+
+                // Opcional: Actualizar la vista de productos finales en la InterfazRokefeli
+                txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error al procesar la cantidad. Asegúrese de que sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocurrió un error al crear el producto final: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace(); // Para depuración
+            }
         }
-    }//GEN-LAST:event_btnRegistroMateriaPrimaActionPerformed
-
-    private void btnRegistroInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroInsumosActionPerformed
-        String textoBusqueda = txtPalabraClave.getText().trim();
-        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
-        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
-
-        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
-            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
-            
-            String registros = gestor.filtrarRegistros(
-                gestor.getNombreArchivoRegistroInsumos(), // <--- ¡Aquí se usa el método para el nombre del archivo!
-                textoBusqueda.isEmpty() ? null : textoBusqueda,
-                fechaInicio,
-                fechaFin
-            );
-            txtaResultadosRegistros.setText(registros);
-        }
-    }//GEN-LAST:event_btnRegistroInsumosActionPerformed
-
-    private void btnRegistroProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroProductosFinalesActionPerformed
-        String textoBusqueda = txtPalabraClave.getText().trim();
-        LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
-        LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
-
-        if ((txtFechaDesde.getText().trim().isEmpty() || fechaInicio != null) && 
-            (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
-            
-            String registros = gestor.filtrarRegistros(
-                gestor.getNombreArchivoRegistroProductosFinales(), // <--- ¡Aquí se usa el método para el nombre del archivo!
-                textoBusqueda.isEmpty() ? null : textoBusqueda,
-                fechaInicio,
-                fechaFin
-            );
-            txtaResultadosRegistros.setText(registros);
-        }
-    }//GEN-LAST:event_btnRegistroProductosFinalesActionPerformed
-
-    private void btnRegistroVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroVentasActionPerformed
-        ultimoRegistroCargado = "Ventas";
-        btnLimpiarFiltrosActionPerformed(null);
-    }//GEN-LAST:event_btnRegistroVentasActionPerformed
+    }//GEN-LAST:event_btnCrearProductoFinalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -737,7 +945,20 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazRokefeli().setVisible(true);
+                // 1. Crear y mostrar el diálogo de login
+                LoginDialog loginDialog = new LoginDialog(null, true); // Pasa 'null' como padre si aún no hay un JFrame principal
+                loginDialog.setVisible(true); // Esto hace que el diálogo sea modal y espere aquí hasta que se cierre
+
+                // 2. Después de que el diálogo se cierra, verifica si la autenticación fue exitosa
+                if (loginDialog.isAutenticacionExitosa()) {
+                    // Si es exitosa, crea y muestra el JFrame principal
+                    InterfazRokefeli frame = new InterfazRokefeli();
+                    frame.setVisible(true);
+                } else {
+                    // Si la autenticación falló o fue cancelada, muestra un mensaje y cierra la aplicación
+                    JOptionPane.showMessageDialog(null, "Autenticación fallida o cancelada. La aplicación se cerrará.", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+                    System.exit(0); // Termina la aplicación si el login no fue exitoso
+                }
             }
         });
     }
@@ -761,17 +982,29 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JButton btnTransformarMateriaPrima;
     private javax.swing.JButton btnVenta;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private java.awt.Label label1;
     private javax.swing.JTextField txtFechaDesde;
     private javax.swing.JTextField txtFechaHasta;
     private javax.swing.JTextField txtPalabraClave;

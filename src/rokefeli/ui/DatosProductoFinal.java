@@ -106,21 +106,40 @@ public class DatosProductoFinal extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(4, 2));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Lote de Miel a usar:");
         getContentPane().add(jLabel1);
 
+        cbxLotes.setBackground(new java.awt.Color(255, 204, 51));
+        cbxLotes.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         getContentPane().add(cbxLotes);
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Tipo de Producto a crear:");
         getContentPane().add(jLabel2);
 
+        cbxTipoProducto.setBackground(new java.awt.Color(255, 204, 51));
+        cbxTipoProducto.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         cbxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (vidrio)", "Frasco 1/2kg (vidrio)", "Frasco 1kg (plástico)", "Frasco 1/2kg (plástico)", "Bolsa 1kg", "Bolsa 1/2kg" }));
         getContentPane().add(cbxTipoProducto);
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Cantidad de unidades a crear:");
         getContentPane().add(jLabel3);
+
+        txtCantidad.setBackground(new java.awt.Color(255, 204, 51));
+        txtCantidad.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         getContentPane().add(txtCantidad);
 
+        btnCrear.setBackground(new java.awt.Color(255, 255, 255));
+        btnCrear.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnCrear.setForeground(new java.awt.Color(0, 0, 0));
         btnCrear.setText("Crear");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,6 +148,9 @@ public class DatosProductoFinal extends javax.swing.JDialog {
         });
         getContentPane().add(btnCrear);
 
+        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

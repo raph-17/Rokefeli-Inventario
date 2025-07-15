@@ -98,23 +98,53 @@ public class DatosVenta extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(5, 2));
 
-        jLabel1.setText("Prodcuto a Vender:");
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Producto a Vender:");
         getContentPane().add(jLabel1);
 
+        cbxProductos.setBackground(new java.awt.Color(255, 204, 51));
+        cbxProductos.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        cbxProductos.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(cbxProductos);
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cantidad:");
         getContentPane().add(jLabel2);
+
+        txtCantidad.setBackground(new java.awt.Color(255, 204, 51));
+        txtCantidad.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtCantidad.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtCantidad);
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Comprador:");
         getContentPane().add(jLabel3);
+
+        txtComprador.setBackground(new java.awt.Color(255, 204, 51));
+        txtComprador.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtComprador.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtComprador);
 
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Fecha de Venta:");
         getContentPane().add(jLabel4);
+
+        txtFecha.setBackground(new java.awt.Color(255, 204, 51));
+        txtFecha.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        txtFecha.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(txtFecha);
 
+        btnVender.setBackground(new java.awt.Color(255, 255, 255));
+        btnVender.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnVender.setForeground(new java.awt.Color(0, 0, 0));
         btnVender.setText("Vender");
         btnVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +153,9 @@ public class DatosVenta extends javax.swing.JDialog {
         });
         getContentPane().add(btnVender);
 
+        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
