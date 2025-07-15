@@ -27,7 +27,6 @@ public class Usuario implements Serializable {
 
     /**
      * Hashea la contraseña plana usando SHA-256.
-     * Para mayor seguridad, en un entorno real se usarían salts aleatorios y algoritmos como BCrypt/PBKDF2.
      */
     public static String hashContrasena(String contrasenaPlana) {
         try {

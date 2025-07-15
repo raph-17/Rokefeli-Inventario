@@ -48,14 +48,10 @@ public class GestorAutenticacion {
     /**
      * Valida las credenciales ingresadas.
      * Si no hay usuario registrado, registra el primero que se intente loguear.
-     * @param usuarioIngresado Nombre de usuario intentado.
-     * @param contrasenaIngresada Contraseña plana intentada.
-     * @return true si las credenciales son válidas, false de lo contrario.
      */
     public boolean validarCredenciales(String usuarioIngresado, String contrasenaIngresada) {
         if (usuarioRegistrado == null) {
             // Si no hay usuario registrado, el primer intento se convierte en el usuario por defecto.
-            // En un entorno real, esto debería ser un proceso de registro explícito de administrador.
             usuarioRegistrado = new Usuario(usuarioIngresado, contrasenaIngresada);
             guardarUsuario(usuarioRegistrado); // Guarda el nuevo usuario
             System.out.println("DEBUG: Primer usuario registrado como: " + usuarioIngresado);
@@ -70,7 +66,7 @@ public class GestorAutenticacion {
         return false;
     }
 
-    // Método para obtener el usuario registrado (útil para propósitos de administración o depuración)
+    // Método para obtener el usuario registrado
     public Usuario getUsuarioRegistrado() {
         return usuarioRegistrado;
     }

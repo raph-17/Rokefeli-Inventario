@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package rokefeli.ui;
 
 import rokefeli.logic.GestorAutenticacion; // Asegúrate de que la ruta sea correcta
@@ -30,18 +26,14 @@ public class LoginDialog extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        // Tus Action Listeners aquí, usando los nombres de los componentes generados por el IDE
-        // (Asegúrate de cambiar 'jTextField1', 'jPasswordField1', 'jButton1', 'jButton2'
-        // por los nombres de tus componentes si los renombraste en el diseñador,
-        // o renómbralos en el diseñador para que tengan nombres significativos como txtUsuario, txtContrasena, btnLogin, btnCancelar)
-        btnIniciarSesion.addActionListener(new ActionListener() { // Asume que renombraste el botón a 'btnLogin'
+        btnIniciarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 intentarLogin();
             }
         });
 
-        btnCancelar.addActionListener(new ActionListener() { // Asume que renombraste el botón a 'btnCancelar'
+        btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 autenticacionExitosa = false;
@@ -49,7 +41,6 @@ public class LoginDialog extends javax.swing.JDialog {
             }
         });
         
-        // Listener para Enter en campos de texto (opcional, pero mejora la UX)
         txtUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +55,8 @@ public class LoginDialog extends javax.swing.JDialog {
         });
     }
     
-    private void intentarLogin() { // Tu método de lógica de login
+    // Lógica del Login
+    private void intentarLogin() {
         String usuario = txtUsuario.getText();
         String contrasena = new String(txtPassword.getPassword());
 

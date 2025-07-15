@@ -16,7 +16,7 @@ public class DatosVenta extends javax.swing.JDialog {
      */
     public DatosVenta(java.awt.Frame parent, String[] productosDisponibles) {
         super(parent, "Registrar Venta", true);
-        // 1. ¡¡¡LLAMAR A initComponents() PRIMERO!!! Esto es CRÍTICO para que cbxProductos no sea null.
+        // 1. Llamamos a initComponents 
         initComponents(); 
 
         // 2. Primero, verificamos si hay productos. Si no hay, mostramos el mensaje y cerramos el diálogo.
@@ -30,7 +30,6 @@ public class DatosVenta extends javax.swing.JDialog {
         }
         
         // 3. Si hay productos, poblar el JComboBox utilizando su MODELO.
-        // ¡¡¡NO HAGAS 'cbxProductos = new JComboBox<>(productosDisponibles);' aquí de nuevo!!!
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(productosDisponibles);
         cbxProductos.setModel(model); // <--- ESTA ES LA LÍNEA CORRECTA PARA POBLAR EL JCOMBOBOX EXISTENTE
         
@@ -44,8 +43,6 @@ public class DatosVenta extends javax.swing.JDialog {
         }
 
         // Configuración de tamaño, posición, y operación de cierre
-        // Estos valores de tamaño y ubicación deben coincidir con tu diseñador
-        // setSize(600, 250); // Puedes ajustar esto si usas GridBagLayout manualmente
         pack(); // Ajusta el tamaño de la ventana a sus componentes
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

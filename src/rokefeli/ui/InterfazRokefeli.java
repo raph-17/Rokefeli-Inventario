@@ -809,23 +809,12 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         dialog.setVisible(true);
 
         if (dialog.getTipoInsumo() != null && dialog.getCantidad() > 0) {
-            String tipoInsumo = dialog.getTipoInsumo(); // Obtiene la descripción del insumo (ej. "Miel de Huarango")
+            String tipoInsumo = dialog.getTipoInsumo(); // Obtiene la descripción del insumo
             int cantidad = dialog.getCantidad(); // Obtiene la cantidad a ingresar/retirar
 
-            // Aquí debes decidir si es una entrada o una salida.
-            // Si el diálogo 'DatosInsumo' solo maneja ENTRADAS, o si tienes otro diálogo para SALIDAS.
-            // Asumiendo que 'DatosInsumo' es para entradas:
             String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
             JOptionPane.showMessageDialog(this, mensaje);
 
-            // O si DatosInsumo es general y puede indicar el tipo de operación:
-            // if (dialog.esEntrada()) {
-                //     String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
-                //     JOptionPane.showMessageDialog(this, mensaje);
-                // } else if (dialog.esSalida()) {
-                //     String mensaje = gestor.retirarStockInsumo(tipoInsumo, cantidad);
-                //     JOptionPane.showMessageDialog(this, mensaje);
-                // }
             // Actualiza la visualización de los insumos en tu interfaz
             txtaResultadosInsumos.setText(gestor.mostrarInsumos());
         }
@@ -903,7 +892,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 String resultado = gestor.crearProductoFinal(idLoteSeleccionado, tipoProducto, cantidadEnvases);
                 JOptionPane.showMessageDialog(this, resultado, "Producto Final Creado", JOptionPane.INFORMATION_MESSAGE);
 
-                // Opcional: Actualizar la vista de productos finales en la InterfazRokefeli
+                // Actualizar la vista de productos finales en la InterfazRokefeli
                 txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
 
             } catch (NumberFormatException e) {

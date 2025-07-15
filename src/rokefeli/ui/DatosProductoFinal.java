@@ -16,7 +16,6 @@ public class DatosProductoFinal extends javax.swing.JDialog {
     public DatosProductoFinal(java.awt.Frame parent, String[] idsLotes) {
         super(parent, "Crear Producto Final", true);
         initComponents();
-        // Ahora, una vez que cbxLotes ha sido instanciado por initComponents(), lo poblamos.
         // Primero, verificamos si hay lotes. Si no hay, mostramos el mensaje y nos vamos.
         if (idsLotes == null || idsLotes.length == 0) {
             JOptionPane.showMessageDialog(parent,
@@ -26,17 +25,12 @@ public class DatosProductoFinal extends javax.swing.JDialog {
                     JOptionPane.INFORMATION_MESSAGE);
             // Si no hay lotes, dispose() cierra el diálogo.
             dispose(); 
-            // Podríamos incluso no mostrar el diálogo si idsLotes está vacío en InterfazRokefeli.
-            // Para asegurar que el diálogo no se muestre si está vacío,
-            // InterfazRokefeli debe verificar `idsLotesListos.length` antes de llamar a `setVisible(true)`.
             return; // Salir del constructor si no hay lotes.
         }
         // Si hay lotes, poblar el JComboBox.
-        // Es mejor reemplazar el modelo del ComboBox para asegurar que esté limpio.
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(idsLotes);
         cbxLotes.setModel(model);
 
-        // Puedes configurar el primer elemento seleccionado si lo deseas
         if (idsLotes.length > 0) {
             cbxLotes.setSelectedIndex(0);
         }
@@ -206,7 +200,6 @@ public class DatosProductoFinal extends javax.swing.JDialog {
                 GestorInventario dummyGestor = new GestorInventario();
                 dummyGestor.cargarInventario();
                 if (dummyGestor.getIdsLotesListosParaEnvasar().length == 0) {
-                    // Asegúrate de que LoteMielCosecha exista y sea accesible
                     dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_01", "Polifloral", "Granja Demo", LocalDate.now(), 50.0));
                     dummyGestor.inventarioLotes.get(0).setEstado("Lista para Envasar");
                     dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_02", "Eucalipto", "Granja Demo", LocalDate.now(), 30.0));

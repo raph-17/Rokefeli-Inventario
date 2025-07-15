@@ -81,8 +81,7 @@ public class GestorInventario {
             inventarioProductos = data.getProductosFinales();
             System.out.println("DEBUG: Todos los inventarios cargados exitosamente desde " + INVENTARIO_FILE_NAME);
 
-            // Asegura que los insumos por defecto estén presentes si por alguna razón el archivo
-            // cargado no los contenía (ej. primera versión del archivo sin insumos)
+            // Asegura que los insumos por defecto estén presentes si por alguna razón el archivo cargado no los contenía
             if (inventarioInsumos.isEmpty()) {
                 inicializarInsumosPorDefecto();
             }
@@ -233,26 +232,6 @@ public class GestorInventario {
         loteEncontrado.setEstado(nuevoEstado);
     }
 
-//    // Obtener la lista de IDs de lotes (para poblar el JComboBox)
-//    public String[] getIdsLotes() {
-//        String[] ids = new String[inventarioLotes.size()];
-//        for (int i = 0; i < inventarioLotes.size(); i++) {
-//            ids[i] = inventarioLotes.get(i).getIdLote();
-//        }
-//        return ids;
-//    }
-
-//    // Obtener información de un lote por ID (para mostrar en el diálogo)
-//    public String getInfoLote(String idLote) {
-//        for (LoteMielCosecha lote : inventarioLotes) {
-//            if (lote.getIdLote().equals(idLote)) {
-//                return "Lote: " + lote.getIdLote() + " | FloraciÃ³n: " + lote.getFloracion() +
-//                       " | Estado actual: " + lote.getEstado();
-//            }
-//        } return "Lote no encontrado.";
-//        
-//    }
-    
     //Comprobar que el lote no se repita
     public boolean repetirLote(String idlote){
         for(LoteMielCosecha lote : inventarioLotes){
@@ -322,7 +301,7 @@ public class GestorInventario {
         System.out.println("DEBUG: Insumos por defecto inicializados/verificados.");
     }
 
-    // Asegúrese de que este método también esté en su clase GestorInventario.java
+    // Buscar insumo por descripcion
     public Insumo buscarInsumoPorDescripcion(String descripcion) {
         for (Insumo insumo : inventarioInsumos) {
             if (insumo.getDescripcion().equals(descripcion)) {
@@ -558,8 +537,7 @@ public class GestorInventario {
     // Buscar por idLote y tipo
     public ProductoFinal buscarProductoFinalPorLoteYTipo(String idLote, String descripcion) {
         for (ProductoFinal pf : inventarioProductos) {
-            // Se asume que 'descripcion' del ProductoFinal es lo que se usa como 'tipoProducto'
-            // al crear/identificarlo, y que idLote del ProductoFinal corresponde a idLote de la miel.
+            // Si el lote y la descripción ingresada coinciden con los del lote hacer un return
             if (pf.getIdLote() != null && pf.getIdLote().equals(idLote) &&
                 pf.getDescripcion() != null && pf.getDescripcion().equals(descripcion)) {
                 return pf;
@@ -590,7 +568,7 @@ public class GestorInventario {
         return sb.toString();
     }
     
-    // Buscar productos finales por criterio (descripción/SKU)
+    // Buscar productos finales por criterio (descripción)
     public String buscarProductoFinal(String criterio) {
         if (criterio == null || criterio.trim().isEmpty()) {
             return "Criterio de búsqueda no puede estar vacío.";
@@ -603,7 +581,7 @@ public class GestorInventario {
         String criterioBusqueda = criterio.trim().toLowerCase();
 
         for (ProductoFinal producto : inventarioProductos) {
-            // Buscamos por la descripción, que usamos como SKU
+            // Buscamos por la descripción
             if (producto.getDescripcion().toLowerCase().contains(criterioBusqueda)) {
                 resultados.append(producto.getDescripcion()).append(" - ")
                           .append(producto.getIdLote()).append(" - ")
@@ -619,7 +597,7 @@ public class GestorInventario {
         return resultados.toString();
     }
     
-    // Crear archivo txt para registro pf
+    // Crear archivo txt para registro producto final
     public String getNombreArchivoRegistroProductosFinales() {
         LocalDate hoy = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -637,7 +615,7 @@ public class GestorInventario {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String fechaHoraFormateada = ahora.format(formatter);
 
-            // Construye la entrada del registro, incluyendo SKU e ID de Lote si están disponibles
+            // Construye la entrada del registro
             StringBuilder entradaRegistro = new StringBuilder();
             entradaRegistro.append(String.format("%s | Tipo: %s | Producto: %s | Cantidad: %d",
                                                     fechaHoraFormateada,
@@ -721,6 +699,7 @@ public class GestorInventario {
         return "¡Venta exitosa! Se vendieron " + cantidad + " unidades a " + comprador + ".";
     }
     
+    
     /* PESTAÑA REGISTRO*/
     
     public String filtrarRegistros(String nombreArchivo, String textoBusqueda, LocalDate fechaDesde, LocalDate fechaHasta) {
@@ -745,10 +724,10 @@ public class GestorInventario {
                     }
                 }
 
-                // Filtro por fecha (asumiendo que la fecha está al inicio de la línea en formato YYYY-MM-DD)
+                // Filtro por fecha
                 if (pasaFiltro && (fechaDesde != null || fechaHasta != null)) {
                     try {
-                        // Extraemos 'AAAA-MM-DD' de la línea (los primeros 10 caracteres)
+                        // Extraemos 'AAAA-MM-DD' de la línea
                         String fechaDeLineaStr = linea.substring(0, 10); 
                         LocalDate fechaDeLinea = LocalDate.parse(fechaDeLineaStr);
 
@@ -759,8 +738,7 @@ public class GestorInventario {
                             pasaFiltro = false;
                         }
                     } catch (Exception e) {
-                        // Si la línea no tiene un formato de fecha válido o no se puede parsear,
-                        // no pasa el filtro de fecha.
+                        // Si la línea no tiene un formato de fecha válido o no se puede parsear no pasa el filtro de fecha
                         pasaFiltro = false;
                     }
                 }

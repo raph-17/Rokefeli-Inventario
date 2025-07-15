@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class LoteMielCosecha implements Serializable{
     private String idLote;
-    private String floracion; // "Huarango", "Eucalipto", "Naranjo", "Polifloral" 
+    private String floracion; // "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" 
     private String origen;
     private LocalDate fechaCompra;
     private double cantKg;
