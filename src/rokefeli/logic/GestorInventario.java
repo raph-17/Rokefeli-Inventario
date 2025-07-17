@@ -655,12 +655,12 @@ public class GestorInventario {
         LocalDateTime fechaHora = LocalDateTime.now();
         DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        String entradaRegistro = String.format("%s, VENTA, %s, %d uds, Comprador: %s%n",
+        String entradaRegistro = String.format("%s, DESPACHOS, %s, %d uds, Comprador: %s%n",
                 fechaHora.format(fechaHoraFormato), producto, cantidad, comprador);
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nombreArchivo), true))) {
             pw.print(entradaRegistro);
-            System.out.println("DEBUG: Venta registrada en: " + nombreArchivo);
+            System.out.println("DEBUG: Despacho registrada en: " + nombreArchivo);
         } catch (IOException e) {
             System.err.println("ERROR al escribir en el archivo de ventas: " + e.getMessage());
         }
@@ -694,9 +694,9 @@ public class GestorInventario {
         registrarMovimientoVenta(productoDesc, cantidad, comprador);
         
         // 5. Registrar salida de producto final
-        registrarMovimientoProductoFinal("VENTA", productoDesc, cantidad, productoAVender.getSku(), productoAVender.getIdLote());
+        registrarMovimientoProductoFinal("DESPACHO", productoDesc, cantidad, productoAVender.getSku(), productoAVender.getIdLote());
         
-        return "¡Venta exitosa! Se vendieron " + cantidad + " unidades a " + comprador + ".";
+        return "¡Despacho exitoso! Se despacharon " + cantidad + " unidades a " + comprador + ".";
     }
     
     

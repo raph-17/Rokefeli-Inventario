@@ -2,3 +2,8 @@
 2025-07-14 18:44:10 | Tipo: VENTA | Producto: Frasco 1kg (plástico) | Cantidad: 300 | SKU: Frasco 1kg (plástico) | Lote: 140725MH
 2025-07-16 18:01:45 | Tipo: CREACION | Producto: Frasco 1kg (vidrio) | Cantidad: 300 | SKU: Frasco 1kg (vidrio) | Lote: 160725MH
 2025-07-16 18:02:10 | Tipo: VENTA | Producto: Frasco 1kg (vidrio) | Cantidad: 300 | SKU: Frasco 1kg (vidrio) | Lote: 160725MH
+2025-07-16 23:23:31 | Tipo: CREACION | Producto: Bolsa 1kg | Cantidad: 100 | SKU: Bolsa 1kg | Lote: 160725MC
+2025-07-16 23:23:48 | Tipo: VENTA | Producto: Bolsa 1kg | Cantidad: 100 | SKU: Bolsa 1kg | Lote: 160725MC
+2025-07-16 23:29:42 | Tipo: CREACION | Producto: Bolsa 1/2kg | Cantidad: 100 | SKU: Bolsa 1/2kg | Lote: 160725MC
+2025-07-16 23:30:16 | Tipo: VENTA | Producto: Bolsa 1/2kg | Cantidad: 50 | SKU: Bolsa 1/2kg | Lote: 160725MC
+2025-07-16 23:30:26 | Tipo: VENTA | Producto: Bolsa 1/2kg | Cantidad: 50 | SKU: Bolsa 1/2kg | Lote: 160725MC

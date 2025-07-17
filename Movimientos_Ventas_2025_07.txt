@@ -1,2 +1,5 @@
 2025-07-14 18:44:10, VENTA, Frasco 1kg (plástico), 300 uds, Comprador: Rokefeli
 2025-07-16 18:02:10, VENTA, Frasco 1kg (vidrio), 300 uds, Comprador: Tienda Rokefeli
+2025-07-16 23:23:48, VENTA, Bolsa 1kg, 100 uds, Comprador: Tienda Rokefeli
+2025-07-16 23:30:16, VENTA, Bolsa 1/2kg, 50 uds, Comprador: Tienda Rokefeli
+2025-07-16 23:30:26, VENTA, Bolsa 1/2kg, 50 uds, Comprador: Tienda Rokefeli

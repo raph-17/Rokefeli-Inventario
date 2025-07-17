@@ -15,14 +15,16 @@ public class DatosVenta extends javax.swing.JDialog {
      * Creates new form DatosVenta
      */
     public DatosVenta(java.awt.Frame parent, String[] productosDisponibles) {
-        super(parent, "Registrar Venta", true);
+        super(parent, "Registrar Despacho", true);
         // 1. Llamamos a initComponents 
         initComponents(); 
+        txtComprador.setText("Tienda Rokefeli");
+        txtComprador.setEditable(false);
 
         // 2. Primero, verificamos si hay productos. Si no hay, mostramos el mensaje y cerramos el diálogo.
         if (productosDisponibles == null || productosDisponibles.length == 0) {
             JOptionPane.showMessageDialog(parent,
-                    "No hay productos con stock disponibles para la venta.",
+                    "No hay productos con stock disponibles para el despacho.",
                     "Información",
                     JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Cierra el diálogo si no hay productos
@@ -35,7 +37,6 @@ public class DatosVenta extends javax.swing.JDialog {
         
         // Configurar la fecha actual y hacerla no editable
         txtFecha.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        txtFecha.setEditable(false);
 
         // Puedes configurar el primer elemento seleccionado si lo deseas
         if (productosDisponibles.length > 0) {
@@ -50,7 +51,7 @@ public class DatosVenta extends javax.swing.JDialog {
     
     private boolean validarCampos() {
         if (txtComprador.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El nombre del comprador no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El nombre del destino no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try {
@@ -98,7 +99,7 @@ public class DatosVenta extends javax.swing.JDialog {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Producto a Vender:");
+        jLabel1.setText("Producto a Despachar:");
         getContentPane().add(jLabel1);
 
         cbxProductos.setBackground(new java.awt.Color(255, 204, 51));
@@ -120,7 +121,7 @@ public class DatosVenta extends javax.swing.JDialog {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Comprador:");
+        jLabel3.setText("Destino:");
         getContentPane().add(jLabel3);
 
         txtComprador.setBackground(new java.awt.Color(255, 204, 51));
@@ -131,7 +132,7 @@ public class DatosVenta extends javax.swing.JDialog {
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Fecha de Venta:");
+        jLabel4.setText("Fecha de Despacho:");
         getContentPane().add(jLabel4);
 
         txtFecha.setBackground(new java.awt.Color(255, 204, 51));
@@ -142,7 +143,7 @@ public class DatosVenta extends javax.swing.JDialog {
         btnVender.setBackground(new java.awt.Color(255, 255, 255));
         btnVender.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
         btnVender.setForeground(new java.awt.Color(0, 0, 0));
-        btnVender.setText("Vender");
+        btnVender.setText("Despachar");
         btnVender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVenderActionPerformed(evt);

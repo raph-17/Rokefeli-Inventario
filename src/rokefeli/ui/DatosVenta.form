@@ -37,7 +37,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Producto a Vender:"/>
+        <Property name="text" type="java.lang.String" value="Producto a Despachar:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbxProductos">
@@ -97,7 +97,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Comprador:"/>
+        <Property name="text" type="java.lang.String" value="Destino:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtComprador">
@@ -124,7 +124,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Fecha de Venta:"/>
+        <Property name="text" type="java.lang.String" value="Fecha de Despacho:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFecha">
@@ -151,7 +151,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Vender"/>
+        <Property name="text" type="java.lang.String" value="Despachar"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVenderActionPerformed"/>

@@ -308,7 +308,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         btnRegistroVentas.setBackground(new java.awt.Color(255, 255, 51));
         btnRegistroVentas.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
         btnRegistroVentas.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegistroVentas.setText("Ventas");
+        btnRegistroVentas.setText("Despacho");
         btnRegistroVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistroVentasActionPerformed(evt);
@@ -331,8 +331,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(btnRegistroProductosFinales)
                 .addGap(35, 35, 35)
-                .addComponent(btnRegistroVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addComponent(btnRegistroVentas)
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,7 +544,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         btnVenta.setBackground(new java.awt.Color(255, 255, 51));
         btnVenta.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
         btnVenta.setForeground(new java.awt.Color(0, 0, 0));
-        btnVenta.setText("Venta");
+        btnVenta.setText("Despacho");
         btnVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVentaActionPerformed(evt);
@@ -827,7 +827,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         // Verificar si hay productos antes de mostrar el diálogo
         if (productosDisponibles == null || productosDisponibles.length == 0) {
             JOptionPane.showMessageDialog(this,
-                "No hay productos con stock disponibles para la venta.",
+                "No hay productos con stock disponibles para el despacho.",
                 "Información",
                 JOptionPane.INFORMATION_MESSAGE);
             return; // No abrir el diálogo
