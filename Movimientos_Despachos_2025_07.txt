@@ -1,4 +1,2 @@
-2025-07-14 18:44:10, DESPACHO, Frasco 1kg (plástico), 300 uds, Comprador: Rokefeli
-2025-07-16 18:02:10, DESPACHO, Frasco 1kg (vidrio), 300 uds, Comprador: Tienda Rokefeli
-2025-07-16 18:13:51, DESPACHO, Frasco 1/2kg (plástico), 300 uds, Comprador: Tienda Rokefeli
-2025-07-16 23:12:46, DESPACHO, Frasco 1/2kg (plástico), 300 uds, Destino: Tienda Rokefeli
+2025-07-16 23:51:33, DESPACHOS, Bolsa 1/2kg, 100 uds, Destino: Tienda Rokefeli
+2025-07-17 00:38:46, DESPACHOS, Bolsa 1kg, 50 uds, Destino: Tienda Rokefeli

@@ -312,7 +312,7 @@ public class GestorInventario {
     }
 
     // Añadir stock a insumo
-    public String añadirStockInsumo(String descripcionInsumo, int cantidad) {
+    public String aniadirStockInsumo(String descripcionInsumo, int cantidad) {
         if (cantidad <= 0) {
             return "La cantidad a añadir debe ser positiva.";
         }
@@ -383,9 +383,9 @@ public class GestorInventario {
     
     // Crear nombre de archivo para registro
     public String getNombreArchivoRegistroInsumos() {
-        LocalDate hoy = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        return "Movimientos_Insumos_" + hoy.format(formatter) + ".txt";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
+        String mesAnio = fechaActualRegistro.format(formato);
+        return "Movimientos_Insumos_" + mesAnio + ".txt";
     }
     
     // Registrar movimientos insumos en txt
@@ -599,9 +599,9 @@ public class GestorInventario {
     
     // Crear archivo txt para registro producto final
     public String getNombreArchivoRegistroProductosFinales() {
-        LocalDate hoy = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        return "Movimientos_Productos_Finales_" + hoy.format(formatter) + ".txt";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
+        String mesAnio = fechaActualRegistro.format(formato);
+        return "Movimientos_Productos_Finales_" + mesAnio + ".txt";
     }
     
     // Método para guardar los Productos Finales en un archivo de texto
@@ -650,19 +650,19 @@ public class GestorInventario {
     // Registra el movimiento de la venta en un archivo de texto
     private void registrarMovimientoVenta(String producto, int cantidad, String comprador) {
         DateTimeFormatter mesAnioFormato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String nombreArchivo = "Movimientos_Ventas_" + fechaActualRegistro.format(mesAnioFormato) + ".txt";
+        String nombreArchivo = "Movimientos_Despachos_" + fechaActualRegistro.format(mesAnioFormato) + ".txt";
         
         LocalDateTime fechaHora = LocalDateTime.now();
         DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        String entradaRegistro = String.format("%s, DESPACHOS, %s, %d uds, Comprador: %s%n",
+        String entradaRegistro = String.format("%s, DESPACHOS, %s, %d uds, Destino: %s%n",
                 fechaHora.format(fechaHoraFormato), producto, cantidad, comprador);
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nombreArchivo), true))) {
             pw.print(entradaRegistro);
             System.out.println("DEBUG: Despacho registrada en: " + nombreArchivo);
         } catch (IOException e) {
-            System.err.println("ERROR al escribir en el archivo de ventas: " + e.getMessage());
+            System.err.println("ERROR al escribir en el archivo de despachos: " + e.getMessage());
         }
     }
 
@@ -761,21 +761,21 @@ public class GestorInventario {
     // Método para leer y devolver el contenido de un archivo de registro
     public String getContenidoRegistro(String tipoRegistro) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String mesAnio = fechaActualRegistro.format(formato);
+        String mesAnio = LocalDate.now().format(formato);
         String nombreArchivo = "";
 
         switch (tipoRegistro) {
             case "Materia Prima":
-                nombreArchivo = "Movimientos_materiaPrima_" + mesAnio + ".txt";
+                nombreArchivo = "Movimientos_Materia_Prima_" + mesAnio + ".txt";
                 break;
             case "Insumos":
                 nombreArchivo = "Movimientos_Insumos_" + mesAnio + ".txt";
                 break;
             case "Productos Finales":
-                nombreArchivo = "Movimientos_ProductosFinales_" + mesAnio + ".txt";
+                nombreArchivo = "Movimientos_Productos_Finales_" + mesAnio + ".txt";
                 break;
-            case "Ventas":
-                nombreArchivo = "Movimientos_Ventas_" + mesAnio + ".txt";
+            case "Despachos":
+                nombreArchivo = "Movimientos_Despachos_" + mesAnio + ".txt";
                 break;
             default:
                 return "Tipo de registro no válido.";

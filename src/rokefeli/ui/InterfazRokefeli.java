@@ -734,6 +734,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
 
     private void btnRegistroMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroMateriaPrimaActionPerformed
+        ultimoRegistroCargado = "Materia Prima";
         String textoBusqueda = txtPalabraClave.getText().trim();
         LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
         LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
@@ -752,6 +753,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroMateriaPrimaActionPerformed
 
     private void btnRegistroInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroInsumosActionPerformed
+        ultimoRegistroCargado = "Insumos";
         String textoBusqueda = txtPalabraClave.getText().trim();
         LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
         LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
@@ -770,6 +772,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroInsumosActionPerformed
 
     private void btnRegistroProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroProductosFinalesActionPerformed
+        ultimoRegistroCargado = "Productos Finales";
         String textoBusqueda = txtPalabraClave.getText().trim();
         LocalDate fechaInicio = parseDate(txtFechaDesde.getText(), "Desde");
         LocalDate fechaFin = parseDate(txtFechaHasta.getText(), "Hasta");
@@ -788,7 +791,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroProductosFinalesActionPerformed
 
     private void btnRegistroVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroVentasActionPerformed
-        ultimoRegistroCargado = "Ventas";
+        ultimoRegistroCargado = "Despachos";
         btnLimpiarFiltrosActionPerformed(null);
     }//GEN-LAST:event_btnRegistroVentasActionPerformed
 
@@ -812,7 +815,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             String tipoInsumo = dialog.getTipoInsumo(); // Obtiene la descripción del insumo
             int cantidad = dialog.getCantidad(); // Obtiene la cantidad a ingresar/retirar
 
-            String mensaje = gestor.añadirStockInsumo(tipoInsumo, cantidad);
+            String mensaje = gestor.aniadirStockInsumo(tipoInsumo, cantidad);
             JOptionPane.showMessageDialog(this, mensaje);
 
             // Actualiza la visualización de los insumos en tu interfaz
