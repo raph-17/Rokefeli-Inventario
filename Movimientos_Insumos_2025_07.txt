@@ -1,5 +1,0 @@
-2025-07-17 00:36:39 | Tipo: ENTRADA | Insumo: Bolsa 1/2kg | Cantidad: 1000
-2025-07-17 00:38:09 | Tipo: ENTRADA | Insumo: Bolsa 1kg | Cantidad: 100
-2025-07-17 00:38:15 | Tipo: ENTRADA | Insumo: Etiqueta Bolsa 1kg | Cantidad: 100
-2025-07-17 00:38:25 | Tipo: SALIDA | Insumo: Bolsa 1kg | Cantidad: 50
-2025-07-17 00:38:25 | Tipo: SALIDA | Insumo: Etiqueta Bolsa 1kg | Cantidad: 50

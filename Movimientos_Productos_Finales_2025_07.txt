@@ -1,2 +1,0 @@
-2025-07-17 00:38:25 | Tipo: CREACION | Producto: Bolsa 1kg | Cantidad: 50 | SKU: Bolsa 1kg | Lote: 160725MC
-2025-07-17 00:38:46 | Tipo: DESPACHO | Producto: Bolsa 1kg | Cantidad: 50 | SKU: Bolsa 1kg | Lote: 160725MC
