@@ -1,0 +1,3 @@
+2025-08-05|Entrada|050825MH|300,00|Huarango|Palpa|En Reposo
+2025-08-05|Transformación|050825MH|300,00|Palpa|Huarango|Pasteurizada
+2025-08-05|Transformación|050825MH|300,00|Palpa|Huarango|Lista para Envasar

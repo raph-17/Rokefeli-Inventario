@@ -1,0 +1,4 @@
+2025-08-05|Entrada|BOL1K|Bolsa 1kg|300
+2025-08-05|Entrada|ETI_BOL1K|Etiqueta Bolsa 1kg|300
+2025-08-05|Salida|BOL1K|Bolsa 1kg|300
+2025-08-05|Salida|ETI_BOL1K|Etiqueta Bolsa 1kg|300

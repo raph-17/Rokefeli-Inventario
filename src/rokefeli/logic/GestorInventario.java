@@ -21,6 +21,7 @@ import rokefeli.ui.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
 
 // LinkedList
 import java.util.LinkedList;
@@ -33,9 +34,9 @@ import rokefeli.data.InventarioData;
 
 public class GestorInventario {
     public LinkedList<Insumo> inventarioInsumos = new LinkedList();
-    public LinkedList<LoteMielCosecha> inventarioLotes = new LinkedList();
+    public LinkedList<MateriaPrima> inventarioMateriaPrima = new LinkedList();
     public LinkedList<ProductoFinal> inventarioProductos = new LinkedList();
-    private LocalDate fechaActualRegistro;
+    private final LocalDate fechaActualRegistro;
     private final String INVENTARIO_FILE_NAME = "inventario_completo.ser";
     
     // Constructor inicializando con la fecha actual
@@ -51,7 +52,7 @@ public class GestorInventario {
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
             // Crea un objeto contenedor con todas tus listas actuales
-            InventarioData data = new InventarioData(inventarioLotes, inventarioInsumos, inventarioProductos);
+            InventarioData data = new InventarioData(inventarioMateriaPrima, inventarioInsumos, inventarioProductos);
             oos.writeObject(data); // Guarda el objeto contenedor completo
             System.out.println("DEBUG: Todos los inventarios guardados exitosamente en " + INVENTARIO_FILE_NAME);
         } catch (IOException e) {
@@ -64,7 +65,7 @@ public class GestorInventario {
         File file = new File(INVENTARIO_FILE_NAME);
         if (!file.exists()) {
             System.out.println("DEBUG: Archivo de inventario completo '" + INVENTARIO_FILE_NAME + "' no encontrado. Se inician listas vacías.");
-            inventarioLotes = new LinkedList<>();
+            inventarioMateriaPrima = new LinkedList<>();
             inventarioInsumos = new LinkedList<>();
             inventarioProductos = new LinkedList<>();
             inicializarInsumosPorDefecto();
@@ -76,7 +77,7 @@ public class GestorInventario {
 
             InventarioData data = (InventarioData) ois.readObject(); // Carga el objeto contenedor
             // Asigna las listas cargadas a los atributos de GestorInventario
-            inventarioLotes = data.getLotesMiel();
+            inventarioMateriaPrima = data.getLotesMiel();
             inventarioInsumos = data.getInsumos();
             inventarioProductos = data.getProductosFinales();
             System.out.println("DEBUG: Todos los inventarios cargados exitosamente desde " + INVENTARIO_FILE_NAME);
@@ -103,7 +104,7 @@ public class GestorInventario {
 
     // Método auxiliar para inicializar listas en caso de error de carga
     private void inicializarListasVaciasYInsumosDefecto() {
-        inventarioLotes = new LinkedList<>();
+        inventarioMateriaPrima = new LinkedList<>();
         inventarioInsumos = new LinkedList<>();
         inventarioProductos = new LinkedList<>();
         inicializarInsumosPorDefecto();
@@ -111,7 +112,7 @@ public class GestorInventario {
     
     
     /* MATERIA PRIMA */
-    
+
     // Autogeneración del id del Lote
     public String autogenerarIdLoteMiel(LocalDate fecha, String floracion){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMYY");
@@ -128,22 +129,21 @@ public class GestorInventario {
     
     // Obtener nombre para el archivo de teto en el que se hará el registro
     public String getNombreRegistroMateriaPrima(){
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String mesAnio = fechaActualRegistro.format(formato);
-        return "Movimientos_Materia_Prima_" + mesAnio + ".txt";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy");
+        String anio = fechaActualRegistro.format(formato);
+        return "Movimientos_Materia_Prima_" + anio + ".txt";
     }
     
     // Escribir registro de materia prima en txt
-    public void registrarMovimientoMateriaPrima(String tipoMovimiento, String idItem, double cantidad, String unidad, String descripcionExtra){
+    public void registrarMovimientoMateriaPrima(String tipoMovimiento, LocalDate fecha, String idItem, double cantidad, String descripcionExtra){
         String nombreArchivo = getNombreRegistroMateriaPrima();
-        LocalDateTime fechaHora = LocalDateTime.now();
-        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         
-        String entradaRegistro = String.format("%s, %s, %s, %.2f %s, %s%n", 
-                fechaHora.format(fechaHoraFormato), tipoMovimiento, idItem, cantidad, unidad, descripcionExtra);
+        String entradaRegistro = String.format("%s|%s|%s|%.2f|%s%n", 
+                fecha.format(fechaHoraFormato), tipoMovimiento, idItem, cantidad, descripcionExtra);
         
         try(
-            FileOutputStream fos = new FileOutputStream(nombreArchivo, true); 
+            FileOutputStream fos = new FileOutputStream(nombreArchivo, true);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             PrintWriter pw = new PrintWriter(osw)){
                 pw.print(entradaRegistro);
@@ -153,43 +153,43 @@ public class GestorInventario {
         }
     }
     
-    // Ingresar materia prima
-    public LoteMielCosecha ingresarLoteMiel(InterfazRokefeli interfaz){
+    // Ingresar lote de miel
+    public MateriaPrima ingresarLoteMiel(InterfazRokefeli interfaz){
         DatosLoteMiel dialog = new DatosLoteMiel(interfaz);
         dialog.setVisible(true);
         
-        LoteMielCosecha nuevoLote = dialog.getLoteMielCosecha();
+        MateriaPrima nuevoLote = dialog.getLoteMielCosecha();
         
-        String id = autogenerarIdLoteMiel(LocalDate.now(), nuevoLote.getFloracion());
-        nuevoLote.setIdLote(id);
+        if(nuevoLote != null){
+            String id = autogenerarIdLoteMiel(nuevoLote.getFechaCompra(), nuevoLote.getFloracion());
+            nuevoLote.setIdLote(id);
+        }
         
         return nuevoLote;
     }
     
-    // Mostrar todos los lotes
-    public String mostrarLotes() {
-        int totalLotes = 0;
-        StringBuilder resultado = new StringBuilder("""
-                MOSTRANDO TODOS LOS LOTES:
-                ID LOTE - FLORACION - ORIGEN - FECHA INGRESO - CANTIDAD (KG) - ESTADO\n
-                """);
-        if (inventarioLotes.isEmpty()) {
-            resultado.append("No hay lotes registrados.");
-        } else {
-            for (LoteMielCosecha lote : inventarioLotes) {
-                totalLotes++;
-                resultado.append(lote.getIdLote()).append(" - ")
-                         .append(lote.getFloracion()).append(" - ")
-                         .append(lote.getOrigen()).append(" - ")
-                         .append(lote.getFechaCompra()).append(" - ")
-                         .append(lote.getCantKg()).append(" - ")
-                         .append(lote.getEstado()).append("\n");
-            }
-            resultado.append("\nTOTAL: ").append(totalLotes);
-        }
-        return resultado.toString();
+    
+    // Nueva fila para tabla materia prima (para mostrar)
+    public String[] nuevaFilaMateriaPrima(MateriaPrima lote){
+        String[] nuevaFila = {"Lote de Miel", lote.getIdLote(), lote.getFloracion(), lote.getOrigen(), lote.getFechaCompra().toString(), 
+            String.format("%.2f", lote.getCantKg()), lote.getEstado()};
+        return nuevaFila;
     }
 
+    // Llenar la tabla con la materia prima existente
+    public void mostrarMateriaPrima(javax.swing.table.DefaultTableModel modeloTabla, boolean existente){
+        modeloTabla.setRowCount(0);
+        for(MateriaPrima lote : inventarioMateriaPrima){
+            if(existente){
+                if(lote.getCantKg() > 0){
+                    modeloTabla.addRow(nuevaFilaMateriaPrima(lote));
+                }
+            } else{
+                modeloTabla.addRow(nuevaFilaMateriaPrima(lote));
+            }
+        }
+    }
+    
     // Buscar lotes por floración
     public String buscarMateriaPrima(String criterio) {
         int totalLotes = 0;
@@ -199,7 +199,7 @@ public class GestorInventario {
             """);
         boolean encontrado = false;
 
-        for (LoteMielCosecha lote : inventarioLotes) {
+        for (MateriaPrima lote : inventarioMateriaPrima) {
             if (lote.getIdLote().equalsIgnoreCase(criterio.trim()) || lote.getFloracion().toLowerCase().contains(criterio.toLowerCase().trim())) {
                 totalLotes++;
                 resultados.append(lote.getIdLote()).append(" - ")
@@ -221,9 +221,9 @@ public class GestorInventario {
 
     // Transformar el estado de un lote
     public void transformarLote(String idLote, String nuevoEstado) {
-        // Buscar el lote por idLote (debe coincidir con un LoteMielCosecha existente)
-        LoteMielCosecha loteEncontrado = null;
-        for (LoteMielCosecha lote : inventarioLotes) {
+        // Buscar el lote por idLote (debe coincidir con un MateriaPrima existente)
+        MateriaPrima loteEncontrado = null;
+        for (MateriaPrima lote : inventarioMateriaPrima) {
             if (lote.getIdLote().equals(idLote.trim())) {
                 loteEncontrado = lote;
                 break;
@@ -234,7 +234,7 @@ public class GestorInventario {
 
     //Comprobar que el lote no se repita
     public boolean repetirLote(String idlote){
-        for(LoteMielCosecha lote : inventarioLotes){
+        for(MateriaPrima lote : inventarioMateriaPrima){
             if(idlote.equals(lote.getIdLote())){
                 return true;
             }
@@ -312,7 +312,7 @@ public class GestorInventario {
     }
 
     // Añadir stock a insumo
-    public String aniadirStockInsumo(String descripcionInsumo, int cantidad) {
+    public String aniadirStockInsumo(String codigo, String descripcionInsumo, int cantidad) {
         if (cantidad <= 0) {
             return "La cantidad a añadir debe ser positiva.";
         }
@@ -320,7 +320,8 @@ public class GestorInventario {
         Insumo insumo = buscarInsumoPorDescripcion(descripcionInsumo);
         if (insumo != null) {
             insumo.agregarStock(cantidad); // Llama al método agregarStock de la clase Insumo
-            registrarMovimientoInsumo("ENTRADA", descripcionInsumo, cantidad);
+            codigo = insumo.getCodigo();
+            registrarMovimientoInsumo(codigo, "Entrada", descripcionInsumo, cantidad);
             return "Se añadieron " + cantidad + " unidades a '" + descripcionInsumo + "'. Nuevo stock: " + insumo.getStockActual();
         } else {
             return "Insumo '" + descripcionInsumo + "' no encontrado.";
@@ -332,7 +333,7 @@ public class GestorInventario {
         for (Insumo insumo : inventarioInsumos) {
             if (insumo.getCodigo().equals(codigo)) {
                 if (insumo.retirarStock(cantidad)) {
-                    registrarMovimientoInsumo("SALIDA", insumo.getDescripcion(), cantidad);
+                    registrarMovimientoInsumo(insumo.getCodigo(), "Salida", insumo.getDescripcion(), cantidad);
                     return "Stock de " + insumo.getDescripcion() + " actualizado. Nuevo stock: " + insumo.getStockActual();
                 } else {
                     return "Error: Stock insuficiente para " + insumo.getDescripcion() + ". Stock actual: " + insumo.getStockActual();
@@ -342,24 +343,17 @@ public class GestorInventario {
         return "Error: Insumo con código " + codigo + " no encontrado.";
     }
 
-    // Mostrar totales de insumos
-    public String mostrarInsumos() {
-        if (inventarioInsumos.isEmpty()) {
-            return "No hay insumos registrados.";
+    // Nueva fila para tabla materia prima (para mostrar)
+    public String[] nuevaFilaInsumos(Insumo insumo){
+        String[] nuevaFila = {insumo.getCodigo(), insumo.getDescripcion(), String.valueOf(insumo.getStockActual()), String.valueOf(insumo.getStockMin())};
+        return nuevaFila;
+    }
+
+    public void mostrarInsumos(javax.swing.table.DefaultTableModel modeloTabla){
+        modeloTabla.setRowCount(0);
+        for(Insumo insumo : inventarioInsumos){
+            modeloTabla.addRow(nuevaFilaInsumos(insumo));
         }
-
-        StringBuilder sb = new StringBuilder("TOTALES DE INSUMOS:\n");
-        int totalGeneral = 0;
-
-        for (Insumo insumo : inventarioInsumos) {
-            sb.append(insumo.getCodigo()).append(" - ")
-              .append(insumo.getDescripcion()).append(" - Stock actual: ")
-              .append(insumo.getStockActual()).append(" unidades\n");
-            totalGeneral += insumo.getStockActual();
-        }
-
-        sb.append("TOTAL GENERAL DE UNIDADES: ").append(totalGeneral);
-        return sb.toString();
     }
 
     // Buscar insumo por código
@@ -382,26 +376,27 @@ public class GestorInventario {
     }
     
     // Crear nombre de archivo para registro
-    public String getNombreArchivoRegistroInsumos() {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String mesAnio = fechaActualRegistro.format(formato);
-        return "Movimientos_Insumos_" + mesAnio + ".txt";
+    public String getNombreRegistroInsumos() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy");
+        String anio = fechaActualRegistro.format(formato);
+        return "Movimientos_Insumos_" + anio + ".txt";
     }
     
     // Registrar movimientos insumos en txt
-    public void registrarMovimientoInsumo(String tipoMovimiento, String descripcionInsumo, int cantidad) {
-        String nombreArchivo = getNombreArchivoRegistroInsumos();
+    public void registrarMovimientoInsumo(String codigo, String tipoMovimiento, String descripcionInsumo, int cantidad) {
+        String nombreArchivo = getNombreRegistroInsumos();
         
         try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(
                 new FileOutputStream(nombreArchivo, true), StandardCharsets.UTF_8))) {
             
             LocalDateTime ahora = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String fechaHoraFormateada = ahora.format(formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fecha = ahora.format(formatter);
 
-            String entradaRegistro = String.format("%s | Tipo: %s | Insumo: %s | Cantidad: %d",
-                                                    fechaHoraFormateada,
+            String entradaRegistro = String.format("%s|%s|%s|%s|%d",
+                                                    fecha,
                                                     tipoMovimiento, // "ENTRADA" o "SALIDA"
+                                                    codigo,
                                                     descripcionInsumo,
                                                     cantidad);
             
@@ -418,17 +413,17 @@ public class GestorInventario {
 
     // Método para obtener solo los lotes listos para el envasado
     public String[] getIdsLotesListosParaEnvasar() {
-        return inventarioLotes.stream()
+        return inventarioMateriaPrima.stream()
                 .filter(lote -> lote.getEstado().equals("Lista para Envasar"))
-                .map(LoteMielCosecha::getIdLote)
+                .map(MateriaPrima::getIdLote)
                 .toArray(String[]::new);
     }
 
     // Método principal para crear el producto final
     public String crearProductoFinal(String idLote, String tipoProducto, int cantidad) {
         // 1. Encontrar el lote de miel
-        LoteMielCosecha loteSeleccionado = null;
-        for (LoteMielCosecha lote : inventarioLotes) {
+        MateriaPrima loteSeleccionado = null;
+        for (MateriaPrima lote : inventarioMateriaPrima) {
             if (lote.getIdLote().equals(idLote)) {
                 loteSeleccionado = lote;
                 break;
@@ -441,35 +436,36 @@ public class GestorInventario {
         // 2. Definir los insumos y la cantidad de miel necesaria
         double mielRequeridaKg = 0;
         double precioVenta = 0;
+        String sku = null;
         String[] codigosInsumosRequeridos;
 
         switch (tipoProducto) {
-            case "Frasco 1kg (vidrio)":
+            case "Miel Frasco 1kg (vidrio)":
                 precioVenta = 25.50;
                 mielRequeridaKg = 1.0 * cantidad;
                 codigosInsumosRequeridos = new String[]{"FRA1KV", "TAPA1KV", "ETI_FRA1K", "PRE1K"};
                 break;
-            case "Frasco 1/2kg (vidrio)":
+            case "Miel Frasco 1/2kg (vidrio)":
                 precioVenta = 15.40;
                 mielRequeridaKg = 0.5 * cantidad;
                 codigosInsumosRequeridos = new String[]{"FRA05KV", "TAPA05KV", "ETI_FRA05K", "PRE05K"};
                 break;
-            case "Frasco 1kg (plástico)":
+            case "Miel Frasco 1kg (plástico)":
                 precioVenta = 25.50;
                 mielRequeridaKg = 1.0 * cantidad;
                 codigosInsumosRequeridos = new String[]{"FRA1KP", "TAPA1KP", "ETI_FRA1K", "PRE1K"};
                 break;
-            case "Frasco 1/2kg (plástico)":
+            case "Miel Frasco 1/2kg (plástico)":
                 precioVenta = 15.40;
                 mielRequeridaKg = 0.5 * cantidad;
                 codigosInsumosRequeridos = new String[]{"FRA05KP", "TAPA05KP", "ETI_FRA05K", "PRE05K"};
                 break;
-            case "Bolsa 1kg":
+            case "Miel Bolsa 1kg":
                 precioVenta = 23.00;
                 mielRequeridaKg = 1.0 * cantidad;
                 codigosInsumosRequeridos = new String[]{"BOL1K", "ETI_BOL1K"};
                 break;
-            case "Bolsa 1/2kg":
+            case "Miel Bolsa 1/2kg":
                 precioVenta = 13.30;
                 mielRequeridaKg = 0.5 * cantidad;
                 codigosInsumosRequeridos = new String[]{"BOL05K", "ETI_BOL05K"};
@@ -497,14 +493,23 @@ public class GestorInventario {
                 return "Error: El insumo con código '" + codigoInsumo + "' no fue encontrado en el inventario de insumos.";
             }
         }
-
+        
+        
+        // Añadir el tipo de floración a la descripción del producto
+        if(tipoProducto.substring(0, 4).equals("Miel")){
+            tipoProducto = tipoProducto + " " + loteSeleccionado.getFloracion();
+        }
+        
         // 4. Si todo es correcto, descontar la miel y los insumos
         loteSeleccionado.setCantKg(loteSeleccionado.getCantKg() - mielRequeridaKg);
+        if(loteSeleccionado.getCantKg() == 0){    
+            loteSeleccionado.setEstado("Retirado");
+        }
         for (String codigoInsumo : codigosInsumosRequeridos) {
             for (Insumo insumo : inventarioInsumos) {
                 if (insumo.getCodigo().equals(codigoInsumo)) {
                     insumo.retirarStock(cantidad);
-                    registrarMovimientoInsumo("SALIDA", insumo.getDescripcion(), cantidad);
+                    registrarMovimientoInsumo(insumo.getCodigo(), "Salida", insumo.getDescripcion(), cantidad);
                     break;
                 }
             }
@@ -528,7 +533,7 @@ public class GestorInventario {
         // Obtener la descripción y SKU del producto recién creado para el registro
         ProductoFinal productoCreado = buscarProductoFinalPorLoteYTipo(idLote, tipoProducto); // Asumiendo que tienes un método para buscarlo
         if (productoCreado != null) {
-            registrarMovimientoProductoFinal("CREACION", productoCreado.getDescripcion(), cantidad, productoCreado.getSku(), idLote);
+            registrarMovimientoProductoFinal("Entrada", productoCreado.getDescripcion(), cantidad, productoCreado.getSku(), idLote);
         }
 
         return "¡Éxito! Se han creado " + cantidad + " unidades de '" + tipoProducto + "'.";
@@ -546,26 +551,19 @@ public class GestorInventario {
         return null; // Si no se encuentra ningún ProductoFinal que coincida
     }
     
-    // Método para mostrar los productos finales en la interfaz
-    public String mostrarProductosFinales() {
-        if (inventarioProductos.isEmpty()) {
-            return "No hay productos finales registrados.";
-        }
+    // Nueva fila para tabla materia prima (para mostrar)
+    public String[] nuevaFilaProductosFinales(ProductoFinal producto){
+        String[] nuevaFila = {producto.getSku(), producto.getDescripcion(), producto.getIdLote(), String.format("%.2f", producto.getPrecioVenta()), 
+            String.valueOf(producto.getStockActual()), String.valueOf(producto.getStockMin())};
+        return nuevaFila;
+    }
 
-        StringBuilder sb = new StringBuilder("INVENTARIO DE PRODUCTOS FINALES:\n");
-        sb.append("SKU/DESCRIPCIÓN - LOTE DE ORIGEN - PRECIO DE VENTA - STOCK ACTUAL\n");
-        
-        int totalGeneral = 0;
-        for (ProductoFinal producto : inventarioProductos) {
-            sb.append(producto.getDescripcion()).append(" - ")
-              .append(producto.getIdLote()).append(" - ")
-              .append(producto.getPrecioVenta()).append(" - ")
-              .append(producto.getStockActual()).append(" unidades\n");
-            totalGeneral += producto.getStockActual();
+    // Llenar la tabla con la materia prima existente
+    public void mostrarProductosFinales(javax.swing.table.DefaultTableModel modeloTabla){
+        modeloTabla.setRowCount(0);
+        for(ProductoFinal producto : inventarioProductos){
+            modeloTabla.addRow(nuevaFilaProductosFinales(producto));
         }
-
-        sb.append("\nTOTAL GENERAL DE UNIDADES: ").append(totalGeneral);
-        return sb.toString();
     }
     
     // Buscar productos finales por criterio (descripción)
@@ -598,35 +596,35 @@ public class GestorInventario {
     }
     
     // Crear archivo txt para registro producto final
-    public String getNombreArchivoRegistroProductosFinales() {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String mesAnio = fechaActualRegistro.format(formato);
-        return "Movimientos_Productos_Finales_" + mesAnio + ".txt";
+    public String getNombreRegistroProductosFinales() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy");
+        String anio = fechaActualRegistro.format(formato);
+        return "Movimientos_Productos_Finales_" + anio + ".txt";
     }
     
     // Método para guardar los Productos Finales en un archivo de texto
     public void registrarMovimientoProductoFinal(String tipoMovimiento, String descripcionProducto, int cantidad, String skuProducto, String idLoteAsociado) {
-        String nombreArchivo = getNombreArchivoRegistroProductosFinales(); // Obtiene el nombre del archivo con un método
+        String nombreArchivo = getNombreRegistroProductosFinales(); // Obtiene el nombre del archivo con un método
 
         try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(
                 new FileOutputStream(nombreArchivo, true), StandardCharsets.UTF_8))) {
             
             LocalDateTime ahora = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String fechaHoraFormateada = ahora.format(formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fechaFormateada = ahora.format(formatter);
 
             // Construye la entrada del registro
             StringBuilder entradaRegistro = new StringBuilder();
-            entradaRegistro.append(String.format("%s | Tipo: %s | Producto: %s | Cantidad: %d",
-                                                    fechaHoraFormateada,
+            entradaRegistro.append(String.format("%s|%s|%s|%d",
+                                                    fechaFormateada,
                                                     tipoMovimiento,
                                                     descripcionProducto,
                                                     cantidad));
             if (skuProducto != null && !skuProducto.isEmpty()) {
-                entradaRegistro.append(" | SKU: ").append(skuProducto);
+                entradaRegistro.append("|").append(skuProducto);
             }
             if (idLoteAsociado != null && !idLoteAsociado.isEmpty()) {
-                entradaRegistro.append(" | Lote: ").append(idLoteAsociado);
+                entradaRegistro.append("|").append(idLoteAsociado);
             }
             
             pw.println(entradaRegistro.toString());
@@ -648,21 +646,23 @@ public class GestorInventario {
     }
 
     // Registra el movimiento de la venta en un archivo de texto
-    private void registrarMovimientoVenta(String producto, int cantidad, String comprador) {
-        DateTimeFormatter mesAnioFormato = DateTimeFormatter.ofPattern("yyyy_MM");
-        String nombreArchivo = "Movimientos_Despachos_" + fechaActualRegistro.format(mesAnioFormato) + ".txt";
+    private void registrarMovimientoVenta(String producto, String sku, int cantidad, String comprador, double precioVenta) {
+        DateTimeFormatter mesAnioFormato = DateTimeFormatter.ofPattern("yyyy");
+        String nombreArchivo = "Movimientos_Ventas_" + fechaActualRegistro.format(mesAnioFormato) + ".txt";
+        
+        double montoTotal = cantidad * precioVenta;
         
         LocalDateTime fechaHora = LocalDateTime.now();
-        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter fechaHoraFormato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String entradaRegistro = String.format("%s, DESPACHOS, %s, %d uds, Destino: %s%n",
-                fechaHora.format(fechaHoraFormato), producto, cantidad, comprador);
+        String entradaRegistro = String.format("%s|%s|%s|%d|%s|%.2f|%.2f\n",
+                fechaHora.format(fechaHoraFormato), sku, producto, cantidad, comprador, precioVenta, montoTotal);
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nombreArchivo), true))) {
             pw.print(entradaRegistro);
-            System.out.println("DEBUG: Despacho registrada en: " + nombreArchivo);
+            System.out.println("DEBUG: Venta registrada en: " + nombreArchivo);
         } catch (IOException e) {
-            System.err.println("ERROR al escribir en el archivo de despachos: " + e.getMessage());
+            System.err.println("ERROR al escribir en el archivo de venta: " + e.getMessage());
         }
     }
 
@@ -671,7 +671,7 @@ public class GestorInventario {
         // 1. Buscar el producto final en el inventario
         ProductoFinal productoAVender = null;
         for (ProductoFinal pf : inventarioProductos) {
-            if (pf.getDescripcion().equals(productoDesc)) {
+            if (pf.getDescripcion().equals(productoDesc) && pf.getStockActual() != 0) {
                 productoAVender = pf;
                 break;
             }
@@ -691,10 +691,10 @@ public class GestorInventario {
         productoAVender.setStockActual(productoAVender.getStockActual() - cantidad);
 
         // 4. Registrar la venta en el archivo de texto
-        registrarMovimientoVenta(productoDesc, cantidad, comprador);
+        registrarMovimientoVenta(productoAVender.getSku(), productoDesc, cantidad, comprador, productoAVender.getPrecioVenta());
         
         // 5. Registrar salida de producto final
-        registrarMovimientoProductoFinal("DESPACHO", productoDesc, cantidad, productoAVender.getSku(), productoAVender.getIdLote());
+        registrarMovimientoProductoFinal("Salida", productoDesc, cantidad, productoAVender.getSku(), productoAVender.getIdLote());
         
         return "¡Despacho exitoso! Se despacharon " + cantidad + " unidades a " + comprador + ".";
     }

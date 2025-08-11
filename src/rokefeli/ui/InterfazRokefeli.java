@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 import rokefeli.logic.GestorInventario;
-import rokefeli.model.LoteMielCosecha;
+import rokefeli.model.MateriaPrima;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -14,6 +14,13 @@ import javax.swing.JLabel;
 public class InterfazRokefeli extends javax.swing.JFrame {
 
     GestorInventario gestor = new GestorInventario();
+    private javax.swing.table.DefaultTableModel modeloTablaMateriaPrima;
+    private javax.swing.table.DefaultTableModel modeloTablaInsumos;
+    private javax.swing.table.DefaultTableModel modeloTablaProductosFinales;
+    private javax.swing.table.DefaultTableModel modeloTablaRegistroMateriaPrima;
+    private javax.swing.table.DefaultTableModel modeloTablaRegistroInsumos;
+    private javax.swing.table.DefaultTableModel modeloTablaRegistroProductoFinal;
+    private javax.swing.table.DefaultTableModel modeloTablaRegistroVentas;
     private String ultimoRegistroCargado = "";
 
     public InterfazRokefeli() {
@@ -22,10 +29,37 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         gestor.cargarInventario();
         gestor.inicializarInsumosPorDefecto();
-
-        txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
-        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
-        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+        
+        String[] nombresColumnasMateriaPrima = {"Descripción", "ID Lote", "Floración", "Origen", "Fecha de Ingreso", "Cantidad (kg)", "Estado"};
+        modeloTablaMateriaPrima = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasMateriaPrima){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        tablaMateriaPrima.setModel(modeloTablaMateriaPrima);
+        gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, true);
+        
+        String[] nombresColumnasInsumos = {"Código", "Descripción", "Unidades Actuales", "Unidades Mínimas"};
+        modeloTablaInsumos = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasInsumos){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        tablaInsumos.setModel(modeloTablaInsumos);
+        gestor.mostrarInsumos(modeloTablaInsumos);
+        
+        String[] nombresColumnasProductosFinales = {"SKU", "Descripción", "Lote de Origen", "Precio de Venta", "Unidades Actuales", 
+            "Unidades Mínimas"};
+        modeloTablaProductosFinales = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasProductosFinales){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        tablaProductosFinales.setModel(modeloTablaProductosFinales);
+        gestor.mostrarProductosFinales(modeloTablaProductosFinales);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -33,6 +67,30 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 gestor.guardarInventario();
             }
         });
+        
+        String[] nombresColumnasRegistroMP = {"Fecha", "Movimiento", "ID Lote", "Cantidad (Kg)", "Floración", "Origen", "Estado"};
+        modeloTablaRegistroMateriaPrima = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasMateriaPrima){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        String[] nombresColumnasRegistroI = {"Fecha", "Movimiento", "Código", "Descripción", "Cantidad"};
+        modeloTablaRegistroInsumos = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasMateriaPrima){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        String[] nombresColumnasRegistroPF = {"Fecha", "Movimiento", "SKU", "Descripción", "Lote Asociado", "Cantidad"};
+        modeloTablaRegistroProductoFinal = new javax.swing.table.DefaultTableModel(new Object[][]{}, nombresColumnasMateriaPrima){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
     }
 
     // Método auxiliar para parsear fechas de los JTextField
@@ -63,14 +121,33 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        txtaResultadosMateriaPrima = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
-        btnIngresarMateriaPrima = new javax.swing.JButton();
+        btnIngresarLoteMiel = new javax.swing.JButton();
         btnMostrarMateriaPrimaTotal = new javax.swing.JButton();
         btnTransformarMateriaPrima = new javax.swing.JButton();
         btnBuscarMateriaPrima = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        btnMostrarMateriaPrimaHistorico = new javax.swing.JButton();
+        btnIngresarGenerica = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaMateriaPrima = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        btnIngresarInsumo = new javax.swing.JButton();
+        btnBuscarInsumo = new javax.swing.JButton();
+        btnMostrarInsumosTotal = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaInsumos = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        btnCrearProductoFinal = new javax.swing.JButton();
+        btnBuscarProductoFinal = new javax.swing.JButton();
+        btnMostrarProductosFinales = new javax.swing.JButton();
+        btnVenta = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaProductosFinales = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtFechaDesde = new javax.swing.JTextField();
@@ -80,31 +157,14 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         txtPalabraClave = new javax.swing.JTextField();
         btnFiltrar = new javax.swing.JButton();
         btnLimpiarFiltros = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtaResultadosRegistros = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         btnRegistroMateriaPrima = new javax.swing.JButton();
         btnRegistroInsumos = new javax.swing.JButton();
         btnRegistroProductosFinales = new javax.swing.JButton();
         btnRegistroVentas = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtaResultadosInsumos = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        btnIngresarInsumo = new javax.swing.JButton();
-        btnBuscarInsumo = new javax.swing.JButton();
-        btnMostrarInsumosTotal = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtaResultadosProductosFinales = new javax.swing.JTextArea();
-        jPanel8 = new javax.swing.JPanel();
-        btnCrearProductoFinal = new javax.swing.JButton();
-        btnBuscarProductoFinal = new javax.swing.JButton();
-        btnMostrarProductosFinales = new javax.swing.JButton();
-        btnVenta = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaRegistros = new javax.swing.JTable();
 
         label1.setText("label1");
 
@@ -112,28 +172,23 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtaResultadosMateriaPrima.setEditable(false);
-        txtaResultadosMateriaPrima.setBackground(new java.awt.Color(204, 204, 204));
-        txtaResultadosMateriaPrima.setColumns(20);
-        txtaResultadosMateriaPrima.setRows(5);
-        jScrollPane4.setViewportView(txtaResultadosMateriaPrima);
-
         jPanel5.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel5.setPreferredSize(new java.awt.Dimension(911, 116));
 
-        btnIngresarMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
-        btnIngresarMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnIngresarMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
-        btnIngresarMateriaPrima.setText("Ingresar Materia Prima");
-        btnIngresarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresarLoteMiel.setBackground(new java.awt.Color(255, 255, 51));
+        btnIngresarLoteMiel.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnIngresarLoteMiel.setForeground(new java.awt.Color(0, 0, 0));
+        btnIngresarLoteMiel.setText("Ingresar Lote Miel");
+        btnIngresarLoteMiel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarMateriaPrimaActionPerformed(evt);
+                btnIngresarLoteMielActionPerformed(evt);
             }
         });
 
         btnMostrarMateriaPrimaTotal.setBackground(new java.awt.Color(255, 255, 51));
         btnMostrarMateriaPrimaTotal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
         btnMostrarMateriaPrimaTotal.setForeground(new java.awt.Color(0, 0, 0));
-        btnMostrarMateriaPrimaTotal.setText("Mostrar Materia Prima Total");
+        btnMostrarMateriaPrimaTotal.setText("Mostrar Total");
         btnMostrarMateriaPrimaTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMostrarMateriaPrimaTotalActionPerformed(evt);
@@ -153,7 +208,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         btnBuscarMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
         btnBuscarMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
         btnBuscarMateriaPrima.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarMateriaPrima.setText("Búsqueda");
+        btnBuscarMateriaPrima.setText("Filtrar");
         btnBuscarMateriaPrima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarMateriaPrimaActionPerformed(evt);
@@ -162,6 +217,26 @@ public class InterfazRokefeli extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
 
+        btnMostrarMateriaPrimaHistorico.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarMateriaPrimaHistorico.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarMateriaPrimaHistorico.setForeground(new java.awt.Color(0, 0, 0));
+        btnMostrarMateriaPrimaHistorico.setText("Mostrar Histórico");
+        btnMostrarMateriaPrimaHistorico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarMateriaPrimaHistoricoActionPerformed(evt);
+            }
+        });
+
+        btnIngresarGenerica.setBackground(new java.awt.Color(255, 255, 51));
+        btnIngresarGenerica.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnIngresarGenerica.setForeground(new java.awt.Color(0, 0, 0));
+        btnIngresarGenerica.setText("Ingresar Genérica");
+        btnIngresarGenerica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarGenericaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -169,17 +244,21 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnIngresarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMostrarMateriaPrimaTotal))
-                .addGap(72, 72, 72)
+                .addGap(84, 84, 84)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(btnBuscarMateriaPrima, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
-                    .addComponent(btnTransformarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnMostrarMateriaPrimaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMostrarMateriaPrimaHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnIngresarLoteMiel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnIngresarGenerica, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTransformarMateriaPrima, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,39 +267,282 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnIngresarMateriaPrima)
-                            .addComponent(btnTransformarMateriaPrima))
-                        .addGap(22, 22, 22)
+                            .addComponent(btnTransformarMateriaPrima)
+                            .addComponent(btnIngresarLoteMiel)
+                            .addComponent(btnIngresarGenerica))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnMostrarMateriaPrimaTotal)
+                            .addComponent(btnMostrarMateriaPrimaHistorico)
                             .addComponent(btnBuscarMateriaPrima))
-                        .addGap(0, 14, Short.MAX_VALUE))
+                        .addGap(0, 18, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
+        tablaMateriaPrima.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Descripción", "ID Lote", "Floración", "Origen", "Fecha de Ingreso", "Cantidad (kg)", "Estado"
+            }
+        ));
+        jScrollPane5.setViewportView(tablaMateriaPrima);
+        if (tablaMateriaPrima.getColumnModel().getColumnCount() > 0) {
+            tablaMateriaPrima.getColumnModel().getColumn(0).setHeaderValue("Descripción");
+            tablaMateriaPrima.getColumnModel().getColumn(1).setHeaderValue("ID Lote");
+            tablaMateriaPrima.getColumnModel().getColumn(2).setHeaderValue("Floración");
+            tablaMateriaPrima.getColumnModel().getColumn(3).setHeaderValue("Origen");
+            tablaMateriaPrima.getColumnModel().getColumn(4).setHeaderValue("Fecha de Ingreso");
+            tablaMateriaPrima.getColumnModel().getColumn(5).setHeaderValue("Cantidad (kg)");
+            tablaMateriaPrima.getColumnModel().getColumn(6).setHeaderValue("Estado");
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Materia Prima", jPanel1);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel6.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel6.setPreferredSize(new java.awt.Dimension(911, 116));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        btnIngresarInsumo.setBackground(new java.awt.Color(255, 255, 51));
+        btnIngresarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnIngresarInsumo.setForeground(new java.awt.Color(0, 0, 0));
+        btnIngresarInsumo.setText("Ingresar Insumo");
+        btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarInsumoActionPerformed(evt);
+            }
+        });
+
+        btnBuscarInsumo.setBackground(new java.awt.Color(255, 255, 51));
+        btnBuscarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnBuscarInsumo.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarInsumo.setText("Búsqueda");
+        btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarInsumoActionPerformed(evt);
+            }
+        });
+
+        btnMostrarInsumosTotal.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarInsumosTotal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarInsumosTotal.setForeground(new java.awt.Color(0, 0, 0));
+        btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
+        btnMostrarInsumosTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarInsumosTotalActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(btnIngresarInsumo)
+                .addGap(30, 30, 30)
+                .addComponent(btnBuscarInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(btnMostrarInsumosTotal)
+                .addGap(51, 51, 51))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMostrarInsumosTotal)
+                            .addComponent(btnIngresarInsumo)
+                            .addComponent(btnBuscarInsumo))
+                        .addGap(0, 41, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        tablaInsumos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Descripción", "Unidades", "Mínimo"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaInsumos);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Insumos", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
+
+        jPanel8.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel8.setPreferredSize(new java.awt.Dimension(911, 116));
+
+        btnCrearProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
+        btnCrearProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnCrearProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
+        btnCrearProductoFinal.setText("Crear Producto Final");
+        btnCrearProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnBuscarProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
+        btnBuscarProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnBuscarProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarProductoFinal.setText("Búsqueda");
+        btnBuscarProductoFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarProductoFinalActionPerformed(evt);
+            }
+        });
+
+        btnMostrarProductosFinales.setBackground(new java.awt.Color(255, 255, 51));
+        btnMostrarProductosFinales.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnMostrarProductosFinales.setForeground(new java.awt.Color(0, 0, 0));
+        btnMostrarProductosFinales.setText("Mostrar Productos");
+        btnMostrarProductosFinales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarProductosFinalesActionPerformed(evt);
+            }
+        });
+
+        btnVenta.setBackground(new java.awt.Color(255, 255, 51));
+        btnVenta.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
+        btnVenta.setForeground(new java.awt.Color(0, 0, 0));
+        btnVenta.setText("Despacho");
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMostrarProductosFinales, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrearProductoFinal))
+                .addGap(119, 119, 119)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarProductoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(108, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addComponent(btnVenta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscarProductoFinal)
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(btnCrearProductoFinal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnMostrarProductosFinales)
+                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tablaProductosFinales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "SKU", "Descripción", "Lote de Origen", "Precio de Venta", "Unidades"
+            }
+        ));
+        jScrollPane3.setViewportView(tablaProductosFinales);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Productos Finales", jPanel3);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -267,13 +589,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         });
 
-        txtaResultadosRegistros.setEditable(false);
-        txtaResultadosRegistros.setBackground(new java.awt.Color(204, 204, 204));
-        txtaResultadosRegistros.setColumns(20);
-        txtaResultadosRegistros.setRows(5);
-        jScrollPane1.setViewportView(txtaResultadosRegistros);
-
         jPanel7.setBackground(new java.awt.Color(255, 204, 51));
+        jPanel7.setPreferredSize(new java.awt.Dimension(911, 116));
 
         btnRegistroMateriaPrima.setBackground(new java.awt.Color(255, 255, 51));
         btnRegistroMateriaPrima.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
@@ -322,9 +639,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(53, 53, 53)
                 .addComponent(btnRegistroMateriaPrima)
                 .addGap(34, 34, 34)
                 .addComponent(btnRegistroInsumos, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -332,7 +649,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 .addComponent(btnRegistroProductosFinales)
                 .addGap(35, 35, 35)
                 .addComponent(btnRegistroVentas)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,41 +663,48 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                             .addComponent(btnRegistroMateriaPrima)
                             .addComponent(btnRegistroVentas)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
+
+        tablaRegistros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Seleccione una opción para visualizar registros."
+            }
+        ));
+        jScrollPane6.setViewportView(tablaRegistros);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtPalabraClave, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnFiltrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLimpiarFiltros))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(txtPalabraClave, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFiltrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLimpiarFiltros)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6)
+                .addContainerGap())
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 897, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,229 +720,18 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                     .addComponent(txtPalabraClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFiltrar)
                     .addComponent(btnLimpiarFiltros))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Registros", jPanel4);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        txtaResultadosInsumos.setEditable(false);
-        txtaResultadosInsumos.setBackground(new java.awt.Color(204, 204, 204));
-        txtaResultadosInsumos.setColumns(20);
-        txtaResultadosInsumos.setRows(5);
-        jScrollPane3.setViewportView(txtaResultadosInsumos);
-
-        jPanel6.setBackground(new java.awt.Color(255, 204, 51));
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
-
-        btnIngresarInsumo.setBackground(new java.awt.Color(255, 255, 51));
-        btnIngresarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnIngresarInsumo.setForeground(new java.awt.Color(0, 0, 0));
-        btnIngresarInsumo.setText("Ingresar Insumo");
-        btnIngresarInsumo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarInsumoActionPerformed(evt);
-            }
-        });
-
-        btnBuscarInsumo.setBackground(new java.awt.Color(255, 255, 51));
-        btnBuscarInsumo.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnBuscarInsumo.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarInsumo.setText("Búsqueda");
-        btnBuscarInsumo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarInsumoActionPerformed(evt);
-            }
-        });
-
-        btnMostrarInsumosTotal.setBackground(new java.awt.Color(255, 255, 51));
-        btnMostrarInsumosTotal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnMostrarInsumosTotal.setForeground(new java.awt.Color(0, 0, 0));
-        btnMostrarInsumosTotal.setText("Mostrar Insumos Totales");
-        btnMostrarInsumosTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarInsumosTotalActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btnIngresarInsumo)
-                .addGap(30, 30, 30)
-                .addComponent(btnBuscarInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(btnMostrarInsumosTotal)
-                .addGap(51, 51, 51))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnMostrarInsumosTotal)
-                            .addComponent(btnIngresarInsumo)
-                            .addComponent(btnBuscarInsumo))
-                        .addGap(0, 41, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Insumos", jPanel2);
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setForeground(new java.awt.Color(255, 255, 255));
-
-        txtaResultadosProductosFinales.setEditable(false);
-        txtaResultadosProductosFinales.setBackground(new java.awt.Color(204, 204, 204));
-        txtaResultadosProductosFinales.setColumns(20);
-        txtaResultadosProductosFinales.setRows(5);
-        jScrollPane2.setViewportView(txtaResultadosProductosFinales);
-
-        jPanel8.setBackground(new java.awt.Color(255, 204, 51));
-
-        btnCrearProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
-        btnCrearProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnCrearProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
-        btnCrearProductoFinal.setText("Crear Producto Final");
-        btnCrearProductoFinal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearProductoFinalActionPerformed(evt);
-            }
-        });
-
-        btnBuscarProductoFinal.setBackground(new java.awt.Color(255, 255, 51));
-        btnBuscarProductoFinal.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnBuscarProductoFinal.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarProductoFinal.setText("Búsqueda");
-        btnBuscarProductoFinal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarProductoFinalActionPerformed(evt);
-            }
-        });
-
-        btnMostrarProductosFinales.setBackground(new java.awt.Color(255, 255, 51));
-        btnMostrarProductosFinales.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnMostrarProductosFinales.setForeground(new java.awt.Color(0, 0, 0));
-        btnMostrarProductosFinales.setText("Mostrar Productos");
-        btnMostrarProductosFinales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarProductosFinalesActionPerformed(evt);
-            }
-        });
-
-        btnVenta.setBackground(new java.awt.Color(255, 255, 51));
-        btnVenta.setFont(new java.awt.Font("Trebuchet MS", 1, 16)); // NOI18N
-        btnVenta.setForeground(new java.awt.Color(0, 0, 0));
-        btnVenta.setText("Despacho");
-        btnVenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVentaActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rokefeli/img/processed_image (2).png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMostrarProductosFinales, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCrearProductoFinal))
-                .addGap(119, 119, 119)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarProductoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(119, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 82, Short.MAX_VALUE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnVenta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarProductoFinal)
-                        .addGap(9, 9, 9)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(btnCrearProductoFinal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnMostrarProductosFinales)
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 852, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Productos Finales", jPanel3);
+        jTabbedPane1.addTab("Registros", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 916, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,27 +749,26 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPalabraClaveActionPerformed
 
-    private void btnIngresarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarMateriaPrimaActionPerformed
-        LoteMielCosecha nuevoLote = gestor.ingresarLoteMiel(this);
+    private void btnIngresarLoteMielActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarLoteMielActionPerformed
+        MateriaPrima nuevoLote = gestor.ingresarLoteMiel(this);
         if (nuevoLote != null) {
             if (!gestor.repetirLote(nuevoLote.getIdLote())) {
-                gestor.inventarioLotes.add(nuevoLote);
-                JOptionPane.showMessageDialog(rootPane, "Se ha agregado correctamente el lote nuevo.");
-                String tipoMov = "ENT_LOTE_MIEL";
-                String unidad = "KG";
-                String descripcion = "Origen: " + nuevoLote.getOrigen() + ", Floración: " + nuevoLote.getFloracion() + ", Estado: " + nuevoLote.getEstado();
-                gestor.registrarMovimientoMateriaPrima(tipoMov, nuevoLote.getIdLote(), nuevoLote.getCantKg(), unidad, descripcion);
-                txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+                gestor.inventarioMateriaPrima.add(nuevoLote);
+                JOptionPane.showMessageDialog(rootPane, "Agregado correctamente.");
+                String tipoMov = "Entrada";
+                String descripcion = nuevoLote.getFloracion() + "|" + nuevoLote.getOrigen() + "|" + nuevoLote.getEstado();
+                gestor.registrarMovimientoMateriaPrima(tipoMov, nuevoLote.getFechaCompra(), nuevoLote.getIdLote(),nuevoLote.getCantKg(), descripcion);
+                gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, true);
             } else {
                 JOptionPane.showMessageDialog(rootPane, "El id de lote ingresado ya existe.");
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Ingreso de Lote de Miel cancelado.");
+        } else if(nuevoLote == null){
+            JOptionPane.showMessageDialog(rootPane, "Ingreso cancelado.");
         }
-    }//GEN-LAST:event_btnIngresarMateriaPrimaActionPerformed
+    }//GEN-LAST:event_btnIngresarLoteMielActionPerformed
 
     private void btnMostrarMateriaPrimaTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMateriaPrimaTotalActionPerformed
-        txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+        gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, true);
     }//GEN-LAST:event_btnMostrarMateriaPrimaTotalActionPerformed
 
     private void btnBuscarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaPrimaActionPerformed
@@ -664,7 +776,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         if (criterio == null || criterio.trim().isEmpty()) {
             return;
         }
-        txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(criterio));
+        //txtaResultadosMateriaPrima.setText(gestor.buscarMateriaPrima(criterio));
     }//GEN-LAST:event_btnBuscarMateriaPrimaActionPerformed
 
     private void btnTransformarMateriaPrimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransformarMateriaPrimaActionPerformed
@@ -672,8 +784,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         if (idLote == null || idLote.trim().isEmpty()) {
             return;
         }
-        LoteMielCosecha loteSeleccionado = null;
-        for (LoteMielCosecha lote : gestor.inventarioLotes) {
+        MateriaPrima loteSeleccionado = null;
+        for (MateriaPrima lote : gestor.inventarioMateriaPrima) {
             if (lote.getIdLote().equalsIgnoreCase(idLote)) {
                 loteSeleccionado = lote;
                 break;
@@ -684,9 +796,9 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             return;
         }
         String estadoActual = loteSeleccionado.getEstado();
-        String[] estados = {"En Reposo", "Pasteurizada", "Lista para Envasar"};
+        String[] estados = {" ", "Pasteurizada", "Lista para Envasar"};
         JComboBox<String> comboEstados = new JComboBox<>(estados);
-        comboEstados.setSelectedItem(estadoActual);
+        comboEstados.setSelectedItem(" ");
         JPanel panel = new JPanel();
         panel.add(new JLabel("Seleccione el nuevo estado:"));
         panel.add(comboEstados);
@@ -695,7 +807,8 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             return;
         }
         String nuevoEstado = (String) comboEstados.getSelectedItem();
-        if (nuevoEstado.equals(estadoActual)) {
+        if (nuevoEstado.equals(estadoActual) || nuevoEstado.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado una opción válida.");
             return;
         }
         if (nuevoEstado.equals("En Reposo") || (nuevoEstado.equals("Pasteurizada") && !estadoActual.equals("En Reposo")) || (nuevoEstado.equals("Lista para Envasar") && !estadoActual.equals("Pasteurizada"))) {
@@ -704,10 +817,10 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         }
         gestor.transformarLote(loteSeleccionado.getIdLote(), nuevoEstado);
         JOptionPane.showMessageDialog(this, "Estado del lote actualizado a: " + nuevoEstado);
-        String tipoMov = "TRA_LOTE_MIEL";
-        String descripcion = "Origen: " + loteSeleccionado.getOrigen() + ", Floración: " + loteSeleccionado.getFloracion() + ", Estado: " + loteSeleccionado.getEstado();
-        gestor.registrarMovimientoMateriaPrima(tipoMov, loteSeleccionado.getIdLote(), loteSeleccionado.getCantKg(), "KG", descripcion);
-        txtaResultadosMateriaPrima.setText(gestor.mostrarLotes());
+        String tipoMov = "Transformación";
+        String descripcion = loteSeleccionado.getOrigen() + "|" + loteSeleccionado.getFloracion() + "|" + loteSeleccionado.getEstado();
+        gestor.registrarMovimientoMateriaPrima(tipoMov, loteSeleccionado.getFechaCompra(), loteSeleccionado.getIdLote(), loteSeleccionado.getCantKg(), descripcion);
+        gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, true);
     }//GEN-LAST:event_btnTransformarMateriaPrimaActionPerformed
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
@@ -721,7 +834,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         String fechaF = txtFechaHasta.getText();
 
         String contenidoFiltrado = gestor.getContenidoRegistroFiltrado(ultimoRegistroCargado, texto, fechaI, fechaF);
-        txtaResultadosRegistros.setText(contenidoFiltrado);
+        //txtaResultadosRegistros.setText(contenidoFiltrado);
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnLimpiarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarFiltrosActionPerformed
@@ -729,7 +842,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         txtFechaDesde.setText("");
         txtFechaHasta.setText("");
         if (!ultimoRegistroCargado.isEmpty()) {
-            txtaResultadosRegistros.setText(gestor.getContenidoRegistro(ultimoRegistroCargado));
+            //txtaResultadosRegistros.setText(gestor.getContenidoRegistro(ultimoRegistroCargado));
         }
     }//GEN-LAST:event_btnLimpiarFiltrosActionPerformed
 
@@ -748,7 +861,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                     fechaInicio,
                     fechaFin
             );
-            txtaResultadosRegistros.setText(registros);
+            //txtaResultadosRegistros.setText(registros);
         }
     }//GEN-LAST:event_btnRegistroMateriaPrimaActionPerformed
 
@@ -762,12 +875,12 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 && (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
 
             String registros = gestor.filtrarRegistros(
-                    gestor.getNombreArchivoRegistroInsumos(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                    gestor.getNombreRegistroInsumos(),
                     textoBusqueda.isEmpty() ? null : textoBusqueda,
                     fechaInicio,
                     fechaFin
             );
-            txtaResultadosRegistros.setText(registros);
+            //txtaResultadosRegistros.setText(registros);
         }
     }//GEN-LAST:event_btnRegistroInsumosActionPerformed
 
@@ -781,12 +894,12 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 && (txtFechaHasta.getText().trim().isEmpty() || fechaFin != null)) {
 
             String registros = gestor.filtrarRegistros(
-                    gestor.getNombreArchivoRegistroProductosFinales(), // <--- ¡Aquí se usa el método para el nombre del archivo!
+                    gestor.getNombreRegistroProductosFinales(),
                     textoBusqueda.isEmpty() ? null : textoBusqueda,
                     fechaInicio,
                     fechaFin
             );
-            txtaResultadosRegistros.setText(registros);
+            //txtaResultadosRegistros.setText(registros);
         }
     }//GEN-LAST:event_btnRegistroProductosFinalesActionPerformed
 
@@ -800,26 +913,27 @@ public class InterfazRokefeli extends javax.swing.JFrame {
         if (codigo == null || codigo.trim().isEmpty()) {
             return;
         }
-        txtaResultadosInsumos.setText(gestor.buscarInsumoPorCodigo(codigo));
+        //txtaResultadosInsumos.setText(gestor.buscarInsumoPorCodigo(codigo));
     }//GEN-LAST:event_btnBuscarInsumoActionPerformed
 
     private void btnMostrarInsumosTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInsumosTotalActionPerformed
-        txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+        gestor.mostrarInsumos(modeloTablaInsumos);
     }//GEN-LAST:event_btnMostrarInsumosTotalActionPerformed
 
     private void btnIngresarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarInsumoActionPerformed
-        DatosInsumo dialog = new DatosInsumo(this); // 'this' se refiere a la instancia de InterfazRokefeli
+        DatosInsumo dialog = new DatosInsumo(this);
         dialog.setVisible(true);
 
         if (dialog.getTipoInsumo() != null && dialog.getCantidad() > 0) {
             String tipoInsumo = dialog.getTipoInsumo(); // Obtiene la descripción del insumo
             int cantidad = dialog.getCantidad(); // Obtiene la cantidad a ingresar/retirar
+            String codigo = null;
 
-            String mensaje = gestor.aniadirStockInsumo(tipoInsumo, cantidad);
+            String mensaje = gestor.aniadirStockInsumo(codigo, tipoInsumo, cantidad);
             JOptionPane.showMessageDialog(this, mensaje);
 
             // Actualiza la visualización de los insumos en tu interfaz
-            txtaResultadosInsumos.setText(gestor.mostrarInsumos());
+            gestor.mostrarInsumos(modeloTablaInsumos);
         }
     }//GEN-LAST:event_btnIngresarInsumoActionPerformed
 
@@ -848,19 +962,21 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             String resultadoVenta = gestor.procesarVenta(productoSeleccionado, cantidad, comprador);
             JOptionPane.showMessageDialog(this, resultadoVenta);
 
-            txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales()); // Actualizar UI
+            //txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
             gestor.guardarInventario(); // Guardar cambios después de la venta
+            
+            gestor.mostrarProductosFinales(modeloTablaProductosFinales);
         }
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void btnMostrarProductosFinalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarProductosFinalesActionPerformed
-        txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+        gestor.mostrarProductosFinales(modeloTablaProductosFinales);
     }//GEN-LAST:event_btnMostrarProductosFinalesActionPerformed
 
     private void btnBuscarProductoFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoFinalActionPerformed
         String criterio = JOptionPane.showInputDialog(this, "Ingrese descripción del producto a buscar:");
         if (criterio != null && !criterio.trim().isEmpty()) {
-            txtaResultadosProductosFinales.setText(gestor.buscarProductoFinal(criterio));
+            //txtaResultadosProductosFinales.setText(gestor.buscarProductoFinal(criterio));
         }
     }//GEN-LAST:event_btnBuscarProductoFinalActionPerformed
 
@@ -895,8 +1011,10 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                 String resultado = gestor.crearProductoFinal(idLoteSeleccionado, tipoProducto, cantidadEnvases);
                 JOptionPane.showMessageDialog(this, resultado, "Producto Final Creado", JOptionPane.INFORMATION_MESSAGE);
 
-                // Actualizar la vista de productos finales en la InterfazRokefeli
-                txtaResultadosProductosFinales.setText(gestor.mostrarProductosFinales());
+                // Actualizar la vista de productos finales en la InterfazRokefeli y de las demás tablas
+                gestor.mostrarProductosFinales(modeloTablaProductosFinales);
+                gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, true);
+                gestor.mostrarInsumos(modeloTablaInsumos);
 
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error al procesar la cantidad. Asegúrese de que sea un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -906,6 +1024,14 @@ public class InterfazRokefeli extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCrearProductoFinalActionPerformed
+
+    private void btnMostrarMateriaPrimaHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMateriaPrimaHistoricoActionPerformed
+        gestor.mostrarMateriaPrima(modeloTablaMateriaPrima, false);
+    }//GEN-LAST:event_btnMostrarMateriaPrimaHistoricoActionPerformed
+
+    private void btnIngresarGenericaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarGenericaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresarGenericaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -948,7 +1074,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
                     frame.setVisible(true);
                 } else {
                     // Si la autenticación falló o fue cancelada, muestra un mensaje y cierra la aplicación
-                    JOptionPane.showMessageDialog(null, "Autenticación fallida o cancelada. La aplicación se cerrará.", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Autenticación cancelada. La aplicación se cerrará.", "Cerrar", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0); // Termina la aplicación si el login no fue exitoso
                 }
             }
@@ -961,10 +1087,12 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarProductoFinal;
     private javax.swing.JButton btnCrearProductoFinal;
     private javax.swing.JButton btnFiltrar;
+    private javax.swing.JButton btnIngresarGenerica;
     private javax.swing.JButton btnIngresarInsumo;
-    private javax.swing.JButton btnIngresarMateriaPrima;
+    private javax.swing.JButton btnIngresarLoteMiel;
     private javax.swing.JButton btnLimpiarFiltros;
     private javax.swing.JButton btnMostrarInsumosTotal;
+    private javax.swing.JButton btnMostrarMateriaPrimaHistorico;
     private javax.swing.JButton btnMostrarMateriaPrimaTotal;
     private javax.swing.JButton btnMostrarProductosFinales;
     private javax.swing.JButton btnRegistroInsumos;
@@ -975,6 +1103,7 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JButton btnVenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -982,7 +1111,6 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -991,18 +1119,18 @@ public class InterfazRokefeli extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private java.awt.Label label1;
+    private javax.swing.JTable tablaInsumos;
+    private javax.swing.JTable tablaMateriaPrima;
+    private javax.swing.JTable tablaProductosFinales;
+    private javax.swing.JTable tablaRegistros;
     private javax.swing.JTextField txtFechaDesde;
     private javax.swing.JTextField txtFechaHasta;
     private javax.swing.JTextField txtPalabraClave;
-    private javax.swing.JTextArea txtaResultadosInsumos;
-    private javax.swing.JTextArea txtaResultadosMateriaPrima;
-    private javax.swing.JTextArea txtaResultadosProductosFinales;
-    private javax.swing.JTextArea txtaResultadosRegistros;
     // End of variables declaration//GEN-END:variables
 }

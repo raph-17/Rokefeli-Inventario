@@ -109,7 +109,6 @@ public class DatosInsumo extends javax.swing.JDialog {
                 int cant = Integer.parseInt(txtCantidadInsumo.getText());
                 if (cant <= 0) {
                     JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                    return;
                 } else{
                     this.cantidad = cant;
                     this.tipoInsumo = tipoInsumo;

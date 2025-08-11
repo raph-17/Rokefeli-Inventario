@@ -118,7 +118,7 @@ public class DatosProductoFinal extends javax.swing.JDialog {
 
         cbxTipoProducto.setBackground(new java.awt.Color(255, 204, 51));
         cbxTipoProducto.setFont(new java.awt.Font("Trebuchet MS", 1, 12)); // NOI18N
-        cbxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Frasco 1kg (vidrio)", "Frasco 1/2kg (vidrio)", "Frasco 1kg (plástico)", "Frasco 1/2kg (plástico)", "Bolsa 1kg", "Bolsa 1/2kg" }));
+        cbxTipoProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Miel Frasco 1kg (vidrio)", "Miel Frasco 1/2kg (vidrio)", "Miel Frasco 1kg (plástico)", "Miel Frasco 1/2kg (plástico)", "Miel Bolsa 1kg", "Miel Bolsa 1/2kg" }));
         getContentPane().add(cbxTipoProducto);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -200,10 +200,10 @@ public class DatosProductoFinal extends javax.swing.JDialog {
                 GestorInventario dummyGestor = new GestorInventario();
                 dummyGestor.cargarInventario();
                 if (dummyGestor.getIdsLotesListosParaEnvasar().length == 0) {
-                    dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_01", "Polifloral", "Granja Demo", LocalDate.now(), 50.0));
-                    dummyGestor.inventarioLotes.get(0).setEstado("Lista para Envasar");
-                    dummyGestor.inventarioLotes.add(new rokefeli.model.LoteMielCosecha("LOTE_TEST_02", "Eucalipto", "Granja Demo", LocalDate.now(), 30.0));
-                    dummyGestor.inventarioLotes.get(1).setEstado("Lista para Envasar");
+                    dummyGestor.inventarioMateriaPrima.add(new rokefeli.model.MateriaPrima("LOTE_TEST_01", "Polifloral", "Granja Demo", LocalDate.now(), 50.0));
+                    dummyGestor.inventarioMateriaPrima.get(0).setEstado("Lista para Envasar");
+                    dummyGestor.inventarioMateriaPrima.add(new rokefeli.model.MateriaPrima("LOTE_TEST_02", "Eucalipto", "Granja Demo", LocalDate.now(), 30.0));
+                    dummyGestor.inventarioMateriaPrima.get(1).setEstado("Lista para Envasar");
                 }
                 
                 // Obtener los IDs de lotes listos para envasar del GestorInventario dummy

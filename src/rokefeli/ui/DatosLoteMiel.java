@@ -1,14 +1,16 @@
 package rokefeli.ui;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
-import rokefeli.model.LoteMielCosecha;
+import rokefeli.model.MateriaPrima;
 
 public class DatosLoteMiel extends javax.swing.JDialog {
 
-    private LoteMielCosecha nuevoLote;
+    private MateriaPrima nuevoLote;
     
-    public LoteMielCosecha getLoteMielCosecha(){
+    public MateriaPrima getLoteMielCosecha(){
         return nuevoLote;
     }
     
@@ -30,6 +32,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         cbxFloracion = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -40,6 +43,8 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         txtCantidad = new javax.swing.JTextField();
         btnGuardarLoteMiel = new javax.swing.JButton();
         btnCancelarLoteMiel = new javax.swing.JButton();
+
+        jFormattedTextField1.setText("jFormattedTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(5, 2));
@@ -127,7 +132,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
         String floracion = cbxFloracion.getSelectedItem().toString();
         String origen = txtOrigen.getText();
         
-        if(floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty()) {
+        if(floracion.trim().isEmpty() || origen.trim().isEmpty() || txtCantidad.getText().trim().isEmpty() || txtFechaIngreso.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Uno o más campos vacíos, por favor rellene todo para continuar.");
         } else{
             try{
@@ -136,8 +141,14 @@ public class DatosLoteMiel extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 } else{
-                    nuevoLote = new LoteMielCosecha(null, floracion, origen, LocalDate.now(), cant);
-                    dispose();
+                    try{
+                        nuevoLote = new MateriaPrima(null, floracion, origen, LocalDate.parse(txtFechaIngreso.getText()), cant);
+                        dispose();
+                    } catch(DateTimeParseException e){
+                        JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Fecha de Ingreso', el formato debe ser: YYYY-MM-dd", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+                        txtFechaIngreso.setText("");
+                        txtFechaIngreso.requestFocus();
+                    }
                 }
             } catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(this, "Valor no válido en el campo 'Cantidad'", "Error de entrada", JOptionPane.ERROR_MESSAGE);
@@ -198,6 +209,7 @@ public class DatosLoteMiel extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelarLoteMiel;
     private javax.swing.JButton btnGuardarLoteMiel;
     private javax.swing.JComboBox<String> cbxFloracion;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

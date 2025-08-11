@@ -3,7 +3,8 @@ package rokefeli.model;
 import java.time.LocalDate;
 import java.io.Serializable;
 
-public class LoteMielCosecha implements Serializable{
+public class MateriaPrima implements Serializable{
+    private String tipoMP;
     private String idLote;
     private String floracion; // "Huarango", "Eucalipto", "Naranjo", "Polifloral (S)", "Polifloral (C)" 
     private String origen;
@@ -11,7 +12,7 @@ public class LoteMielCosecha implements Serializable{
     private double cantKg;
     private String estado; // "En Reposo", "Pasteurizada", "Lista para Envasar"
 
-    public LoteMielCosecha(String idLote, String floracion, String origen, LocalDate fechaCompra, double cantKg) {
+    public MateriaPrima(String idLote, String floracion, String origen, LocalDate fechaCompra, double cantKg) {
         this.idLote = idLote;
         this.floracion = floracion;
         this.origen = origen;
